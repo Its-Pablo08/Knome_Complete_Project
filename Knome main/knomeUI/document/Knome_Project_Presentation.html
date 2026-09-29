@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knome Platform — Executive Presentation Slides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --accent-light: #818cf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    /* Top Header Bar */
+    header {
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(12px);
+    }
+    .logo-area { display: flex; align-items: center; gap: 0.75rem; }
+    .logo-badge {
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+    }
+    .project-title { font-size: 1rem; font-weight: 500; color: var(--text-muted); }
+
+    /* Progress Bar */
+    .progress-bar-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+      width: 8.33%;
+      transition: width 0.3s ease;
+    }
+
+    /* Main Slide Stage */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1100px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 3rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .slide.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .slide-number {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-light);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 1.5rem; background: linear-gradient(90deg, #ffffff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    h3 { font-size: 1.3rem; font-weight: 600; color: var(--accent-light); margin-top: 1rem; margin-bottom: 0.75rem; }
+    p { font-size: 1.05rem; line-height: 1.7; color: #cbd5e1; margin-bottom: 1rem; }
+    
+    ul { margin-left: 1.5rem; margin-bottom: 1.5rem; }
+    li { font-size: 1.05rem; line-height: 1.8; color: #cbd5e1; margin-bottom: 0.5rem; }
+    li strong { color: #f8fafc; }
+
+    /* Grid Layouts inside slides */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 1rem; }
+    
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .card h4 { color: var(--accent-light); font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .card p { font-size: 0.95rem; margin: 0; color: #94a3b8; }
+
+    /* Code & Architecture Boxes */
+    pre {
+      background: #090d16;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 1.25rem;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.9rem;
+      color: #38bdf8;
+      overflow-x: auto;
+      margin-top: 1rem;
+      line-height: 1.5;
+    }
+
+    /* Bottom Controls Footer */
+    footer {
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--card-border);
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(12px);
+    }
+    .counter { font-size: 0.95rem; font-weight: 600; color: var(--text-muted); }
+    .controls { display: flex; gap: 0.75rem; }
+    .btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      padding: 0.6rem 1.4rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn:hover { background: var(--accent); border-color: var(--accent); }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-area">
+      <div class="logo-badge">KNOME</div>
+      <div class="project-title">Enterprise Knowledge Platform — MPOnline Limited</div>
+    </div>
+    <div style="font-size:0.85rem; color:#94a3b8;">Use Keyboard ⬅️ / ➡️ to Navigate</div>
+  </header>
+
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <main>
+    <!-- Slide 1 -->
+    <div class="slide active">
+      <div class="slide-number">Slide 01 / 12</div>
+      <h2>Executive Summary & Vision</h2>
+      <p><strong>Knome</strong> is an enterprise Knowledge Management and Social Collaboration platform engineered for <strong>MPOnline Limited</strong>. It unifies professional networking, blogging, and video/audio broadcasting.</p>
+      
+      <div class="grid-3">
+        <div class="card">
+          <h4>💼 LinkedIn Hybrid</h4>
+          <p>Networking feed, employee profiles, @mentions, reactions, and internal job board.</p>
+        </div>
+        <div class="card">
+          <h4>✍️ Medium Hybrid</h4>
+          <p>Rich-text technical blogs, ArticleVersions snapshots, and tag discovery.</p>
+        </div>
+        <div class="card">
+          <h4>📺 YouTube & Spotify</h4>
+          <p>Enterprise video channel and global persistent audio podcast player.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide">
+      <div class="slide-number">Slide 02 / 12</div>
+      <h2>Full-Stack System Architecture</h2>
+      <p>Built on modern enterprise standards with ASP.NET Core 10 backend and React 18 single-page application.</p>
+      <pre>
+[React 18 SPA (Vite 5 / TailwindCSS)]
+              │  HTTP REST / JSON
+              ▼
+[ASP.NET Core 10 Web API]
+  ├── Middleware Pipeline (JWT Auth / Security Headers / Exception Handling)
+  ├── 16 REST API Controllers ──► 14 Business Logic Services
+  └── Entity Framework Core 10 (Database-First) ──► SQL Server DB
+      </pre>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide">
+      <div class="slide-number">Slide 03 / 12</div>
+      <h2>Backend Clean Architecture</h2>
+      <p>Strict decoupling between API transport, business rules, repositories, and scaffolded data models.</p>
+      <ul>
+        <li><strong>Thin Controllers:</strong> Endpoints handle HTTP routing and delegate execution directly to business services.</li>
+        <li><strong>Database-First Integrity:</strong> 100% scaffolded EF Core entity models (`Models/`) from SQL Server.</li>
+        <li><strong>Unified Response Envelope:</strong> Standardized <code>ApiResponse&lt;T&gt;</code> returned across all 16 controllers.</li>
+      </ul>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide">
+      <div class="slide-number">Slide 04 / 12</div>
+      <h2>Security & Role-Based Access (RBAC)</h2>
+      <p>Stateless JWT authentication paired with 4-tier Role-Based Access Control and Indian DPDP Act compliance.</p>
+      <div class="grid-2">
+        <div class="card">
+          <h4>🔐 Security Baseline</h4>
+          <p>BCrypt password hashing (work factor 11), Serilog PII scrubbing enricher, and Security Headers middleware.</p>
+        </div>
+        <div class="card">
+          <h4>👥 4 Role Tiers</h4>
+          <p>Employee, Community Admin, HR Administrator, and System Administrator.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5 -->
+    <div class="slide">
+      <div class="slide-number">Slide 05 / 12</div>
+      <h2>Core Content Creation Engines</h2>
+      <p>Multi-channel publishing engine supporting posts, rich text blogs, video streaming, and podcasts.</p>
+      <ul>
+        <li><strong>Quick-Share Posts:</strong> Max 400 chars, media attachments, and automatic `@mentions` user mapping.</li>
+        <li><strong>Article Engine:</strong> Automatic <code>ArticleVersions</code> audit snapshot created whenever article HTML is edited.</li>
+        <li><strong>Media Channels:</strong> Video stream uploads (&le; 500 MB) and Podcast series channels (&le; 100 MB).</li>
+      </ul>
+    </div>
+
+    <!-- Slide 6 -->
+    <div class="slide">
+      <div class="slide-number">Slide 06 / 12</div>
+      <h2>Polymorphic Interactions & Moderation</h2>
+      <p>Unified interaction engine powering comments, reactions, bookmarks, and screening across all content types.</p>
+      <div class="grid-2">
+        <div class="card">
+          <h4>💬 Polymorphic Interactions</h4>
+          <p>Comments, Reactions (Like, Love, Insightful, Celebrate), Bookmarks, and Shares shared across items.</p>
+        </div>
+        <div class="card">
+          <h4>🛡️ Real-Time Screening</h4>
+          <p>Automatic content evaluation against <code>BlockedUrls</code> and <code>RestrictedKeywords</code> database tables.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7 -->
+    <div class="slide">
+      <div class="slide-number">Slide 07 / 12</div>
+      <h2>Community Hubs & Member Governance</h2>
+      <p>Public and private workspaces with administrative pinning limits and governance safeguards.</p>
+      <ul>
+        <li><strong>Join Request Workflows:</strong> Public channels auto-join; private groups require Community Admin approval.</li>
+        <li><strong>Pinned Posts Limit:</strong> Maximum of 3 pinned posts safeguard per community workspace.</li>
+        <li><strong>Sole Admin Safeguard:</strong> Prevents last remaining admin from leaving without transferring ownership.</li>
+      </ul>
+    </div>
+
+    <!-- Slide 8 -->
+    <div class="slide">
+      <div class="slide-number">Slide 08 / 12</div>
+      <h2>Gamification & Karma Ledger</h2>
+      <p>Incentivizing employee engagement through dynamic activity scoring and achievement badges.</p>
+      <div class="grid-3">
+        <div class="card">
+          <h4>🏆 Activity Scoring</h4>
+          <p>Points awarded for writing articles, receiving top reactions, and answering queries.</p>
+        </div>
+        <div class="card">
+          <h4>🎖️ Tier Badges</h4>
+          <p>Bronze, Silver, Gold, and Platinum badges displayed on employee profiles.</p>
+        </div>
+        <div class="card">
+          <h4>🎁 Admin Awards</h4>
+          <p>System Administrators can manually grant recognition karma awards.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 9 -->
+    <div class="slide">
+      <div class="slide-number">Slide 09 / 12</div>
+      <h2>Global Search & Discovery Engine</h2>
+      <p>Unified search bar scanning 7 distinct entity types with dynamic filters and personal search history.</p>
+      <ul>
+        <li><strong>Unified Search:</strong> Single query returns matching Users, Posts, Articles, Videos, Podcasts, Communities, and Jobs.</li>
+        <li><strong>Search History:</strong> Per-user search history tracking (`FR-SD-05`) with one-click clear options.</li>
+      </ul>
+    </div>
+
+    <!-- Slide 10 -->
+    <div class="slide">
+      <div class="slide-number">Slide 10 / 12</div>
+      <h2>Internal Jobs & Notification Engine</h2>
+      <p>Internal mobility job board paired with an event-driven generic notification engine.</p>
+      <ul>
+        <li><strong>Internal Job Board:</strong> HR/System Admin job posting CRUD with <code>JobExpiryHostedService</code> background worker.</li>
+        <li><strong>Generic Notification Engine:</strong> In-app bell notifications and HR Admin global broadcasts.</li>
+        <li><strong>Audit Trail:</strong> Immutable audit logs recording all account suspensions and admin actions.</li>
+      </ul>
+    </div>
+
+    <!-- Slide 11 -->
+    <div class="slide">
+      <div class="slide-number">Slide 11 / 12</div>
+      <h2>Frontend Architecture & Global State</h2>
+      <p>React 18 Single Page Application featuring persistent audio playback and glassmorphic UI design.</p>
+      <ul>
+        <li><strong>Persistent Audio Player:</strong> Global <code>AudioContext</code> maintains podcast playback during page navigation.</li>
+        <li><strong>Axios Interceptor Layer:</strong> Automatic JWT <code>Bearer</code> token injection and unwrapping of <code>ApiResponse&lt;T&gt;</code>.</li>
+      </ul>
+    </div>
+
+    <!-- Slide 12 -->
+    <div class="slide">
+      <div class="slide-number">Slide 12 / 12</div>
+      <h2>Production Readiness & Release Roadmap</h2>
+      <p>Backend API frozen (`v1.2.8`) with 100% DI verification. Frontend handoff ready (`v1.3.0`).</p>
+      <div class="grid-2">
+        <div class="card">
+          <h4>✅ Backend Baseline</h4>
+          <p>0 Build Errors, 0 Warnings, 100% Dependency Injection resolution across 14 controllers.</p>
+        </div>
+        <div class="card">
+          <h4>🗓️ Handoff Plan</h4>
+          <p>14-Day Day-by-Day rollout plan covering complete UI integration and testing.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="counter" id="slideCounter">Slide 1 of 12</div>
+    <div class="controls">
+      <button class="btn" id="prevBtn" onclick="prevSlide()" disabled>Previous</button>
+      <button class="btn" id="nextBtn" onclick="nextSlide()">Next</button>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const progressBar = document.getElementById('progressBar');
+    const slideCounter = document.getElementById('slideCounter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateSlide() {
+      slides.forEach((s, idx) => {
+        s.classList.toggle('active', idx === currentSlide);
+      });
+      progressBar.style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+      slideCounter.textContent = `Slide ${currentSlide + 1} of ${totalSlides}`;
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+  </script>
+</body>
+</html>

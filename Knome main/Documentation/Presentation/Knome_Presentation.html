@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knome Enterprise Platform — Presentation Deck (MPOnline Limited)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --card-dark: #111827;
+            --accent-blue: #2563eb;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-amber: #f59e0b;
+            --accent-emerald: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Bar */
+        .topbar {
+            height: 60px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-badge {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: white;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent-cyan);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), #1d4ed8);
+            border: none;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #3b82f6, var(--accent-blue));
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+
+        /* Slide Container */
+        .presentation-container {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 40px;
+        }
+
+        .slide {
+            position: absolute;
+            width: 92%;
+            max-width: 1280px;
+            height: 85%;
+            background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(6, 182, 212, 0.05), transparent 50%),
+                        var(--card-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            padding: 48px 56px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.96) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Slide Typography */
+        .slide-header {
+            margin-bottom: 24px;
+        }
+
+        .slide-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent-cyan);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .slide-title {
+            font-size: 38px;
+            font-weight: 900;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 40%, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-3px);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 24px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Sequence / Diagram Box */
+        .diagram-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: #38bdf8;
+            line-height: 1.7;
+            overflow-x: auto;
+        }
+
+        /* Slide Footer */
+        .slide-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Navigation Bottom Bar */
+        .bottom-nav {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 0 32px;
+            z-index: 100;
+        }
+
+        .slide-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            width: 28px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+        }
+
+        /* Slide Specific Accents */
+        .title-hero {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .hero-title {
+            font-size: 56px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 30%, var(--accent-cyan) 70%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: var(--accent-cyan);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        .pill-blue { background: rgba(37, 99, 235, 0.15); color: #60a5fa; }
+        .pill-purple { background: rgba(139, 92, 246, 0.15); color: #c084fc; }
+        .pill-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .pill-emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    </style>
+</head>
+<body>
+
+    <!-- Top Action Bar -->
+    <header class="topbar">
+        <div class="logo-area">
+            <span class="material-symbols-outlined" style="color: var(--accent-cyan); font-size: 28px;">hub</span>
+            <span>KNOME</span>
+            <span class="logo-badge">MPOnline Limited</span>
+        </div>
+        <div class="controls">
+            <span id="slideCounter" style="font-size: 13px; font-weight: 700; color: var(--text-muted); margin-right: 12px;">Slide 1 / 14</span>
+            <button class="btn" onclick="prevSlide()"><span class="material-symbols-outlined">chevron_left</span> Prev</button>
+            <button class="btn btn-primary" onclick="nextSlide()">Next <span class="material-symbols-outlined">chevron_right</span></button>
+            <button class="btn" onclick="toggleFullScreen()"><span class="material-symbols-outlined">fullscreen</span> Fullscreen</button>
+        </div>
+    </header>
+
+    <!-- Presentation Deck Area -->
+    <main class="presentation-container">
+
+        <!-- SLIDE 1: Title Slide -->
+        <section class="slide active">
+            <div class="title-hero">
+                <div class="hero-badge">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">verified</span> Enterprise Platform Pitch
+                </div>
+                <h1 class="hero-title">KNOME</h1>
+                <p style="font-size: 22px; color: #cbd5e1; max-width: 780px; margin-bottom: 24px; font-weight: 600; line-height: 1.4;">
+                    Enterprise Knowledge Management, Collaborative Media Studio & Real-Time Workforce Hub
+                </p>
+                <p style="font-size: 15px; color: var(--text-muted); max-width: 650px; line-height: 1.6; margin-bottom: 36px;">
+                    Custom built for <strong>MPOnline Limited</strong> with full Single Sign-On (SSO) integration via <strong>EmployeeHub</strong> Identity Server.
+                </p>
+                <div style="display: flex; gap: 16px; justify-content: center;">
+                    <span class="pill pill-blue">ASP.NET Core 10</span>
+                    <span class="pill pill-purple">React 19 & Vite</span>
+                    <span class="pill pill-emerald">SQL Server 2022</span>
+                    <span class="pill pill-amber">SignalR WebSockets</span>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>MPOnline Limited Enterprise Solution</span>
+                <span>CONFIDENTIAL • V1.0 RELEASE</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: Executive Vision -->
+        <section class="slide">
+            <div class="slide-header">
+                <div class="slide-tag"><span class="material-symbols-outlined">auto_awesome</span> Vision & Concept</div>
+                <h2 class="slide-title">4 Industry Giants in One Enterprise Ecosystem</h2>
+                <p class="slide-subtitle">Combining high-impact social, publishing, streaming, and gamified collaboration inside MPOnline.</p>
+            </div>
+            <div class="slide-content">
+                <div class="grid-4">
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(10, 102, 194, 0.2); color: #0a66c2;">
+                            <span class="material-symbols-outlined">badge</span>
+                        </div>
+                        <h3 class="card-title">LinkedIn Model</h3>
+                        <p class="card-desc">Professional profiles, department networking, feed updates, connections, and live peer recognition.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">
+                            <span class="material-symbols-outlined">menu_book</span>
+                        </div>
+                        <h3 class="card-title">Medium Model</h3>
+                        <p class="card-desc">Long-form technical documentation, article publishing, multi-versioning, and protected attachments.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(239, 68, 68, 0.2); color: #ef4444;">
+                            <span class="material-symbols-outlined">smart_display</span>
+                        </div>
+                        <h3 class="card-title">YouTube Model</h3>
+                        <p class="card-desc">High-performance video tutorials, technical playlist series, podcasts, and video module tracking.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">
+                            <span class="material-symbols-outlined">military_tech</span>
+                        </div>
+                        <h3 class="card-title">StackOverflow Model</h3>
+                        <p class="card-desc">Gamified Karma engine, contribution tiers, live leaderboard, and autonomous point rewards.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Enterprise Architecture Overview</span>
+                <span>Slide 2</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: EmployeeHub SSO Login Flow -->
+        <section class="slide">
+            <div class="slide-header">
+                <div class="slide-tag"><span class="material-symbols-outlined">lock_open</span> Single Sign-On (SSO)</div>
+                <h2 class="slide-title">EmployeeHub & Knome Shared JWT Architecture</h2>
+                <p class="slide-subtitle">Seamless zero-click authentication between EmployeeHub Identity Server and Knome Portal.</p>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2" style="align-items: center;">
+                    <div class="diagram-box">
+<span style="color:#60a5fa;">[1. EmployeeHub Login (:5001)]</span>
+  Employee inputs credentials -> Validates against identity DB.
+  Issues HMAC-SHA256 Signed JWT (Claims: sub, employeeId, role).
+        │
+        ▼
+<span style="color:#34d399;">[2. Seamless SSO Redirect]</span>
+  Redirects to: <span style="color:#fcd34d;">http://localhost:5173/?sso_token={JWT}&employeeId={MPO103}</span>
+        │
+        ▼
+<span style="color:#c084fc;">[3. Knome Frontend Token Catch]</span>
+  UserContext stores token in localStorage, sanitizes URL bar.
+        │
+        ▼
+<span style="color:#f472b6;">[4. Knome API Dual-Issuer Validation (:5095)]</span>
+  TokenValidationParameters trusts: ["Knome.API", "EmployeeHub.Identity"]
+  Validates Signature with shared SecretKey -> User Logged In!
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div class="card">
+                            <h4 style="font-weight: 800; color: #38bdf8; margin-bottom: 6px;">Dual-Issuer Trust</h4>
+                            <p class="card-desc">Both systems share cryptographic verification keys so no extra round-trip or redundant token exchange is required.</p>
+                        </div>
+                        <div class="card">
+                            <h4 style="font-weight: 800; color: #4ade80; margin-bottom: 6px;">URL Query Sanitization</h4>
+                            <p class="card-desc">Immediately on load, <code>window.history.replaceState</code> purges token query params from the browser address bar for security.</p>
+                        </div>
+                        <div class="card">
+                            <h4 style="font-weight: 800; color: #f472b6; margin-bottom: 6px;">Multi-Role Claim Synchronization</h4>
+                            <p class="card-desc">Employee, Community Admin, HR Admin, or SysAdmin roles are extracted directly from token claims.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Identity & Access Management</span>
+                <span>Slide 3</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 4: Full-Stack Architecture -->
+        <section class="slide">
+            <div class="slide-header">
+                <div class="slide-tag"><span class="material-symbols-outlined">schema</span> Technical Architecture</div>
+                <h2 class="slide-title">Modern ASP.NET Core 10 + React 19 Monorepo</h2>
+                <p class="slide-subtitle">Engineered for low latency, live SQL Server persistence, and seamless scalability.</p>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(37, 99, 235, 0.2); color: #60a5fa;">
+                            <span class="material-symbols-outlined">dns</span>
+                        </div>
+                        <h3 class="card-title">Backend (Knome.API)</h3>
+                        <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-left: 18px;">
+                            <li>ASP.NET Core 10 & Clean Architecture</li>
+                            <li>Entity Framework Core (SQL Server)</li>
+                            <li>SignalR WebSocket Notification Hub</li>
+                            <li>FluentValidation & AutoMapper</li>
+                            <li>YARP Gateway Routing</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(6, 182, 212, 0.2); color: #06b6d4;">
+                            <span class="material-symbols-outlined">terminal</span>
+                        </div>
+                        <h3 class="card-title">Frontend (knome-web)</h3>
+                        <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-left: 18px;">
+                            <li>React 19 + Vite HMR Dev Engine</li>
+                            <li>Modern Glassmorphism & Dark Mode</li>
+                            <li>Protected In-App Document Viewer</li>
+                            <li>Reactive State & Global UserContext</li>
+                            <li>Axios Interceptor Token Pipeline</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">
+                            <span class="material-symbols-outlined">database</span>
+                        </div>
+                        <h3 class="card-title">Data & Security</h3>
+                        <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-left: 18px;">
+                            <li>Live SQL Server Normalized Schema</li>
+                            <li>BCrypt Work Factor 11 Credential Hash</li>
+                            <li>Immutable Audit Log Trail</li>
+                            <li>No External Cloud Dependencies</li>
+                            <li>Anti-Tamper Context Protections</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Infrastructure & Engineering Stack</span>
+                <span>Slide 4</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 5: Knowledge Hub & Articles -->
+        <section class="slide">
+            <div class="slide-header">
+                <div class="slide-tag"><span class="material-symbols-outlined">menu_book</span> Knowledge Hub</div>
+                <h2 class="slide-title">Enterprise Articles & Structured Publications</h2>
+                <p class="slide-subtitle">Capturing institutional knowledge, departmental standard operating procedures, and technical briefs.</p>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;"><span class="material-symbols-outlined">edit_note</span></div>
+                        <h3 class="card-title">Rich Content Authoring</h3>
+                        <p class="card-desc">Structured WYSIWYG editor with code blocks, checklists, table formatting, and embedded rich imagery.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(14, 165, 233, 0.2); color: #38bdf8;"><span class="material-symbols-outlined">history</span></div>
+                        <h3 class="card-title">Version History Tracking</h3>
+                        <p class="card-desc">Maintains historical snapshots of every article revision with author attribution and rollback capabilities.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(168, 85, 247, 0.2); color: #c084fc;"><span class="material-symbols-outlined">attachment</span></div>
+                        <h3 class="card-title">Protected Document Attachments</h3>
+                        <p class="card-desc">PDFs and manuals open exclusively in the sandboxed modal with external download toolbars disabled.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Knowledge Management Module</span>
+                <span>Slide 5</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 6: Media Studio - Video & Podcasts -->
+        <section class="slide">
+            <div class="slide-header">
+                <div class="slide-tag"><span class="material-symbols-outlined">video_library</span> Media Studio</div>
+                <h2 class="slide-title">Video Modules & Technical Podcasts</h2>
+                <p class="slide-subtitle">Enterprise streaming suite for employee upskilling, leadership broadcasts, and architectural walkthroughs.</p>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card" style="border-left: 4px solid #ef4444;">
+                        <h3 class="card-title" style="color: #f87171; display: flex; align-items: center; gap: 8px;">
+                            <span class="material-symbols-outlined">smart_display</span> Video Learning Platform
+                        </h3>
+                        <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-left: 18px; margin-top: 12px;">
+                            <li>Self-hosted video streaming & YouTube Playlist synchronization</li>
+                            <li>Automatic metadata extraction & duration parsing</li>
+                            <li>Video playlist series grouping & learning tracks</li>
+                            <li>View counting, engagement reactions, and timestamped discussions</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-left: 4px solid #8b5cf6;">
+                        <h3 class="card-title" style="color: #c084fc; display: flex; align-items: center; gap: 8px;">
+                            <span class="material-symbols-outlined">podcasts</span> Audio & Podcast Channels
+                        </h3>
+                        <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-left: 18px; margin-top: 12px;">
+                            <li>Dedicated episode series and audio stream management</li>
+                            <li>Continuous background audio playback bar</li>
+                            <li>Speaker host tagging and episode transcripts</li>
+                            <li>Clean playlist series dropdown with unified upload experience</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Media Learning & Streaming</span>
+                <span>Slide 6</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 7: Communities & Governance Flow -->
+        <section class="slide">
+            <div class="slide-header">
+                <div class="slide-tag"><span class="material-symbols-outlined">diversity_3</span> Communities</div>
+                <h2 class="slide-title">Collaborative Spaces & Approval Lifecycle</h2>
+                <p class="slide-subtitle">Structured workgroups with automated moderation and administrator approval workflows.</p>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(6, 182, 212, 0.2); color: #06b6d4;"><span class="material-symbols-outlined">add_circle</span></div>
+                        <h3 class="card-title">1. Employee Creation</h3>
+                        <p class="card-desc">Employees fill the creation wizard with rules, FAQs, and category tags. The request is submitted as <strong>Pending Approval</strong>.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;"><span class="material-symbols-outlined">notifications_active</span></div>
+                        <h3 class="card-title">2. Admin Live Alert</h3>
+                        <p class="card-desc">HR/System Admins receive instant notification with one-click navigation to the <strong>Communities Approvals</strong> dashboard.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(16, 185, 129, 0.2); color: #10b981;"><span class="material-symbols-outlined">verified</span></div>
+                        <h3 class="card-title">3. Instant Publication</h3>
+                        <p class="card-desc">On approval, the community is published live, creator is designated Community Admin, and celebration alerts are broadcast.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Governance & Community Operations</span>
+                <span>Slide 7</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 8: Gamification & Karma Engine -->
+        <section class="slide">
+            <div class="slide-header">
+                <div class="slide-tag"><span class="material-symbols-outlined">military_tech</span> Gamification</div>
+                <h2 class="slide-title">SQL Server-Driven Live Karma Engine</h2>
+                <p class="slide-subtitle">Encouraging active participation, mentorship, and quality knowledge sharing across departments.</p>
+            </div>
+            <div class="slide-content">
+                <div class="grid-4" style="margin-bottom: 24px;">
+                    <div class="card" style="text-align: center; border-color: rgba(148, 163, 184, 0.3);">
+                        <span class="pill" style="background: rgba(148, 163, 184, 0.2); color: #cbd5e1;">0 – 250 PTS</span>
+                        <h3 class="card-title" style="margin-top: 12px;">Bronze Tier</h3>
+                        <p class="card-desc">Newbie Contributor</p>
+                    </div>
+                    <div class="card" style="text-align: center; border-color: rgba(59, 130, 246, 0.3);">
+                        <span class="pill pill-blue">251 – 1,000 PTS</span>
+                        <h3 class="card-title" style="margin-top: 12px;">Silver Tier</h3>
+                        <p class="card-desc">Active Contributor</p>
+                    </div>
+                    <div class="card" style="text-align: center; border-color: rgba(20, 184, 166, 0.3);">
+                        <span class="pill" style="background: rgba(20, 184, 166, 0.2); color: #2dd4bf;">1,001 – 5,000 PTS</span>
+                        <h3 class="card-title" style="margin-top: 12px;">Gold Tier</h3>
+                        <p class="card-desc">Domain Expert</p>
+                    </div>
+                    <div class="card" style="text-align: center; border-color: rgba(245, 158, 11, 0.3);">
+                        <span class="pill pill-amber">5,000+ PTS</span>
+                        <h3 class="card-title" style="margin-top: 12px;">Platinum Tier</h3>
+                        <p class="card-desc">Platform Champion</p>
+                    </div>
+                </div>
+                <div class="diagram-box">
+<span style="color:#fcd34d;">Automatic Point Ledger:</span>
+  • +10 Points: Publish Knowledge Article  • +8 Points: Upload Video/Podcast
+  • +2 Points: Post Updates                • +1/+2/+3 Points: Content Reactions/Comments/Shares
+  • All transactions logged into SQL Server table: <code>dbo.KarmaTransactions</code>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Workforce Engagement & Recognition</span>
+                <span>Slide 8</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 9: Standardized Sharing & Document Security -->
+        <section class="slide">
+            <div class="slide-header">
+                <div class="slide-tag"><span class="material-symbols-outlined">security</span> Corporate Security</div>
+                <h2 class="slide-title">Standardized Sharing & In-App Document Protection</h2>
+                <p class="slide-subtitle">Strict compliance-ready data protections eliminating unauthorized external exports.</p>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card">
+                        <h3 class="card-title" style="color: var(--accent-cyan); display: flex; align-items: center; gap: 8px;">
+                            <span class="material-symbols-outlined">share</span> Standardized 2-Option Share Modal
+                        </h3>
+                        <p class="card-desc" style="margin-bottom: 16px;">All share triggers across articles, posts, videos, podcasts, and profiles provide exactly two clean choices:</p>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <div style="padding: 12px; border-radius: 12px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); display: flex; align-items: center; gap: 12px;">
+                                <span class="material-symbols-outlined" style="color: #06b6d4;">groups</span>
+                                <strong>Share to Community</strong> (Post into team feed)
+                            </div>
+                            <div style="padding: 12px; border-radius: 12px; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); display: flex; align-items: center; gap: 12px;">
+                                <span class="material-symbols-outlined" style="color: #a855f7;">person_add</span>
+                                <strong>Share with Users</strong> (Direct colleague notification)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-title" style="color: #f43f5e; display: flex; align-items: center; gap: 8px;">
+                            <span class="material-symbols-outlined">shield</span> Protected Document Viewer
+                        </h3>
+                        <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-left: 18px;">
+                            <li>Zero external downloads (<code>target="_blank"</code> anchor tags eliminated)</li>
+                            <li>PDF ribbons, print toolbars, and save shortcuts disabled</li>
+                            <li>Right-click context menu and text scraping prevented</li>
+                            <li>Sandboxed in-app modal with full zoom and multi-page preview</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Enterprise Data Governance</span>
+                <span>Slide 9</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 10: Real-Time SignalR WebSockets -->
+        <section class="slide">
+            <div class="slide-header">
+                <div class="slide-tag"><span class="material-symbols-outlined">bolt</span> Real-Time Engine</div>
+                <h2 class="slide-title">SignalR WebSockets & Chronological Notifications</h2>
+                <p class="slide-subtitle">Zero polling overhead with instant push alerts delivered in sub-second latency.</p>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(37, 99, 235, 0.2); color: #60a5fa;"><span class="material-symbols-outlined">notifications_active</span></div>
+                        <h3 class="card-title">Live Bell & Audio Chime</h3>
+                        <p class="card-desc">Navbar bell badge updates in real-time with pleasant audio feedback on incoming interactions.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(168, 85, 247, 0.2); color: #c084fc;"><span class="material-symbols-outlined">vertical_align_top</span></div>
+                        <h3 class="card-title">Newest-First Priority</h3>
+                        <p class="card-desc">Incoming notifications are placed directly at Index 0 (top of list) with live "Just now" timestamps.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(16, 185, 129, 0.2); color: #34d399;"><span class="material-symbols-outlined">manage_accounts</span></div>
+                        <h3 class="card-title">Instant Role Unlocks</h3>
+                        <p class="card-desc">When an administrator updates a user role, the employee's pending screen clears immediately.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Real-Time Event Architecture</span>
+                <span>Slide 10</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 11: HR Analytics & Intelligence -->
+        <section class="slide">
+            <div class="slide-header">
+                <div class="slide-tag"><span class="material-symbols-outlined">monitoring</span> HR Intelligence</div>
+                <h2 class="slide-title">100% Live SQL Server Analytics Portal</h2>
+                <p class="slide-subtitle">Executive workforce insights directly synchronized with database controllers and zero mock data.</p>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3" style="margin-bottom: 20px;">
+                    <div class="card">
+                        <span class="pill pill-blue">RPT-01</span>
+                        <h4 class="card-title" style="margin-top: 10px; font-size: 15px;">User Engagement</h4>
+                        <p class="card-desc">Registered employees, active users, suspension status, and karma tier distribution.</p>
+                    </div>
+                    <div class="card">
+                        <span class="pill pill-emerald">RPT-02</span>
+                        <h4 class="card-title" style="margin-top: 10px; font-size: 15px;">Community Health</h4>
+                        <p class="card-desc">Active community memberships, join ratios, and post frequency benchmarks.</p>
+                    </div>
+                    <div class="card">
+                        <span class="pill pill-purple">RPT-03</span>
+                        <h4 class="card-title" style="margin-top: 10px; font-size: 15px;">Content Performance</h4>
+                        <p class="card-desc">Total published posts, articles, video modules, podcast streams, and reactions.</p>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="card">
+                        <span class="pill pill-amber">RPT-04</span>
+                        <h4 class="card-title" style="margin-top: 10px; font-size: 15px;">Trending Contributors</h4>
+                        <p class="card-desc">Real-time karma ranking of top departmental champions.</p>
+                    </div>
+                    <div class="card">
+                        <span class="pill" style="background: rgba(239, 68, 68, 0.2); color: #f87171;">RPT-05</span>
+                        <h4 class="card-title" style="margin-top: 10px; font-size: 15px;">Moderation & Audit Trail</h4>
+                        <p class="card-desc">Immutable audit logs, reported content flags, and moderation actions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Workforce Intelligence & Reporting</span>
+                <span>Slide 11</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 12: Role-Based Access Control -->
+        <section class="slide">
+            <div class="slide-header">
+                <div class="slide-tag"><span class="material-symbols-outlined">admin_panel_settings</span> Access Control</div>
+                <h2 class="slide-title">4-Tier Role-Based Governance Matrix</h2>
+                <p class="slide-subtitle">Granular enterprise access policies enforced at JWT, API Controller, and UI levels.</p>
+            </div>
+            <div class="slide-content">
+                <div class="grid-4">
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa;"><span class="material-symbols-outlined">person</span></div>
+                        <h3 class="card-title">Employee</h3>
+                        <p class="card-desc">Self-service posting, article writing, video/podcast uploads, community membership, and karma earning.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(20, 184, 166, 0.2); color: #2dd4bf;"><span class="material-symbols-outlined">groups</span></div>
+                        <h3 class="card-title">Community Admin</h3>
+                        <p class="card-desc">Community-level governance, membership request approvals, group settings, and discussion moderation.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(168, 85, 247, 0.2); color: #c084fc;"><span class="material-symbols-outlined">campaign</span></div>
+                        <h3 class="card-title">HR Administrator</h3>
+                        <p class="card-desc">Organization-wide broadcasts, community creation approval, user role management, and HR analytics.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(239, 68, 68, 0.2); color: #f87171;"><span class="material-symbols-outlined">security</span></div>
+                        <h3 class="card-title">System Admin</h3>
+                        <p class="card-desc">Full platform sovereignty, immutable security audit logs, account suspensions, and server configuration.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Security & Role Matrix</span>
+                <span>Slide 12</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 13: Strategic Business Impact -->
+        <section class="slide">
+            <div class="slide-header">
+                <div class="slide-tag"><span class="material-symbols-outlined">trending_up</span> Value Proposition</div>
+                <h2 class="slide-title">Strategic Value for MPOnline Limited</h2>
+                <p class="slide-subtitle">Measurable organizational transformation across productivity, retention, and security.</p>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3">
+                    <div class="card">
+                        <h1 style="font-size: 38px; font-weight: 900; color: var(--accent-cyan); margin-bottom: 8px;">40%+</h1>
+                        <h4 class="card-title">Faster Onboarding</h4>
+                        <p class="card-desc">Standardized video and article repositories streamline domain knowledge transfer for new joiners.</p>
+                    </div>
+                    <div class="card">
+                        <h1 style="font-size: 38px; font-weight: 900; color: #4ade80; margin-bottom: 8px;">100%</h1>
+                        <h4 class="card-title">Knowledge Retention</h4>
+                        <p class="card-desc">Preserves technical problem solutions, architecture decisions, and operational guides permanently.</p>
+                    </div>
+                    <div class="card">
+                        <h1 style="font-size: 38px; font-weight: 900; color: #f472b6; margin-bottom: 8px;">Zero</h1>
+                        <h4 class="card-title">Data Leakage Risk</h4>
+                        <p class="card-desc">On-premise SQL Server storage and sandboxed in-app viewers guarantee complete compliance.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Business ROI & Operational Impact</span>
+                <span>Slide 13</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 14: Conclusion & Demo -->
+        <section class="slide">
+            <div class="title-hero">
+                <div class="hero-badge" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3); color: #34d399;">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">check_circle</span> Live & Production Ready
+                </div>
+                <h1 class="hero-title" style="font-size: 46px;">Thank You!</h1>
+                <p style="font-size: 18px; color: #cbd5e1; max-width: 700px; margin-bottom: 30px; font-weight: 600;">
+                    Knome is fully operational, integrated with EmployeeHub SSO, and backed by live SQL Server persistence.
+                </p>
+                <div class="card" style="max-width: 600px; width: 100%; text-align: left; margin-bottom: 24px;">
+                    <p style="font-size: 13px; font-weight: 800; color: var(--accent-cyan); margin-bottom: 8px; text-transform: uppercase;">
+                        Quick Access Endpoints:
+                    </p>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #cbd5e1; line-height: 2;">
+                        • <strong>EmployeeHub SSO:</strong> http://localhost:5001<br>
+                        • <strong>Knome Web Portal:</strong> http://localhost:5173<br>
+                        • <strong>Knome API & Swagger:</strong> http://localhost:5095/swagger
+                    </div>
+                </div>
+                <p style="font-size: 14px; color: var(--text-muted);">
+                    Open for Questions & Interactive Demonstration
+                </p>
+            </div>
+            <div class="slide-footer">
+                <span>MPOnline Limited • Knome Portal v1.0</span>
+                <span>Slide 14</span>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Dots Navigation -->
+    <footer class="bottom-nav">
+        <div class="slide-dots" id="dotsContainer"></div>
+    </footer>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dotsContainer');
+        const counter = document.getElementById('slideCounter');
+        let currentSlide = 0;
+
+        // Initialize dots
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.className = `dot ${idx === 0 ? 'active' : ''}`;
+            dot.onclick = () => goToSlide(idx);
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function updateSlide() {
+            slides.forEach((s, idx) => {
+                s.classList.toggle('active', idx === currentSlide);
+            });
+            dots.forEach((d, idx) => {
+                d.classList.toggle('active', idx === currentSlide);
+            });
+            counter.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlide();
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                prevSlide();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullScreen();
+            }
+        });
+    </script>
+</body>
+</html>

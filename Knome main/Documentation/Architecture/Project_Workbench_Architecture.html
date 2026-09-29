@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Project Workbench (PWB) - High-Level Architecture Document</title>
+<style>
+    @page {
+        size: A4 portrait;
+        margin: 15mm 15mm 15mm 15mm;
+    }
+    * {
+        box-sizing: border-box;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    body {
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+        color: #1e293b;
+        background-color: #ffffff;
+        margin: 0;
+        padding: 0;
+        font-size: 11.5px;
+        line-height: 1.5;
+    }
+    .page {
+        width: 100%;
+        page-break-after: always;
+        position: relative;
+        min-height: 250mm;
+    }
+    .page:last-child {
+        page-break-after: avoid;
+    }
+    
+    /* Header Banner */
+    .doc-header-banner {
+        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+        color: #ffffff;
+        text-align: center;
+        padding: 16px 20px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+    .doc-header-banner h1 {
+        margin: 0 0 4px 0;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+    .doc-header-banner p {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 400;
+        color: #e2e8f0;
+    }
+
+    /* Section Headings */
+    h2 {
+        color: #0f172a;
+        font-size: 14.5px;
+        font-weight: 700;
+        margin-top: 18px;
+        margin-bottom: 8px;
+        border-bottom: 1.5px solid #e2e8f0;
+        padding-bottom: 4px;
+    }
+    h3 {
+        color: #1e3a8a;
+        font-size: 12.5px;
+        font-weight: 600;
+        margin-top: 12px;
+        margin-bottom: 6px;
+    }
+
+    /* Tables */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 14px;
+        font-size: 11px;
+    }
+    table th {
+        background-color: #1e3a8a;
+        color: #ffffff;
+        text-align: left;
+        padding: 7px 10px;
+        font-weight: 600;
+        font-size: 11px;
+    }
+    table td {
+        padding: 6px 10px;
+        border: 1px solid #cbd5e1;
+        vertical-align: middle;
+    }
+    table tr:nth-child(even) td {
+        background-color: #f8fafc;
+    }
+    
+    .meta-table td:first-child {
+        font-weight: 600;
+        color: #1e3a8a;
+        width: 30%;
+        background-color: #f1f5f9;
+    }
+    
+    /* Bullet lists */
+    ul {
+        margin: 4px 0 10px 0;
+        padding-left: 18px;
+    }
+    li {
+        margin-bottom: 3px;
+    }
+
+    /* Flow step blocks */
+    .flow-step-container {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin: 12px 0;
+    }
+    .flow-step {
+        display: flex;
+        align-items: center;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+    .step-num {
+        background-color: #2563eb;
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 12px;
+        width: 34px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .step-num.hub {
+        background-color: #9333ea;
+    }
+    .step-num.gateway {
+        background-color: #059669;
+    }
+    .step-num.api {
+        background-color: #ea580c;
+    }
+    .step-num.db {
+        background-color: #dc2626;
+    }
+    .step-text {
+        padding: 6px 12px;
+        font-size: 11px;
+        flex-grow: 1;
+    }
+    .step-text strong {
+        color: #0f172a;
+    }
+    .flow-arrow {
+        text-align: center;
+        color: #3b82f6;
+        font-size: 10px;
+        line-height: 1;
+        margin: -2px 0;
+    }
+
+    /* Callout & Principle Boxes */
+    .callout-box {
+        background-color: #eff6ff;
+        border-left: 4px solid #2563eb;
+        padding: 10px 14px;
+        border-radius: 0 4px 4px 0;
+        margin-top: 14px;
+        font-size: 10.5px;
+        color: #1e3a8a;
+    }
+    .callout-box.security {
+        background-color: #fff1f2;
+        border-left-color: #e11d48;
+        color: #9f1239;
+    }
+    .callout-box.highlight {
+        background-color: #fefce8;
+        border-left-color: #ca8a04;
+        color: #854d0e;
+    }
+    .callout-box strong {
+        font-weight: 700;
+    }
+
+    /* Code / Directory Blocks */
+    .tree-box {
+        background-color: #0f172a;
+        color: #f8fafc;
+        font-family: 'Consolas', 'Courier New', monospace;
+        font-size: 9.5px;
+        line-height: 1.4;
+        padding: 12px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 10px 0;
+    }
+    .tree-comment {
+        color: #94a3b8;
+    }
+    .tree-dir {
+        color: #38bdf8;
+        font-weight: bold;
+    }
+    .tree-file {
+        color: #f1f5f9;
+    }
+
+    /* Swimlane / Architecture Visual */
+    .arch-diagram-wrap {
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        background: #f8fafc;
+        margin: 12px 0;
+    }
+    .swimlane-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 6px;
+        text-align: center;
+        margin-bottom: 12px;
+    }
+    .swimlane-col {
+        background: #ffffff;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 8px 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .swimlane-title {
+        font-size: 10px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 2px;
+    }
+    .swimlane-tech {
+        font-size: 9px;
+        color: #64748b;
+        font-weight: 600;
+        border-radius: 3px;
+        background: #f1f5f9;
+        padding: 2px 4px;
+        display: inline-block;
+    }
+    .swimlane-col.l1 { border-top: 4px solid #3b82f6; }
+    .swimlane-col.l2 { border-top: 4px solid #10b981; }
+    .swimlane-col.l3 { border-top: 4px solid #06b6d4; }
+    .swimlane-col.l4 { border-top: 4px solid #8b5cf6; }
+    .swimlane-col.l5 { border-top: 4px solid #f97316; }
+    .swimlane-col.l6 { border-top: 4px solid #ef4444; }
+
+    /* Footer */
+    .doc-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 9px;
+        color: #64748b;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 6px;
+    }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: Executive Context & Scope -->
+<div class="page">
+    <div class="doc-header-banner">
+        <h1>Project Workbench (PWB)</h1>
+        <p>High-Level Architecture (HLA) Document</p>
+    </div>
+
+    <table class="meta-table">
+        <tr>
+            <th>Document Metadata Attribute</th>
+            <th>System Architectural Specification</th>
+        </tr>
+        <tr>
+            <td>Document Type</td>
+            <td>High-Level Architecture (HLA) Specification</td>
+        </tr>
+        <tr>
+            <td>Version & Status</td>
+            <td>Version 1.0 — Official Approved Baseline</td>
+        </tr>
+        <tr>
+            <td>Target System</td>
+            <td>Project Workbench (PWB) Centralized Governance Platform & Employee Hub</td>
+        </tr>
+        <tr>
+            <td>Security & Session Model</td>
+            <td>BFF Secure HttpOnly Cookie Boundary + Downstream Bearer Token & Role-Based Access Control</td>
+        </tr>
+    </table>
+
+    <h2>1. Introduction & Executive Context</h2>
+    <p>This document describes the High-Level Architecture (HLA) of the <strong>Project Workbench (PWB)</strong> — a centralized Project Governance, Monitoring, and Delivery Management platform for MPOnline Limited, integrating seamlessly with <strong>MPOEmployeeHub</strong> for enterprise identity and Single Sign-On (SSO).</p>
+
+    <h3>1.1 Business Context & Strategic Objectives</h3>
+    <p>PWB serves as the single source of truth for executive project oversight, delivering a 360-degree view across:</p>
+
+    <table>
+        <tr>
+            <th>Functional Governance Scope Area</th>
+            <th>Functional Governance Scope Area</th>
+        </tr>
+        <tr>
+            <td>• Government Department Projects</td>
+            <td>• Financial & Operational KPIs</td>
+        </tr>
+        <tr>
+            <td>• Citizen Service Initiatives</td>
+            <td>• Milestones & Planning</td>
+        </tr>
+        <tr>
+            <td>• e-Governance Programs</td>
+            <td>• Alerts & Notifications</td>
+        </tr>
+        <tr>
+            <td>• UPP Network & District Performance</td>
+            <td>• Reporting, Analytics & Power BI</td>
+        </tr>
+        <tr>
+            <td>• Vendor & Partner Management</td>
+            <td>• Project Governance & Audit</td>
+        </tr>
+        <tr>
+            <td>• Risk & Compliance Monitoring</td>
+            <td>• Executive Dashboards & SLA Oversight</td>
+        </tr>
+    </table>
+
+    <h3>1.2 Architecture Scope & Summary</h3>
+    <p>PWB follows a six-layer architecture where React provides the user interface, Next.js provides the browser-facing BFF, YARP acts as the common gateway, MPOEmployeeHub provides SSO and identity, .NET APIs provide PWB business functionality, and MSSQL provides persistence.</p>
+
+    <table>
+        <tr>
+            <th>Layer</th>
+            <th>Layer Name</th>
+            <th>Technology</th>
+            <th>Primary Architectural Responsibility</th>
+        </tr>
+        <tr>
+            <td><strong>1</strong></td>
+            <td><strong>React Frontend UI</strong></td>
+            <td>React UI (Vite / SPA)</td>
+            <td>Browser-facing user interface where users interact with PWB.</td>
+        </tr>
+        <tr>
+            <td><strong>2</strong></td>
+            <td><strong>Next.js BFF</strong></td>
+            <td>Next.js</td>
+            <td>Backend For Frontend — manages session boundary & HttpOnly cookie.</td>
+        </tr>
+        <tr>
+            <td><strong>3</strong></td>
+            <td><strong>YARP Gateway (.NET)</strong></td>
+            <td>.NET / YARP</td>
+            <td>Common security & traffic gateway — routing, rate limiting, auth check.</td>
+        </tr>
+        <tr>
+            <td><strong>4</strong></td>
+            <td><strong>MPOEmployeeHub SSO</strong></td>
+            <td>Identity Platform</td>
+            <td>User authentication, Single Sign-On, JWT token issuance & lifecycle.</td>
+        </tr>
+        <tr>
+            <td><strong>5</strong></td>
+            <td><strong>PWB Backend APIs</strong></td>
+            <td>.NET / ASP.NET Core</td>
+            <td>All PWB business logic — Departments, Projects, Milestones, Risk, Finance.</td>
+        </tr>
+        <tr>
+            <td><strong>6</strong></td>
+            <td><strong>MSSQL Server</strong></td>
+            <td>Microsoft SQL Server</td>
+            <td>Persistent data storage — business records, transactions, audit logs.</td>
+        </tr>
+    </table>
+
+    <div class="doc-footer">
+        PWB High-Level Architecture Document · MPOnline Limited · Version 1.0 · Approved Architecture Baseline
+    </div>
+</div>
+
+<!-- PAGE 2: 6-Layer Platform Architecture Overview -->
+<div class="page">
+    <h2>2. Six-Layer Platform Architecture & Component Interaction</h2>
+    <p>The diagram and interaction matrix below illustrate the complete 6-layer platform workflow covering the interaction between the React Frontend, Next.js BFF, YARP Gateway, MPOEmployeeHub SSO, .NET APIs, and MS SQL Server, along with key authentication, token, API, callback, and database flows.</p>
+
+    <div class="arch-diagram-wrap">
+        <div class="swimlane-grid">
+            <div class="swimlane-col l1">
+                <div class="swimlane-title">Layer 1</div>
+                <div class="swimlane-tech">React Frontend</div>
+                <p style="font-size: 9px; margin-top: 4px;">User Views, Forms, Action Triggers</p>
+            </div>
+            <div class="swimlane-col l2">
+                <div class="swimlane-title">Layer 2</div>
+                <div class="swimlane-tech">Next.js BFF</div>
+                <p style="font-size: 9px; margin-top: 4px;">Session & Cookie Boundary</p>
+            </div>
+            <div class="swimlane-col l3">
+                <div class="swimlane-title">Layer 3</div>
+                <div class="swimlane-tech">YARP Gateway</div>
+                <p style="font-size: 9px; margin-top: 4px;">Security, Proxy & Routing</p>
+            </div>
+            <div class="swimlane-col l4">
+                <div class="swimlane-title">Layer 4</div>
+                <div class="swimlane-tech">EmployeeHub</div>
+                <p style="font-size: 9px; margin-top: 4px;">SSO, Identity & JWT Issuance</p>
+            </div>
+            <div class="swimlane-col l5">
+                <div class="swimlane-title">Layer 5</div>
+                <div class="swimlane-tech">PWB Backend APIs</div>
+                <p style="font-size: 9px; margin-top: 4px;">Clean Architecture Business Logic</p>
+            </div>
+            <div class="swimlane-col l6">
+                <div class="swimlane-title">Layer 6</div>
+                <div class="swimlane-tech">MSSQL Server</div>
+                <p style="font-size: 9px; margin-top: 4px;">Transactional Store & Audit Data</p>
+            </div>
+        </div>
+
+        <table style="font-size: 10px; margin-bottom: 0;">
+            <tr>
+                <th style="width: 15%;">Workflow Phase</th>
+                <th style="width: 25%;">Source & Destination</th>
+                <th>Architectural Action & Security Boundary Enforcement</th>
+            </tr>
+            <tr>
+                <td><strong>1. Login Initiation</strong></td>
+                <td>React UI ➔ Next.js BFF ➔ YARP</td>
+                <td>User provides credentials. BFF dispatches auth request via YARP edge gateway without exposing tokens to browser JS.</td>
+            </tr>
+            <tr>
+                <td><strong>2. Identity Validation</strong></td>
+                <td>YARP ➔ MPOEmployeeHub ➔ DB</td>
+                <td>MPOEmployeeHub validates employee credentials, evaluates roles (HR Admin, Project Mgr, Employee), and signs JWT tokens.</td>
+            </tr>
+            <tr>
+                <td><strong>3. Session Setup</strong></td>
+                <td>EmployeeHub ➔ YARP ➔ BFF ➔ UI</td>
+                <td>BFF encapsulates JWT in an encrypted <code>HttpOnly</code>, <code>SameSite=Strict</code> cookie, shielding tokens from client scripts.</td>
+            </tr>
+            <tr>
+                <td><strong>4. API Execution</strong></td>
+                <td>UI ➔ BFF ➔ YARP ➔ .NET APIs</td>
+                <td>BFF hydrates Bearer header from cookie. YARP validates signature and claims. .NET APIs execute domain business rules.</td>
+            </tr>
+            <tr>
+                <td><strong>5. Data Persistence</strong></td>
+                <td>.NET APIs ➔ MSSQL Server</td>
+                <td>Entity Framework Core queries and updates transactional project schemas, milestones, risks, and financial records.</td>
+            </tr>
+            <tr>
+                <td><strong>6. Session Termination</strong></td>
+                <td>UI ➔ BFF ➔ YARP ➔ EmployeeHub</td>
+                <td>EmployeeHub revokes active token session. BFF clears browser cookie (Max-Age=0), ensuring complete session invalidation.</td>
+            </tr>
+        </table>
+    </div>
+
+    <h3>2.1 Core Security & Communication Protocol Rules</h3>
+    <ul>
+        <li><strong>Zero-Trust Browser Boundary:</strong> Access tokens and refresh tokens are never delivered to or stored inside the browser's localStorage or sessionStorage.</li>
+        <li><strong>Strict Reverse Proxy Ingress:</strong> Direct ingress to Layer 4 (EmployeeHub) and Layer 5 (Backend APIs) is forbidden. All external network ingress routes through Layer 3 (YARP Gateway).</li>
+        <li><strong>End-to-End TLS Encryption:</strong> All transport channels across edge and internal microservices enforce HTTPS/TLS 1.3 encryption.</li>
+    </ul>
+
+    <div class="doc-footer">
+        PWB High-Level Architecture Document · MPOnline Limited · Version 1.0 · Approved Architecture Baseline
+    </div>
+</div>
+
+<!-- PAGE 3: Login & Authentication Workflow -->
+<div class="page">
+    <h2>3. Login & Authentication Workflow</h2>
+    <p><strong>MPOEmployeeHub</strong> is the sole owner of authentication and identity. The user's login request reaches MPOEmployeeHub through the common YARP Gateway, which returns the callback through YARP to establish the BFF secure HttpOnly cookie session.</p>
+
+    <div class="flow-step-container">
+        <div class="flow-step">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>User opens PWB in Browser:</strong> User accesses application URL in browser</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>React UI displays Login entry point:</strong> React renders login UI component</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>React sends auth request to Next.js BFF:</strong> Client initiates authentication call</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num gateway">4</div>
+            <div class="step-text"><strong>BFF forwards auth request to YARP Gateway:</strong> BFF passes request to common gateway</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num hub">5</div>
+            <div class="step-text"><strong>YARP routes auth request to MPOEmployeeHub:</strong> YARP proxies to identity provider</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num hub">6</div>
+            <div class="step-text"><strong>MPOEmployeeHub authenticates user:</strong> Validates credentials against identity store</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num hub">7</div>
+            <div class="step-text"><strong>MPOEmployeeHub creates & returns JWT token:</strong> Issues signed authorization JWT token</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num gateway">8</div>
+            <div class="step-text"><strong>MPOEmployeeHub redirects/callbacks via YARP:</strong> Sends auth callback through YARP</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num gateway">9</div>
+            <div class="step-text"><strong>YARP routes callback back to BFF flow:</strong> Proxies callback result to Next.js BFF</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num">10</div>
+            <div class="step-text"><strong>BFF processes authentication result:</strong> BFF handles token & session setup</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num">11</div>
+            <div class="step-text"><strong>Secure HttpOnly cookie session established:</strong> Stores session token in HttpOnly cookie</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num">12</div>
+            <div class="step-text"><strong>User reaches authenticated PWB app:</strong> React renders authenticated portal dashboard</div>
+        </div>
+    </div>
+
+    <div class="callout-box">
+        <strong>[KEY ARCHITECTURE PRINCIPLES — LOGIN]</strong><br>
+        • The browser never directly authenticates against MPOEmployeeHub without passing through the defined architecture.<br>
+        • YARP is the common gateway through which all authentication traffic passes.<br>
+        • The JWT / token lifecycle is owned by MPOEmployeeHub — not by the browser or React UI.<br>
+        • The BFF establishes a secure HttpOnly cookie to maintain the browser session.
+    </div>
+
+    <div class="doc-footer">
+        PWB High-Level Architecture Document · MPOnline Limited · Version 1.0 · Approved Architecture Baseline
+    </div>
+</div>
+
+<!-- PAGE 4: Authenticated Functional / API Workflow -->
+<div class="page">
+    <h2>4. Authenticated Functional / API Workflow</h2>
+    <p>After login, all user-initiated actions follow this request-response cycle. Layer 5 (PWB Backend APIs) is responsible for serving all PWB business functionality. Authorization is enforced at YARP Gateway before any business API is reached.</p>
+
+    <h3>4.1 Request Execution Path (User ➔ Database)</h3>
+    <div class="flow-step-container">
+        <div class="flow-step">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>User performs action in React UI:</strong> User clicks button, updates form, or requests report</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>React sends request to Next.js BFF:</strong> UI calls BFF API proxy endpoint</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num gateway">3</div>
+            <div class="step-text"><strong>BFF forwards request to YARP Gateway:</strong> BFF extracts cookie and attaches Bearer header</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num gateway">4</div>
+            <div class="step-text"><strong>YARP validates token & authorization:</strong> Enforces gateway controls, rate limits & claims</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num api">5</div>
+            <div class="step-text"><strong>Authorized request reaches PWB API (Layer 5):</strong> Routes to target business controller</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num api">6</div>
+            <div class="step-text"><strong>PWB API executes business logic:</strong> Applies business rules and validation</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num db">7</div>
+            <div class="step-text"><strong>PWB API reads / writes in MSSQL Server:</strong> Executes SQL query or stored procedure</div>
+        </div>
+    </div>
+
+    <div class="callout-box highlight" style="text-align: center; font-weight: 600; margin: 12px 0;">
+        <strong>Layer 5 — PWB Backend API Business Domains (Illustrative Examples)</strong><br>
+        <span style="font-weight: 400; font-size: 10px;">
+            Project Portfolio | Milestones & Planning | Executive Risk | Finance & Budget | UPP Monitoring | Citizen Service | Compliance & Audit | Reporting & Analytics
+        </span>
+    </div>
+
+    <h3>4.2 Response Path (Database ➔ User)</h3>
+    <div class="flow-step-container">
+        <div class="flow-step">
+            <div class="step-num db">8</div>
+            <div class="step-text"><strong>MSSQL returns requested data to PWB API:</strong> Database returns recordsets or operation status</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num api">9</div>
+            <div class="step-text"><strong>PWB API serializes and sends response to YARP:</strong> Returns standardized <code>ApiResponse&lt;T&gt;</code> envelope</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num gateway">10</div>
+            <div class="step-text"><strong>YARP sends response to BFF:</strong> Relays payload with security headers</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num">11</div>
+            <div class="step-text"><strong>BFF sends response to React UI:</strong> Delivers JSON data to client</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num">12</div>
+            <div class="step-text"><strong>UI renders & displays the data:</strong> React component state updates and UI refreshes</div>
+        </div>
+    </div>
+
+    <div class="doc-footer">
+        PWB High-Level Architecture Document · MPOnline Limited · Version 1.0 · Approved Architecture Baseline
+    </div>
+</div>
+
+<!-- PAGE 5: Logout & Session Invalidation Workflow -->
+<div class="page">
+    <h2>5. Logout & Session Invalidation Workflow</h2>
+    <p>Logout is not simply hiding the UI. Authentication and session validity are invalidated at the identity layer (<strong>MPOEmployeeHub</strong>). Once invalidated, the user's previous session cannot be used to resume protected operations.</p>
+
+    <div class="flow-step-container">
+        <div class="flow-step">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>User clicks Logout in React UI:</strong> User initiates sign-out action in portal settings</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>React sends logout request to Next.js BFF:</strong> UI calls BFF logout endpoint</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num gateway">3</div>
+            <div class="step-text"><strong>BFF sends logout request through YARP:</strong> BFF proxies logout call to gateway</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num hub">4</div>
+            <div class="step-text"><strong>YARP routes logout request to MPOEmployeeHub:</strong> YARP routes logout to identity platform</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num hub">5</div>
+            <div class="step-text"><strong>MPOEmployeeHub invalidates session & JWT token:</strong> Identity provider invalidates active session/token</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num gateway">6</div>
+            <div class="step-text"><strong>Logout callback sent back through YARP to BFF:</strong> SSO confirms session termination</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num">7</div>
+            <div class="step-text"><strong>BFF clears / expires browser HttpOnly cookie:</strong> Destroys browser-facing secure session cookie</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num db">8</div>
+            <div class="step-text"><strong>Protected access is no longer valid:</strong> All subsequent API calls rejected with 401 Unauthorized</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num">9</div>
+            <div class="step-text"><strong>User is redirected back to Login page:</strong> React navigates user to login entry screen</div>
+        </div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step">
+            <div class="step-num">10</div>
+            <div class="step-text"><strong>Login lifecycle must start again for access:</strong> User must authenticate from Step 1 for new session</div>
+        </div>
+    </div>
+
+    <div class="callout-box security">
+        <strong>[SECURITY STATEMENT — LOGOUT INVALIDATION]</strong><br>
+        After logout, the user's previous authenticated session / token cannot be used to continue protected PWB operations. Protected access is invalidated at MPOEmployeeHub and BFF cookie level, forcing a complete new login lifecycle for subsequent access.
+    </div>
+
+    <div class="doc-footer">
+        PWB High-Level Architecture Document · MPOnline Limited · Version 1.0 · Approved Architecture Baseline
+    </div>
+</div>
+
+<!-- PAGE 6: Implementation View & Folder Structure -->
+<div class="page">
+    <h2>6. Implementation View & Architecture Principles</h2>
+    <h3>6.1 Logical / Illustrative Folder Structure</h3>
+    <p>The monorepo structure below represents the separation of concerns across presentation, BFF boundary, API gateway, EmployeeHub SSO, and Clean Architecture core business services.</p>
+
+    <div class="tree-box">
+PWB/
+│
+├── <span class="tree-dir">frontend/</span>
+│   └── <span class="tree-dir">react-pwb/</span>
+│       ├── <span class="tree-dir">src/</span>
+│       │   ├── <span class="tree-dir">features/</span>
+│       │   │   ├── <span class="tree-dir">portal/</span> <span class="tree-comment">(Pages: Home, Worklist, Departments, Projects)</span>
+│       │   │   └── <span class="tree-dir">rbac/</span> <span class="tree-comment">(Role Permission Definitions)</span>
+│       │   ├── <span class="tree-dir">services/</span>
+│       │   │   ├── <span class="tree-dir">api/</span> <span class="tree-comment">(apiClient.js, apiEndpoints.js)</span>
+│       │   │   └── <span class="tree-dir">auth/</span> <span class="tree-comment">(authService.js)</span>
+│       │   ├── <span class="tree-file">App.jsx</span>
+│       │   └── <span class="tree-file">main.jsx</span>
+│       └── <span class="tree-file">vite.config.js</span>
+│
+└── <span class="tree-dir">backend/</span>
+    ├── <span class="tree-file">DeliveryManagement.sln</span>
+    ├── <span class="tree-dir">bff/</span>
+    │   └── <span class="tree-dir">DeliveryManagement.Bff/</span>
+    │       ├── <span class="tree-dir">Controllers/</span>
+    │       │   ├── <span class="tree-file">BffAuthController.cs</span>
+    │       │   └── <span class="tree-file">BffProxyController.cs</span>
+    │       ├── <span class="tree-file">Program.cs</span>
+    │       └── <span class="tree-file">DeliveryManagement.Bff.csproj</span>
+    ├── <span class="tree-dir">gateway/</span>
+    │   └── <span class="tree-dir">DeliveryManagement.Gateway/</span>
+    │       ├── <span class="tree-dir">Controllers/</span>
+    │       │   └── <span class="tree-file">ProxyController.cs</span>
+    │       ├── <span class="tree-file">Program.cs</span>
+    │       └── <span class="tree-file">DeliveryManagement.Gateway.csproj</span>
+    └── <span class="tree-dir">services/</span>
+        ├── <span class="tree-dir">EmployeeHub/</span>
+        │   └── <span class="tree-dir">DeliveryManagement.EmployeeHub.Mock/</span>
+        │       ├── <span class="tree-dir">Controllers/</span><span class="tree-file">EmployeeController.cs</span>
+        │       └── <span class="tree-file">Program.cs</span>
+        └── <span class="tree-dir">DeliveryManagement/</span>
+            ├── <span class="tree-dir">DeliveryManagement.Domain/</span> <span class="tree-comment">(Entities & Aggregates)</span>
+            ├── <span class="tree-dir">DeliveryManagement.Contracts/</span> <span class="tree-comment">(DTOs & Interfaces)</span>
+            ├── <span class="tree-dir">DeliveryManagement.Application/</span> <span class="tree-comment">(Services & Business Logic)</span>
+            ├── <span class="tree-dir">DeliveryManagement.Infrastructure/</span> <span class="tree-comment">(Data Access & Repositories)</span>
+            └── <span class="tree-dir">DeliveryManagement.Api/</span> <span class="tree-comment">(REST Controllers & Program.cs)</span>
+    </div>
+
+    <div class="doc-footer">
+        PWB High-Level Architecture Document · MPOnline Limited · Version 1.0 · Approved Architecture Baseline
+    </div>
+</div>
+
+<!-- PAGE 7: Technology Stack & Principles -->
+<div class="page">
+    <h3>6.2 Technology Stack Summary</h3>
+    <table>
+        <tr>
+            <th>Component</th>
+            <th>Technology</th>
+            <th>Architectural Role & Operational Notes</th>
+        </tr>
+        <tr>
+            <td><strong>Frontend UI</strong></td>
+            <td>React UI (Vite)</td>
+            <td>Browser-based SPA UI, component-driven dashboard & interactive forms.</td>
+        </tr>
+        <tr>
+            <td><strong>BFF Layer</strong></td>
+            <td>Next.js</td>
+            <td>Server-Side BFF, session handling, HttpOnly cookie boundary.</td>
+        </tr>
+        <tr>
+            <td><strong>API Gateway</strong></td>
+            <td>.NET / YARP</td>
+            <td>Centralized reverse proxy, routing, rate limiting, security headers.</td>
+        </tr>
+        <tr>
+            <td><strong>Identity Provider</strong></td>
+            <td>MPOEmployeeHub SSO</td>
+            <td>Existing enterprise identity platform, login, JWT token lifecycle.</td>
+        </tr>
+        <tr>
+            <td><strong>Business APIs</strong></td>
+            <td>.NET / ASP.NET Core</td>
+            <td>Modular microservice APIs owning PWB business functionality.</td>
+        </tr>
+        <tr>
+            <td><strong>Database</strong></td>
+            <td>Microsoft SQL Server</td>
+            <td>Relational persistence, SSMS administration, transactions & audit logs.</td>
+        </tr>
+        <tr>
+            <td><strong>Communication</strong></td>
+            <td>HTTPS / REST</td>
+            <td>Secure encrypted communication across all inter-service layers.</td>
+        </tr>
+    </table>
+
+    <h3>6.3 Architecture Principles & Rules</h3>
+    <table>
+        <tr>
+            <th style="width: 10%;">Rule #</th>
+            <th>Mandatory Architectural Principle Statement</th>
+        </tr>
+        <tr>
+            <td><strong>1</strong></td>
+            <td>React is presentation / UI only — no direct database calls or business logic.</td>
+        </tr>
+        <tr>
+            <td><strong>2</strong></td>
+            <td>Next.js BFF is the browser-facing session boundary — manages HttpOnly cookies and session storage.</td>
+        </tr>
+        <tr>
+            <td><strong>3</strong></td>
+            <td>YARP is the common security gateway through which all protected PWB traffic passes.</td>
+        </tr>
+        <tr>
+            <td><strong>4</strong></td>
+            <td>MPOEmployeeHub owns authentication, SSO, and identity token lifecycle end-to-end.</td>
+        </tr>
+        <tr>
+            <td><strong>5</strong></td>
+            <td>Layer 5 owns all PWB business functionality — APIs, business rules, and integrations.</td>
+        </tr>
+        <tr>
+            <td><strong>6</strong></td>
+            <td>Layer 6 owns persistent data storage — business data, transactions, and audit records.</td>
+        </tr>
+        <tr>
+            <td><strong>7</strong></td>
+            <td>All service-to-service communication must enforce HTTPS encryption.</td>
+        </tr>
+        <tr>
+            <td><strong>8</strong></td>
+            <td>Role-based authorization must be validated before protected business operations execute.</td>
+        </tr>
+        <tr>
+            <td><strong>9</strong></td>
+            <td>Backend complexity must be hidden from the browser client via the BFF layer.</td>
+        </tr>
+        <tr>
+            <td><strong>10</strong></td>
+            <td>Exact low-level class designs, DB schemas, and API JSON payloads belong to LLD.</td>
+        </tr>
+    </table>
+
+    <div class="doc-footer">
+        PWB High-Level Architecture Document · MPOnline Limited · Version 1.0 · Approved Architecture Baseline
+    </div>
+</div>
+
+</body>
+</html>

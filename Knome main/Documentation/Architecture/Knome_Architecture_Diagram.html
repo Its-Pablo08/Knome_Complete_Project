@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNOME — Enterprise Excellence Portal Solution Architecture (6 Layer)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F172A;
+            --layer1-color: #0284C7;
+            --layer1-bg: #F0F9FF;
+            --layer1-border: #BAE6FD;
+            --layer2-color: #0D9488;
+            --layer2-bg: #F0FDFA;
+            --layer2-border: #99F6E4;
+            --layer3-color: #16A34A;
+            --layer3-bg: #F0FDF4;
+            --layer3-border: #BBF7D0;
+            --layer4-color: #EA580C;
+            --layer4-bg: #FFF7ED;
+            --layer4-border: #FED7AA;
+            --layer5-color: #7C3AED;
+            --layer5-bg: #FAF5FF;
+            --layer5-border: #DDD6FE;
+            --layer6-color: #475569;
+            --layer6-bg: #F8FAFC;
+            --layer6-border: #CBD5E1;
+            --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+            --border-radius: 12px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0B0F19; color: #1E293B; padding: 30px 20px; display: flex; justify-content: center; }
+        .canvas { width: 100%; max-width: 1440px; background: #FFFFFF; border-radius: 20px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35); overflow: hidden; border: 1px solid #E2E8F0; }
+        .header { background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); color: #FFFFFF; padding: 28px 40px; text-align: center; border-bottom: 4px solid #38BDF8; }
+        .header h1 { font-size: 26px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; color: #F8FAFC; margin-bottom: 6px; }
+        .header h1 span { color: #38BDF8; }
+        .header p { font-size: 14px; color: #94A3B8; font-weight: 500; }
+        .header .badges-top { margin-top: 10px; display: flex; justify-content: center; gap: 12px; }
+        .header .badge { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3); }
+        .arch-container { padding: 24px 30px; display: flex; flex-direction: column; gap: 16px; }
+        .layer-row { display: grid; grid-template-columns: 180px 1fr 260px; gap: 14px; align-items: stretch; }
+        .layer-badge { border-radius: var(--border-radius); padding: 16px 14px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #FFFFFF; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .layer-badge .num { font-size: 32px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+        .layer-badge .title { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; margin-bottom: 4px; }
+        .layer-badge .subtitle { font-size: 11px; opacity: 0.9; font-weight: 500; }
+        .layer-main { border-radius: var(--border-radius); padding: 14px 18px; display: flex; flex-direction: column; justify-content: center; border: 1.5px solid; background: #FFFFFF; box-shadow: var(--card-shadow); }
+        .layer-title-bar { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 6px; }
+        .chip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(95px, 1fr)); gap: 8px; }
+        .chip-box { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px 6px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.2s; }
+        .chip-box:hover { transform: translateY(-2px); border-color: #94A3B8; }
+        .chip-box .icon { font-size: 18px; margin-bottom: 3px; }
+        .chip-box .label { font-size: 11px; font-weight: 700; color: #1E293B; line-height: 1.2; }
+        .chip-box .sublabel { font-size: 9.5px; color: #64748B; margin-top: 2px; font-weight: 500; }
+        .layer-sidebar { border-radius: var(--border-radius); padding: 12px 14px; background: #F8FAFC; border: 1px solid #E2E8F0; display: flex; flex-direction: column; justify-content: center; }
+        .layer-sidebar h4 { font-size: 11.5px; font-weight: 700; text-transform: uppercase; color: #0F172A; margin-bottom: 6px; }
+        .layer-sidebar ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+        .layer-sidebar li { font-size: 11px; color: #334155; display: flex; align-items: center; gap: 5px; }
+        .layer-sidebar li::before { content: "•"; color: #0284C7; font-weight: bold; font-size: 14px; }
+        .l1-badge { background: linear-gradient(135deg, #0284C7, #0369A1); }
+        .l1-main { background: var(--layer1-bg); border-color: var(--layer1-border); }
+        .l1-main .layer-title-bar { color: var(--layer1-color); }
+        .l2-badge { background: linear-gradient(135deg, #0D9488, #0F766E); }
+        .l2-main { background: var(--layer2-bg); border-color: var(--layer2-border); }
+        .l2-main .layer-title-bar { color: var(--layer2-color); }
+        .l3-badge { background: linear-gradient(135deg, #16A34A, #15803D); }
+        .l3-main { background: var(--layer3-bg); border-color: var(--layer3-border); }
+        .l3-main .layer-title-bar { color: var(--layer3-color); }
+        .l4-badge { background: linear-gradient(135deg, #EA580C, #C2410C); }
+        .l4-main { background: var(--layer4-bg); border-color: var(--layer4-border); }
+        .l4-main .layer-title-bar { color: var(--layer4-color); }
+        .l5-badge { background: linear-gradient(135deg, #7C3AED, #6D28D9); }
+        .l5-main { background: var(--layer5-bg); border-color: var(--layer5-border); }
+        .l5-main .layer-title-bar { color: var(--layer5-color); }
+        .l6-badge { background: linear-gradient(135deg, #475569, #334155); }
+        .l6-main { background: var(--layer6-bg); border-color: var(--layer6-border); }
+        .l6-main .layer-title-bar { color: var(--layer6-color); }
+        .footer-flow { margin-top: 10px; background: #F8FAFC; border-radius: var(--border-radius); border: 1px solid #E2E8F0; padding: 16px 20px; display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: center; }
+        .flow-badge { background: #1E293B; color: #FFFFFF; padding: 10px 12px; border-radius: 8px; text-align: center; font-weight: 800; font-size: 12px; }
+        .flow-steps { display: flex; align-items: center; justify-content: space-between; overflow-x: auto; gap: 8px; }
+        .step-item { display: flex; flex-direction: column; align-items: center; text-align: center; min-width: 90px; }
+        .step-icon { width: 34px; height: 34px; border-radius: 50%; background: #E2E8F0; color: #0F172A; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; margin-bottom: 4px; border: 2px solid #CBD5E1; }
+        .step-title { font-size: 10.5px; font-weight: 700; color: #0F172A; }
+        .step-sub { font-size: 9px; color: #64748B; }
+        .flow-arrow { color: #94A3B8; font-size: 16px; font-weight: bold; }
+        .bottom-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-top: 12px; }
+        .info-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: var(--border-radius); padding: 16px 20px; box-shadow: var(--card-shadow); }
+        .info-card h3 { font-size: 13px; font-weight: 800; text-transform: uppercase; color: #0F172A; margin-bottom: 12px; }
+        .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+        .feature-check { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: #334155; font-weight: 500; }
+        .feature-check::before { content: "✔"; color: #16A34A; font-weight: 800; font-size: 12px; }
+        .quality-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+        .quality-list li { font-size: 11.5px; color: #334155; display: flex; align-items: center; gap: 6px; }
+        .quality-list li::before { content: "⚡"; font-size: 12px; }
+    </style>
+</head>
+<body>
+<div class="canvas">
+    <div class="header">
+        <h1>KNOME — <span>ENTERPRISE EXCELLENCE PORTAL SOLUTION ARCHITECTURE (6 LAYER)</span></h1>
+        <p>Enterprise Knowledge Management, Social Collaboration & Distributed Architecture | MPOnline Limited</p>
+        <div class="badges-top">
+            <span class="badge">.NET 10.0 Web API</span>
+            <span class="badge">React 18 / Vite</span>
+            <span class="badge">Next.js App Router BFF</span>
+            <span class="badge">YARP Gateway</span>
+            <span class="badge">SQL Server 2022</span>
+            <span class="badge">DPDP Act 2023 Compliant</span>
+        </div>
+    </div>
+    <div class="arch-container">
+        <!-- LAYER 1 -->
+        <div class="layer-row">
+            <div class="layer-badge l1-badge">
+                <div class="num">1</div>
+                <div class="title">Presentation Layer</div>
+                <div class="subtitle">User Interface & Experience</div>
+            </div>
+            <div class="layer-main l1-main">
+                <div class="layer-title-bar">
+                    <span>Key UI Modules (Web Portal & Mobile Responsive)</span>
+                    <span style="font-size: 11px; font-weight: 600;">Port: 5173 (React 18 / Vite)</span>
+                </div>
+                <div class="chip-grid">
+                    <div class="chip-box"><div class="icon">📊</div><div class="label">Dashboard & Feed</div><div class="sublabel">Hot / Trending Posts</div></div>
+                    <div class="chip-box"><div class="icon">👤</div><div class="label">Profile</div><div class="sublabel">Skills & Connections</div></div>
+                    <div class="chip-box"><div class="icon">👥</div><div class="label">Communities</div><div class="sublabel">Public / Private Hubs</div></div>
+                    <div class="chip-box"><div class="icon">📝</div><div class="label">Posts / Articles</div><div class="sublabel">Videos / Podcasts</div></div>
+                    <div class="chip-box"><div class="icon">💼</div><div class="label">Jobs</div><div class="sublabel">Internal Openings & IJP</div></div>
+                    <div class="chip-box"><div class="icon">⭐</div><div class="label">Karma Points</div><div class="sublabel">Badges & Leaderboard</div></div>
+                    <div class="chip-box"><div class="icon">🔍</div><div class="label">Search</div><div class="sublabel">Global Discovery</div></div>
+                    <div class="chip-box"><div class="icon">🔔</div><div class="label">Notifications</div><div class="sublabel">SignalR Realtime Alerts</div></div>
+                </div>
+            </div>
+            <div class="layer-sidebar">
+                <h4>👥 Users & RBAC Roles</h4>
+                <ul>
+                    <li><strong>Employee (EMP)</strong>: Self-service & posts</li>
+                    <li><strong>Community Admin (CADM)</strong>: Moderation</li>
+                    <li><strong>HR Administrator (HRADM)</strong>: Jobs & Broadcasts</li>
+                    <li><strong>System Administrator (SYSADM)</strong>: Governance</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LAYER 2 -->
+        <div class="layer-row">
+            <div class="layer-badge l2-badge">
+                <div class="num">2</div>
+                <div class="title">BFF Layer</div>
+                <div class="subtitle">API Aggregation & UI Orchestration</div>
+            </div>
+            <div class="layer-main l2-main">
+                <div class="layer-title-bar">
+                    <span>BFF Services (Backend for Frontend - Next.js 14+ App Router)</span>
+                    <span style="font-size: 11px; font-weight: 600;">Port: 3000 (HTTP-Only Secure Cookie Broker)</span>
+                </div>
+                <div class="chip-grid">
+                    <div class="chip-box"><div class="icon">📊</div><div class="label">Dashboard API</div><div class="sublabel">Feed Aggregator</div></div>
+                    <div class="chip-box"><div class="icon">👤</div><div class="label">Profile API</div><div class="sublabel">User Network Proxy</div></div>
+                    <div class="chip-box"><div class="icon">📑</div><div class="label">Content API</div><div class="sublabel">Posts / Articles / Media</div></div>
+                    <div class="chip-box"><div class="icon">👥</div><div class="label">Community API</div><div class="sublabel">Hub Management</div></div>
+                    <div class="chip-box"><div class="icon">💼</div><div class="label">Jobs API</div><div class="sublabel">IJP Application Flow</div></div>
+                    <div class="chip-box"><div class="icon">⭐</div><div class="label">Engagement API</div><div class="sublabel">Karma Points Balance</div></div>
+                    <div class="chip-box"><div class="icon">🔍</div><div class="label">Search API</div><div class="sublabel">Global Filtered Proxy</div></div>
+                    <div class="chip-box"><div class="icon">🔔</div><div class="label">Notification API</div><div class="sublabel">Push Hub Alerts</div></div>
+                    <div class="chip-box"><div class="icon">📈</div><div class="label">Analytics API</div><div class="sublabel">HR Dashboard Metrics</div></div>
+                    <div class="chip-box"><div class="icon">🛡️</div><div class="label">Admin API</div><div class="sublabel">Audit & Role Manager</div></div>
+                </div>
+            </div>
+            <div class="layer-sidebar">
+                <h4>⚙️ Cross-Cutting Concerns</h4>
+                <ul>
+                    <li>Authentication & Authorization</li>
+                    <li>Session Management (HTTP-Only)</li>
+                    <li>Validation & Sanitization</li>
+                    <li>Logging & Exception Handling</li>
+                    <li>Caching & Rate Limiting</li>
+                    <li>Audit Trail & IP Logging</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LAYER 3 -->
+        <div class="layer-row">
+            <div class="layer-badge l3-badge">
+                <div class="num">3</div>
+                <div class="title">Gateway Layer</div>
+                <div class="subtitle">YARP .NET 10 Reverse Proxy</div>
+            </div>
+            <div class="layer-main l3-main">
+                <div class="layer-title-bar">
+                    <span>API Gateway (YARP / .NET 10 Reverse Proxy Engine)</span>
+                    <span style="font-size: 11px; font-weight: 600;">Port: 5000 (Central Routing & Security)</span>
+                </div>
+                <div class="chip-grid">
+                    <div class="chip-box"><div class="icon">🔀</div><div class="label">Request Routing</div><div class="sublabel">/api/v1/* Matching</div></div>
+                    <div class="chip-box"><div class="icon">⚖️</div><div class="label">Load Balancing</div><div class="sublabel">Round-Robin / Cluster</div></div>
+                    <div class="chip-box"><div class="icon">🔒</div><div class="label">SSL Termination</div><div class="sublabel">HTTPS Edge Offload</div></div>
+                    <div class="chip-box"><div class="icon">⏱️</div><div class="label">Rate Limiting</div><div class="sublabel">100 req/min Throttling</div></div>
+                    <div class="chip-box"><div class="icon">🔄</div><div class="label">Request Transform</div><div class="sublabel">Path / Header Rewrites</div></div>
+                    <div class="chip-box"><div class="icon">🛡️</div><div class="label">Security Filters</div><div class="sublabel">CORS, HSTS, CSP, XFO</div></div>
+                    <div class="chip-box"><div class="icon">💓</div><div class="label">Health Checks</div><div class="sublabel">/health Probes & Alerts</div></div>
+                </div>
+            </div>
+            <div class="layer-sidebar">
+                <h4>🌐 Integrations & Channels</h4>
+                <ul>
+                    <li>SSO / HRMS Directory Sync</li>
+                    <li>Intranet / Corporate Portal</li>
+                    <li>Mobile App REST Endpoints</li>
+                    <li>Email / SMTP Notifications</li>
+                    <li>Push Notifications Engine</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LAYER 4 -->
+        <div class="layer-row">
+            <div class="layer-badge l4-badge">
+                <div class="num">4</div>
+                <div class="title">Service Layer</div>
+                <div class="subtitle">Core Business Functionalities (.NET 10)</div>
+            </div>
+            <div class="layer-main l4-main">
+                <div class="layer-title-bar">
+                    <span>Application Services (.NET 10 Business Logic, Workflow Orchestration & Rules)</span>
+                    <span style="font-size: 11px; font-weight: 600;">Port: 5095 (Knome.API)</span>
+                </div>
+                <div class="chip-grid">
+                    <div class="chip-box"><div class="icon">📊</div><div class="label">Dashboard Service</div><div class="sublabel">Feed Aggregator</div></div>
+                    <div class="chip-box"><div class="icon">👤</div><div class="label">Profile Service</div><div class="sublabel">User Identity & DPDP</div></div>
+                    <div class="chip-box"><div class="icon">📑</div><div class="label">Content Service</div><div class="sublabel">Posts, Articles, Media</div></div>
+                    <div class="chip-box"><div class="icon">👥</div><div class="label">Community Service</div><div class="sublabel">Hub Lifecycle</div></div>
+                    <div class="chip-box"><div class="icon">💼</div><div class="label">Jobs Service</div><div class="sublabel">IJP Application Flow</div></div>
+                    <div class="chip-box"><div class="icon">⭐</div><div class="label">Engagement Service</div><div class="sublabel">Karma Points Engine</div></div>
+                    <div class="chip-box"><div class="icon">🔍</div><div class="label">Search Service</div><div class="sublabel">Global Multi-Entity</div></div>
+                    <div class="chip-box"><div class="icon">🔔</div><div class="label">Notification Service</div><div class="sublabel">SignalR Hub Socket</div></div>
+                    <div class="chip-box"><div class="icon">📈</div><div class="label">Analytics Service</div><div class="sublabel">HR Participation Metrics</div></div>
+                    <div class="chip-box"><div class="icon">🛡️</div><div class="label">Admin Service</div><div class="sublabel">Moderation & Audits</div></div>
+                </div>
+            </div>
+            <div class="layer-sidebar">
+                <h4>🎯 Key Business Capabilities</h4>
+                <ul>
+                    <li>Personalized Feed & Ranking</li>
+                    <li>User Profile & Peer Networking</li>
+                    <li>Content Creation & Moderation</li>
+                    <li>Community Management Hub</li>
+                    <li>Internal Job Board (IJP)</li>
+                    <li>Karma Points & Leaderboard</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LAYER 5 -->
+        <div class="layer-row">
+            <div class="layer-badge l5-badge">
+                <div class="num">5</div>
+                <div class="title">Database Layer</div>
+                <div class="subtitle">Data Persistence & Storage (SQL Server)</div>
+            </div>
+            <div class="layer-main l5-main">
+                <div class="layer-title-bar">
+                    <span>Database (SQL Server 2022 - Relational Persistence & EF Core 10 Models)</span>
+                    <span style="font-size: 11px; font-weight: 600;">Database: [Knome] | Port: 1433</span>
+                </div>
+                <div class="chip-grid">
+                    <div class="chip-box"><div class="icon">👤</div><div class="label">Users & Roles</div><div class="sublabel">UserCredentials, Depts</div></div>
+                    <div class="chip-box"><div class="icon">📄</div><div class="label">Content Tables</div><div class="sublabel">Posts, Articles, Media</div></div>
+                    <div class="chip-box"><div class="icon">🌐</div><div class="label">Communities</div><div class="sublabel">Members & Roles</div></div>
+                    <div class="chip-box"><div class="icon">💼</div><div class="label">Jobs & Applications</div><div class="sublabel">IJP Resumes & Status</div></div>
+                    <div class="chip-box"><div class="icon">⭐</div><div class="label">Engagement & Karma</div><div class="sublabel">Balances & Ledgers</div></div>
+                    <div class="chip-box"><div class="icon">⚙️</div><div class="label">Configurations & Logs</div><div class="sublabel">Audit & Moderation</div></div>
+                </div>
+            </div>
+            <div class="layer-sidebar">
+                <h4>🗄️ Relational Integrity</h4>
+                <ul>
+                    <li>38 Scaffolded Entity Models</li>
+                    <li>Foreign Keys & Cascades</li>
+                    <li>Non-Clustered Indexes</li>
+                    <li>DPDP 2023 Masking Views</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LAYER 6 -->
+        <div class="layer-row">
+            <div class="layer-badge l6-badge">
+                <div class="num">6</div>
+                <div class="title">Store Procedure Layer</div>
+                <div class="subtitle">Data Access, Business Rules & Transactions</div>
+            </div>
+            <div class="layer-main l6-main">
+                <div class="layer-title-bar">
+                    <span>Stored Procedure Layer (Atomic T-SQL Transactions & Business Rules)</span>
+                    <span style="font-size: 11px; font-weight: 600;">High-Throughput Execution & Sync Engine</span>
+                </div>
+                <div class="chip-grid">
+                    <div class="chip-box"><div class="icon">👤</div><div class="label">User Management</div><div class="sublabel">Profile & Credentials</div></div>
+                    <div class="chip-box"><div class="icon">📑</div><div class="label">Content Management</div><div class="sublabel">Posts & Indexing Procs</div></div>
+                    <div class="chip-box"><div class="icon">💼</div><div class="label">Job Management</div><div class="sublabel">Application Lifecycle</div></div>
+                    <div class="chip-box"><div class="icon">⭐</div><div class="label">Engagement & Karma</div><div class="sublabel">Daily Settlement Procs</div></div>
+                    <div class="chip-box"><div class="icon">📈</div><div class="label">Reporting & Analytics</div><div class="sublabel">KPI & Feed Calculation</div></div>
+                    <div class="chip-box"><div class="icon">🛡️</div><div class="label">Configuration & Audit</div><div class="sublabel">Immutable Audit Trail</div></div>
+                </div>
+            </div>
+            <div class="layer-sidebar">
+                <h4>⚡ Transactional Rules</h4>
+                <ul>
+                    <li>Atomic MERGE Operations</li>
+                    <li>Zero Data Drift Sync</li>
+                    <li>BCrypt Hash Verification</li>
+                    <li>High-Throughput Batching</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- END TO END EXECUTION FLOW -->
+    <div style="padding: 16px 30px 24px;">
+        <div class="footer-flow">
+            <div class="flow-badge">END TO END<br>FLOW</div>
+            <div class="flow-steps">
+                <div class="step-item"><div class="step-icon">👤</div><div class="step-title">User Request</div><div class="step-sub">Browser / Mobile</div></div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item"><div class="step-icon">🖥️</div><div class="step-title">Load Balancer / Web</div><div class="step-sub">React 18 (Port 5173)</div></div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item"><div class="step-icon">🛡️</div><div class="step-title">API Gateway</div><div class="step-sub">YARP (Port 5000)</div></div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item"><div class="step-icon">📦</div><div class="step-title">BFF Layer</div><div class="step-sub">Next.js Orchestration</div></div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item"><div class="step-icon">⚙️</div><div class="step-title">Service Layer</div><div class="step-sub">.NET 10 (Port 5095)</div></div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item"><div class="step-icon">🗄️</div><div class="step-title">Database</div><div class="step-sub">SQL Server (1433)</div></div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item"><div class="step-icon">⚡</div><div class="step-title">Store Procedures</div><div class="step-sub">Execution & MERGE</div></div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item"><div class="step-icon">✅</div><div class="step-title">Response</div><div class="step-sub">To User (&lt;300ms)</div></div>
+            </div>
+        </div>
+
+        <div class="bottom-grid">
+            <div class="info-card">
+                <h3>✨ Key Features Covered</h3>
+                <div class="features-grid">
+                    <div class="feature-check">Dashboard & Personalized Feed</div>
+                    <div class="feature-check">Internal Job Posting (IJP)</div>
+                    <div class="feature-check">User Profile & Peer Networking</div>
+                    <div class="feature-check">Karma Points & Badge Leaderboard</div>
+                    <div class="feature-check">Content (Posts, Articles, Videos, Podcasts)</div>
+                    <div class="feature-check">Search & Global Discovery</div>
+                    <div class="feature-check">Communities (Public, Private, Default)</div>
+                    <div class="feature-check">Analytics Dashboards & Reports</div>
+                </div>
+            </div>
+            <div class="info-card">
+                <h3>🎯 Quality Attributes</h3>
+                <ul class="quality-list">
+                    <li><strong>Performance</strong>: Dashboard load &lt; 300ms</li>
+                    <li><strong>Scalable & Highly Available</strong>: YARP Load Balancing</li>
+                    <li><strong>Secure</strong>: SSO, RBAC, BCrypt 11 & Encryption</li>
+                    <li><strong>Modular & Maintainable</strong>: 6-Tier Decoupling</li>
+                    <li><strong>Monitorable & Auditable</strong>: SignalR + Logs</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Knome | Communities</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E2E8F0;
+            border-radius: 10px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#565e74",
+                        "surface-container-low": "#f2f4f6",
+                        "surface": "#f7f9fb",
+                        "on-primary-fixed": "#131b2e",
+                        "outline-variant": "#c6c6cd",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-high": "#e6e8ea",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "electric-blue": "#2563EB",
+                        "on-error-container": "#93000a",
+                        "primary": "#000000",
+                        "on-tertiary-container": "#0c9488",
+                        "primary-fixed": "#dae2fd",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "secondary-container": "#2170e4",
+                        "on-surface-variant": "#45464d",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#76777d",
+                        "on-error": "#ffffff",
+                        "tertiary": "#000000",
+                        "inverse-surface": "#2d3133",
+                        "inverse-primary": "#bec6e0",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "surface-variant": "#e0e3e5",
+                        "charcoal-dark": "#1E293B",
+                        "slate-gray": "#64748B",
+                        "surface-container-highest": "#e0e3e5",
+                        "error": "#ba1a1a",
+                        "primary-container": "#131b2e",
+                        "secondary": "#0058be",
+                        "on-secondary-fixed": "#001a42",
+                        "on-secondary-container": "#fefcff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface-bright": "#f7f9fb",
+                        "on-background": "#191c1e",
+                        "on-tertiary-fixed": "#00201d",
+                        "border-subtle": "#E2E8F0",
+                        "teal-accent": "#14B8A6",
+                        "on-primary-container": "#7c839b",
+                        "background": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#00201d",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed": "#89f5e7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "rail-width": "300px",
+                        "sidebar-width": "260px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px",
+                        "margin-page": "32px",
+                        "gutter": "24px",
+                        "stack-lg": "24px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "meta-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "meta-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+
+    <script>
+        // Apply theme immediately to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        }
+    </script>
+
+    <style id="dark-mode-overrides">
+        .dark body {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        .dark nav, .dark aside, .dark .bg-white, .dark .bg-surface-container-lowest, 
+        .dark .bg-surface-container-low, .dark .bg-surface-container, .dark .bg-surface,
+        .dark article, .dark .glass-card {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, 
+        .dark .text-primary, .dark .text-on-surface, .dark .text-on-secondary-container {
+            color: #f8fafc !important;
+        }
+        .dark p, .dark span, .dark .text-slate-gray, .dark .text-on-surface-variant {
+            color: #cbd5e1 !important;
+        }
+        .dark input, .dark textarea, .dark select {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+        .dark .border-border-subtle, .dark .border-outline-variant, .dark .border {
+            border-color: #334155 !important;
+        }
+        .dark .bg-secondary-container {
+            background-color: #3b82f6 !important; /* electric blue / active state */
+            color: white !important;
+        }
+        .dark .text-electric-blue {
+            color: #60a5fa !important;
+        }
+        .dark .hover\:bg-surface-container:hover {
+            background-color: #334155 !important;
+        }
+    </style>
+
+</head>
+
+<body class="bg-background text-on-surface custom-scrollbar">
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-border-subtle shadow-sm h-16">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page h-full">
+            <div class="flex items-center gap-gutter">
+                <a class="font-headline-md text-headline-md font-bold text-primary"
+                    href="dashborad.html">Knome</a>
+                <div class="hidden md:flex gap-6">
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="dashborad.html">Dashboard</a>
+                    <a class="text-electric-blue font-bold border-b-2 border-electric-blue pb-1 font-label-md text-label-md"
+                        href="community.html">Communities</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="video.html">Videos</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="prodcast.html">Podcasts</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="jobs.html">Jobs</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="admin console.html">Admin</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-stack-md">
+                <div class="relative hidden lg:block">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-gray">search</span>
+                    <input
+                        class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg font-body-md text-body-md focus:ring-2 focus:ring-electric-blue outline-none w-64"
+                        placeholder="Search communities..." type="text" />
+                </div>
+                
+                <button onclick="toggleTheme()" class="p-2 text-slate-gray hover:bg-surface-container hover:text-electric-blue rounded-full transition-all flex items-center justify-center">
+                    <span class="material-symbols-outlined dark:hidden">dark_mode</span>
+                    <span class="material-symbols-outlined hidden dark:block">light_mode</span>
+                </button>
+<button class="p-2 text-slate-gray hover:text-electric-blue transition-colors"><span
+                        class="material-symbols-outlined">notifications</span></button>
+                <button class="p-2 text-slate-gray hover:text-electric-blue transition-colors"><span
+                        class="material-symbols-outlined">military_tech</span></button>
+                <a class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle block"
+                    href="profile.html">
+                    <img class="w-full h-full object-cover"
+                        data-alt="A professional headshot of a corporate employee for a modern internal dashboard. The lighting is soft and natural, against a clean, minimalist office background with soft blue and gray tones. High-fidelity photography style."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1Y4E6nFnda3VWNGeuEC0gGNNb-KMiK-hWoKLVT_a5aNka7wXFbgBcIynoAT7RxHAmduIlqmKmNMJJKshJMfwBTcUgB_C6_3SH6mKCwzZdKSJ7IGQej5P_sML1Y8lE4QZjlt6H8sGnW0BTBpl9yVmLPurW6USmM5Yhwc_rHCfwCMGBO0dY-V0pbHmu-STZNevOUBwXycm-fPojrHY57qIsZyMWhPlJWb-ZHVxpp9VF7l3O823UwvUL6LPuZLYA-ZANUHyq47-2l0_x" />
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="pt-16 flex max-w-container-max mx-auto px-margin-page gap-gutter">
+        <!-- SideNavBar -->
+        <aside
+            class="hidden md:flex flex-col gap-stack-md p-stack-lg w-sidebar-width h-[calc(100vh-64px)] sticky top-16 border-r border-border-subtle bg-surface-container-lowest">
+            <div class="mb-4">
+                <div class="flex items-center gap-3 mb-2">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                        <span class="material-symbols-outlined">account_circle</span>
+                    </div>
+                    <div>
+                        <h3 class="font-headline-sm text-headline-sm text-primary">Welcome back</h3>
+                        <p class="font-body-md text-body-md text-slate-gray">Karma: 1,250</p>
+                    </div>
+                </div>
+                <button
+                    class="w-full mt-4 bg-electric-blue text-white py-2.5 rounded-lg font-label-md text-label-md shadow-sm hover:opacity-90 active:scale-95 transition-all">
+                    Create Post
+                </button>
+            </div>
+            <nav class="flex flex-col gap-1">
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="dashborad.html">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="font-body-md text-body-md">Home</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 bg-secondary-container text-on-secondary-container font-semibold rounded-lg translate-x-1 duration-150"
+                    href="community.html">
+                    <span class="material-symbols-outlined">group</span>
+                    <span class="font-body-md text-body-md">My Communities</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <span class="font-body-md text-body-md">Suggested People</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">bookmark</span>
+                    <span class="font-body-md text-body-md">Saved Content</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="profile.html">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="font-body-md text-body-md">Settings</span>
+                </a>
+            </nav>
+            <div class="mt-auto border-t border-border-subtle pt-4 flex flex-col gap-1">
+                <a class="flex items-center gap-3 p-2 text-slate-gray hover:text-electric-blue text-body-md" href="#">
+                    <span class="material-symbols-outlined">help</span>
+                    <span class="font-label-md text-label-md">Help</span>
+                </a>
+                <a class="flex items-center gap-3 p-2 text-slate-gray hover:text-electric-blue text-body-md" href="#">
+                    <span class="material-symbols-outlined">shield</span>
+                    <span class="font-label-md text-label-md">Privacy</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 py-stack-lg min-w-0">
+            <!-- Page Header & Tabs -->
+            <header class="mb-stack-lg">
+                <div class="flex justify-between items-end mb-6">
+                    <div>
+                        <h1 class="font-headline-lg text-headline-lg text-primary">Communities</h1>
+                        <p class="font-body-md text-body-md text-slate-gray mt-1">Connect, share, and grow with
+                            specialized interest groups.</p>
+                    </div>
+                    <button
+                        class="bg-surface-container-lowest border border-border-subtle px-4 py-2 rounded-lg font-label-md text-label-md text-slate-gray hover:bg-surface-container transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[20px]">filter_list</span>
+                        Sort by: Newest
+                    </button>
+                </div>
+                <div class="flex gap-8 border-b border-border-subtle">
+                    <button
+                        class="pb-3 px-1 border-b-2 border-electric-blue text-electric-blue font-semibold text-body-md">Discover</button>
+                    <button
+                        class="pb-3 px-1 border-b-2 border-transparent text-slate-gray hover:text-primary transition-all text-body-md">My
+                        Communities</button>
+                    <button
+                        class="pb-3 px-1 border-b-2 border-transparent text-slate-gray hover:text-primary transition-all text-body-md">Knome
+                        (Org)</button>
+                </div>
+            </header>
+            <!-- Communities Bento-ish Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-stack-lg mb-12">
+                <!-- Community Card 1 -->
+                <div
+                    class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+                    <div class="h-32 bg-slate-200 relative overflow-hidden">
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            data-alt="A clean, minimalist high-tech landscape with glowing blue circuit lines on a deep navy background. The style is abstract corporate professional, signifying engineering and product development. Soft focus, premium aesthetic."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1Y4E6nFnda3VWNGeuEC0gGNNb-KMiK-hWoKLVT_a5aNka7wXFbgBcIynoAT7RxHAmduIlqmKmNMJJKshJMfwBTcUgB_C6_3SH6mKCwzZdKSJ7IGQej5P_sML1Y8lE4QZjlt6H8sGnW0BTBpl9yVmLPurW6USmM5Yhwc_rHCfwCMGBO0dY-V0pbHmu-STZNevOUBwXycm-fPojrHY57qIsZyMWhPlJWb-ZHVxpp9VF7l3O823UwvUL6LPuZLYA-ZANUHyq47-2l0_x" />
+                        <div class="absolute top-3 right-3">
+                            <span
+                                class="px-2 py-1 bg-white/90 backdrop-blur-sm rounded-full text-[10px] font-bold uppercase tracking-wider text-electric-blue border border-white/50">Public</span>
+                        </div>
+                    </div>
+                    <div class="p-stack-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-primary">Engineering Excellence</h3>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="px-3 py-1 bg-electric-blue text-white rounded font-label-md text-[12px] hover:opacity-90">Join</button>
+                                <span
+                                    class="material-symbols-outlined text-slate-gray hover:text-electric-blue cursor-pointer">more_vert</span>
+                            </div>
+                        </div>
+                        <p class="font-body-md text-body-md text-slate-gray line-clamp-2 mb-4">Sharing best practices,
+                            architectural patterns, and scaling strategies across our core services.</p>
+                        <div class="flex items-center gap-4 border-t border-border-subtle pt-4">
+                            <div class="flex items-center gap-1.5 text-slate-gray">
+                                <span class="material-symbols-outlined text-[18px]">group</span>
+                                <span class="font-meta-sm text-meta-sm">1.2k</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-teal-accent">
+                                <span class="material-symbols-outlined text-[18px]">trending_up</span>
+                                <span class="font-meta-sm text-meta-sm">High Activity</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Community Card 2 -->
+                <div
+                    class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+                    <div class="h-32 bg-slate-200 relative overflow-hidden">
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            data-alt="A creative office space visualization with vibrant pops of color, including teal and electric blue. Minimalist design furniture and collaborative whiteboard sketches. Modern enterprise UI aesthetic, high-end photography vibe."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuChoUuyfMi7RUTcJLjcRR5S4P0bqIn3v4F8yTiIVh4qpsxL6FbNFV_pDZXD-3kxRWqzq7RGQN8y1HH2mSQDe9WCz4LMOD-ZvoBxI8k4wMlcHJVNNIM3pAbYvAIvVXXM02oesLi5GkEpouwfoBQRT9NzPxhCsKIgqB0EwmBGGdzXPdeDkZ5TgCEIu8bmY_kmdI1z2UZdIXqBzO2JnN8hQLYgIHaLl3wGudJmOFXbWJc8lA-npWrliuMmQ0l-bp5FxmOjnyj4zbPiwjes" />
+                        <div class="absolute top-3 right-3">
+                            <span
+                                class="px-2 py-1 bg-black/50 backdrop-blur-sm rounded-full text-[10px] font-bold uppercase tracking-wider text-white border border-white/20">Private</span>
+                        </div>
+                    </div>
+                    <div class="p-stack-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-primary">Product Design Guild</h3>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="px-3 py-1 border border-border-subtle text-slate-gray rounded font-label-md text-[12px] hover:bg-surface-container">Request</button>
+                                <span
+                                    class="material-symbols-outlined text-slate-gray hover:text-electric-blue cursor-pointer">more_vert</span>
+                            </div>
+                        </div>
+                        <p class="font-body-md text-body-md text-slate-gray line-clamp-2 mb-4">Central hub for design
+                            systems, UX research, and accessibility standards within Knome.</p>
+                        <div class="flex items-center gap-4 border-t border-border-subtle pt-4">
+                            <div class="flex items-center gap-1.5 text-slate-gray">
+                                <span class="material-symbols-outlined text-[18px]">group</span>
+                                <span class="font-meta-sm text-meta-sm">458</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-slate-gray">
+                                <span class="material-symbols-outlined text-[18px]">forum</span>
+                                <span class="font-meta-sm text-meta-sm">12 new posts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Community Card 3 -->
+                <div
+                    class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+                    <div class="h-32 bg-slate-200 relative overflow-hidden">
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            data-alt="An abstract visualization of global networking, featuring stylized dots and connecting lines in a glowing teal and white gradient. The background is a clean white and soft gray. Modern corporate tech aesthetic, sleek and professional."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpQBwitEtuu_2XO75W-Zdxwvmm4nSPewdhCrMVGnJK3SnQv63RMrKLz5-dT2eXtsiPEcXCa0XO43aIpwToJXcIQ1HOmFyXqmJeDtlf8AQDdhTM1ObWGfiPdHFnjPofP4VkuGKyYiag8CEDxRav28VsX4jA3BpfK2aC3ox9dftVrUZjEAMhI1hC7h9f08r_dbTYLxUyBuRQ9ZhT6rzAIMFMP2iHzg5BCXeyNrd6BR9rqlCcJpl7-Q_ZehqDbxuw17gjDr5NoZgtQI4P" />
+                        <div class="absolute top-3 right-3">
+                            <span
+                                class="px-2 py-1 bg-white/90 backdrop-blur-sm rounded-full text-[10px] font-bold uppercase tracking-wider text-electric-blue border border-white/50">Public</span>
+                        </div>
+                    </div>
+                    <div class="p-stack-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-primary">Global Marketing Hub</h3>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="px-3 py-1 bg-electric-blue text-white rounded font-label-md text-[12px] hover:opacity-90">Join</button>
+                                <span
+                                    class="material-symbols-outlined text-slate-gray hover:text-electric-blue cursor-pointer">more_vert</span>
+                            </div>
+                        </div>
+                        <p class="font-body-md text-body-md text-slate-gray line-clamp-2 mb-4">Coordinating
+                            international campaigns and brand strategy across 12 regional offices.</p>
+                        <div class="flex items-center gap-4 border-t border-border-subtle pt-4">
+                            <div class="flex items-center gap-1.5 text-slate-gray">
+                                <span class="material-symbols-outlined text-[18px]">group</span>
+                                <span class="font-meta-sm text-meta-sm">824</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-teal-accent">
+                                <span class="material-symbols-outlined text-[18px]">celebration</span>
+                                <span class="font-meta-sm text-meta-sm">Trending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Community Card 4 -->
+                <div
+                    class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+                    <div class="h-32 bg-slate-200 relative overflow-hidden">
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            data-alt="High-contrast dark photography of data servers or high-tech equipment with soft blue LEDs. Sophisticated and authoritative, representing backend and infrastructure stability. Premium modern tech style."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUsh5zk4OZ_4czFcDkoKrHN3XMMoRGnmnDR8Ua7nd6nPFbCnGKR7-xClXZEpMVOlxs-gQ6ydODRTxEvGRBpRoIiR5vCpwKAbmMzf2qwyAx6Px42MlELbfO-rBIYnbhj4ptSOylG92-fWALZGcIdhUhNjrIIfJqc5M3CBqmCRsCWeltNJSyoNMY-1XlfdTfC18IUWUsrR1x4UdSIJfFF088U0J95FbtB90xtMXUBkL0lgpfB-LMZx6tZaqW22zT6caevF7_3wDPRSCn" />
+                        <div class="absolute top-3 right-3">
+                            <span
+                                class="px-2 py-1 bg-black/50 backdrop-blur-sm rounded-full text-[10px] font-bold uppercase tracking-wider text-white border border-white/20">Private</span>
+                        </div>
+                    </div>
+                    <div class="p-stack-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-primary">Infrastructure &amp; Ops</h3>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="px-3 py-1 border border-border-subtle text-slate-gray rounded font-label-md text-[12px] hover:bg-surface-container">Request</button>
+                                <span
+                                    class="material-symbols-outlined text-slate-gray hover:text-electric-blue cursor-pointer">more_vert</span>
+                            </div>
+                        </div>
+                        <p class="font-body-md text-body-md text-slate-gray line-clamp-2 mb-4">Dedicated space for SRE,
+                            DevOps, and cloud infrastructure management and monitoring.</p>
+                        <div class="flex items-center gap-4 border-t border-border-subtle pt-4">
+                            <div class="flex items-center gap-1.5 text-slate-gray">
+                                <span class="material-symbols-outlined text-[18px]">group</span>
+                                <span class="font-meta-sm text-meta-sm">215</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-slate-gray">
+                                <span class="material-symbols-outlined text-[18px]">notifications_active</span>
+                                <span class="font-meta-sm text-meta-sm">5 Urgent</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Community Card 5 -->
+                <div
+                    class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+                    <div class="h-32 bg-slate-200 relative overflow-hidden">
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            data-alt="A brightly lit, airy library or learning center with modern, minimalist bookshelves and white furniture. Green plants adding a fresh touch. Clean light-mode professional aesthetic."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi7bWZvgGE_2IJyVAh1R1axaWuj91trfbevAmISukHZRjdqIsA_h3jRUaOcK1jF4UaS5WEhKttpi6uFZKuIqBQatyj1oc2v_UEP7pszKI31YNlwXGR4LTyuCsCJkg60L1_k4h9rnZfDJhXG9UcxJ4QwNFrz2M_cFkxM6R-3LNdjDrFAOaBHssYgIwAhkpcuYhpA97T9OnHlYQ5gLid26G7kYh6mqVzGhtJu7YlnrTOQn3bvm_h4azvJWddbjARuoVDgAoTV_2g8mZH" />
+                        <div class="absolute top-3 right-3">
+                            <span
+                                class="px-2 py-1 bg-white/90 backdrop-blur-sm rounded-full text-[10px] font-bold uppercase tracking-wider text-electric-blue border border-white/50">Public</span>
+                        </div>
+                    </div>
+                    <div class="p-stack-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-sm text-headline-sm text-primary">Internal L&amp;D</h3>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="px-3 py-1 bg-electric-blue text-white rounded font-label-md text-[12px] hover:opacity-90">Join</button>
+                                <span
+                                    class="material-symbols-outlined text-slate-gray hover:text-electric-blue cursor-pointer">more_vert</span>
+                            </div>
+                        </div>
+                        <p class="font-body-md text-body-md text-slate-gray line-clamp-2 mb-4">Learning and development
+                            resources, course materials, and workshop announcements.</p>
+                        <div class="flex items-center gap-4 border-t border-border-subtle pt-4">
+                            <div class="flex items-center gap-1.5 text-slate-gray">
+                                <span class="material-symbols-outlined text-[18px]">group</span>
+                                <span class="font-meta-sm text-meta-sm">2.8k</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-slate-gray">
+                                <span class="material-symbols-outlined text-[18px]">school</span>
+                                <span class="font-meta-sm text-meta-sm">15 active courses</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Community Card Placeholder -->
+                <button
+                    class="bg-surface-container border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center p-stack-lg group hover:bg-surface-container-high transition-all"
+                    onclick="window.location.href='#start-community'">
+                    <div
+                        class="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center text-slate-gray group-hover:text-electric-blue group-hover:scale-110 transition-all shadow-sm">
+                        <span class="material-symbols-outlined">explore</span>
+                    </div>
+                    <span
+                        class="mt-4 font-headline-sm text-headline-sm text-slate-gray group-hover:text-primary">Explore
+                        More</span>
+                    <span class="font-body-md text-body-md text-slate-gray">Browse all 120+ groups</span>
+                </button>
+            </div>
+            <!-- Create Community Section -->
+            <section class="mt-16 pt-16 border-t border-border-subtle" id="start-community">
+                <div class="mb-8">
+                    <h2 class="font-headline-md text-headline-md text-primary">Start a New Community</h2>
+                    <p class="font-body-md text-body-md text-slate-gray mt-1">Found a gap in our knowledge network?
+                        Create a space to fill it.</p>
+                </div>
+                <div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-stack-lg shadow-sm">
+                    <form class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+                        <div class="space-y-stack-md">
+                            <div>
+                                <label class="block font-label-md text-label-md text-primary mb-2">Community
+                                    Name</label>
+                                <input
+                                    class="w-full px-4 py-3 bg-surface-bright border border-outline-variant rounded-lg font-body-md text-body-md focus:ring-2 focus:ring-electric-blue outline-none transition-all"
+                                    placeholder="e.g. Frontend Guild" type="text" />
+                            </div>
+                            <div>
+                                <label class="block font-label-md text-label-md text-primary mb-2">Category</label>
+                                <select
+                                    class="w-full px-4 py-3 bg-surface-bright border border-outline-variant rounded-lg font-body-md text-body-md focus:ring-2 focus:ring-electric-blue outline-none appearance-none">
+                                    <option>Engineering</option>
+                                    <option>Product</option>
+                                    <option>Marketing</option>
+                                    <option>Operations</option>
+                                    <option>Social</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block font-label-md text-label-md text-primary mb-2">Privacy Type</label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <label
+                                        class="relative flex items-center p-3 border border-border-subtle rounded-lg cursor-pointer hover:bg-surface-container-low transition-all has-[:checked]:border-electric-blue has-[:checked]:bg-secondary-fixed">
+                                        <input checked="" class="hidden" name="privacy" type="radio" />
+                                        <div class="flex flex-col">
+                                            <span class="font-label-md text-label-md text-primary">Public</span>
+                                            <span class="text-[11px] text-slate-gray">Anyone can join</span>
+                                        </div>
+                                    </label>
+                                    <label
+                                        class="relative flex items-center p-3 border border-border-subtle rounded-lg cursor-pointer hover:bg-surface-container-low transition-all has-[:checked]:border-electric-blue has-[:checked]:bg-secondary-fixed">
+                                        <input class="hidden" name="privacy" type="radio" />
+                                        <div class="flex flex-col">
+                                            <span class="font-label-md text-label-md text-primary">Private</span>
+                                            <span class="text-[11px] text-slate-gray">Approval required</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-stack-md">
+                            <div>
+                                <label class="block font-label-md text-label-md text-primary mb-2">Description</label>
+                                <textarea
+                                    class="w-full px-4 py-3 bg-surface-bright border border-outline-variant rounded-lg font-body-md text-body-md focus:ring-2 focus:ring-electric-blue outline-none transition-all resize-none"
+                                    placeholder="Describe the mission and goals of this community..."
+                                    rows="4"></textarea>
+                            </div>
+                            <div>
+                                <label class="block font-label-md text-label-md text-primary mb-2">Banner Asset</label>
+                                <div
+                                    class="border-2 border-dashed border-outline-variant rounded-lg p-6 flex flex-col items-center justify-center bg-surface-bright hover:bg-surface-container-low transition-all cursor-pointer">
+                                    <span class="material-symbols-outlined text-slate-gray text-3xl">upload_file</span>
+                                    <p class="font-meta-sm text-meta-sm text-slate-gray mt-2">Drop image here or click
+                                        to browse</p>
+                                    <p class="text-[10px] text-slate-gray/60 mt-1">Recommended: 1200x400px (JPG/PNG)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2 flex justify-end gap-3 mt-4">
+                            <button
+                                class="px-6 py-2.5 rounded-lg font-label-md text-label-md text-slate-gray hover:bg-surface-container transition-all"
+                                type="button">Cancel</button>
+                            <button
+                                class="px-8 py-2.5 bg-electric-blue text-white rounded-lg font-label-md text-label-md shadow-sm hover:shadow-md transition-all"
+                                type="submit">Create Community</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+        <!-- Right Rail -->
+        <aside class="hidden xl:block w-rail-width py-stack-lg">
+            <div class="sticky top-24 flex flex-col gap-stack-lg">
+                <!-- Community Stats Card -->
+                <div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-stack-md shadow-sm">
+                    <h3 class="font-headline-sm text-headline-sm text-primary mb-4">Platform Insights</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-body-md text-slate-gray">Total Communities</span>
+                            <span class="font-bold text-primary">142</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-body-md text-slate-gray">Active Members</span>
+                            <span class="font-bold text-primary">4,892</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-body-md text-slate-gray">Posts this Month</span>
+                            <span class="font-bold text-teal-accent">1,204 ↑</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Trending Topics -->
+                <div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-stack-md shadow-sm">
+                    <h3 class="font-headline-sm text-headline-sm text-primary mb-4">Trending Today</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="px-3 py-1 bg-surface-container rounded-full text-meta-sm font-label-md text-slate-gray hover:text-electric-blue cursor-pointer transition-all">#AI_Strategy</span>
+                        <span
+                            class="px-3 py-1 bg-surface-container rounded-full text-meta-sm font-label-md text-slate-gray hover:text-electric-blue cursor-pointer transition-all">#QuarterlyReview</span>
+                        <span
+                            class="px-3 py-1 bg-surface-container rounded-full text-meta-sm font-label-md text-slate-gray hover:text-electric-blue cursor-pointer transition-all">#DesignSystem</span>
+                        <span
+                            class="px-3 py-1 bg-surface-container rounded-full text-meta-sm font-label-md text-slate-gray hover:text-electric-blue cursor-pointer transition-all">#RemoteCulture</span>
+                        <span
+                            class="px-3 py-1 bg-surface-container rounded-full text-meta-sm font-label-md text-slate-gray hover:text-electric-blue cursor-pointer transition-all">#TechStack2024</span>
+                    </div>
+                </div>
+                <!-- Community Leaderboard -->
+                <div
+                    class="bg-surface-container-lowest border border-border-subtle rounded-xl p-stack-md shadow-sm overflow-hidden">
+                    <h3 class="font-headline-sm text-headline-sm text-primary mb-4">Top Contributors</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <img class="w-8 h-8 rounded-full border border-border-subtle"
+                                data-alt="A small profile avatar of a diverse corporate employee for a leaderboard sidebar. Minimalist, high-quality photograph."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0RxiIAgeN6FRB7mFY9WFThSUHxK97IM39NW2km2rTOHVOa7Uhyj0h5wY40resTWnR67IYpQzIhYKIM0mzrQhj0ZlqWfM7WssrI7afochQyMKcpKiBFW5TH6-S64AZPJvaVslU_28JGWGP29xZA8dbo9Lr4nOdqWLsA99qCvi3iNxHC8rx8V2Jsqpwpkq-HQlsuzyzWNq32yeDEh-MTn1fErks3F6wKLUkwg-ehkHnEW71H5eNv5XI_MlOZyjKJ-q8E2YUaPc_N9Vj" />
+                            <div class="flex-1 min-w-0">
+                                <p class="font-label-md text-label-md text-primary truncate">Sarah Jenkins</p>
+                                <p class="text-[11px] text-slate-gray">Engineering Excellence</p>
+                            </div>
+                            <span class="font-meta-sm text-meta-sm font-bold text-electric-blue">840 pts</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <img class="w-8 h-8 rounded-full border border-border-subtle"
+                                data-alt="A small profile avatar of a diverse corporate employee for a leaderboard sidebar. Minimalist, high-quality photograph."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtr-aqESwnH3aODzR_KsIXkMMDLGUm3Ah4lsQzxiyNG0CGozCrMGRckuzeqjlNfu_NBfd0uBulRXVpzbaHmedmmwaIQqG4NSlnVphJxnpdbavW8dANteVhRn-CTEcV7V2uYx6c-ipieIIcKZLgifowe2IE4tGM6MnyJtlGsaUqWFoffaTQul7ZmDGJvjjTPcdUWNAYieeQz0fh4soS_JsdBjN31xVd-MGy0Q4hh20S1qHA__ENhbCE-3CT_7ztElaU3NRdQYyc516d" />
+                            <div class="flex-1 min-w-0">
+                                <p class="font-label-md text-label-md text-primary truncate">David Chen</p>
+                                <p class="text-[11px] text-slate-gray">Product Design Guild</p>
+                            </div>
+                            <span class="font-meta-sm text-meta-sm font-bold text-electric-blue">725 pts</span>
+                        </div>
+                    </div>
+                    <button
+                        class="w-full mt-4 text-center py-2 text-electric-blue font-label-md text-label-md hover:underline">View
+                        All Leaders</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <!-- Footer -->
+    <footer class="mt-20 border-t border-border-subtle bg-surface-container-lowest py-stack-lg">
+        <div
+            class="flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto px-margin-page gap-4">
+            <div class="flex items-center gap-8">
+                <span class="font-headline-sm text-headline-sm font-bold text-primary">Knome</span>
+                <span class="text-slate-gray font-label-md text-label-md">© 2024 Knome Internal Platform</span>
+            </div>
+            <div class="flex gap-6">
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue transition-all"
+                    href="#">User Agreement</a>
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue transition-all"
+                    href="#">Knowledge Base</a>
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue transition-all"
+                    href="#">Support</a>
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue transition-all"
+                    href="#">Feedback</a>
+            </div>
+        </div>
+    </footer>
+    <!-- Micro-interaction Script -->
+    <script>
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Community creation workflow initiated! Checking for naming conflicts...');
+            });
+        });
+
+        // Add subtle hover lift to cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('-translate-y-1');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('-translate-y-1');
+            });
+        });
+
+        // Join button interaction
+        document.querySelectorAll('button').forEach(btn => {
+            if (btn.textContent === 'Join') {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    btn.textContent = 'Joined';
+                    btn.classList.replace('bg-electric-blue', 'bg-teal-accent');
+                    btn.classList.add('pointer-events-none');
+                });
+            }
+        });
+    </script>
+
+    <script>
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

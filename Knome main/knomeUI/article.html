@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Knome | Article Editor</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "background": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "secondary-container": "#2170e4",
+                        "on-error-container": "#93000a",
+                        "secondary": "#0058be",
+                        "primary-fixed": "#dae2fd",
+                        "on-surface": "#191c1e",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#00201d",
+                        "surface-tint": "#565e74",
+                        "charcoal-dark": "#1E293B",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "tertiary-fixed": "#89f5e7",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-container": "#7c839b",
+                        "surface-container": "#eceef0",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004395",
+                        "tertiary-container": "#00201d",
+                        "on-tertiary-container": "#0c9488",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#131b2e",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "outline-variant": "#c6c6cd",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "border-subtle": "#E2E8F0",
+                        "on-error": "#ffffff",
+                        "tertiary": "#000000",
+                        "primary-container": "#131b2e",
+                        "on-secondary-container": "#fefcff",
+                        "primary": "#000000",
+                        "on-surface-variant": "#45464d",
+                        "on-secondary-fixed": "#001a42",
+                        "outline": "#76777d",
+                        "teal-accent": "#14B8A6",
+                        "electric-blue": "#2563EB",
+                        "inverse-surface": "#2d3133",
+                        "on-background": "#191c1e",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-fixed": "#d8e2ff",
+                        "error": "#ba1a1a",
+                        "surface": "#f7f9fb",
+                        "slate-gray": "#64748B",
+                        "inverse-primary": "#bec6e0",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container-low": "#f2f4f6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "container-max": "1280px",
+                        "stack-lg": "24px",
+                        "rail-width": "300px",
+                        "margin-page": "32px",
+                        "sidebar-width": "260px",
+                        "stack-md": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "meta-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "meta-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .editor-content:focus {
+            outline: none;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E2E8F0;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #CBD5E1;
+        }
+    </style>
+
+    <script>
+        // Apply theme immediately to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        }
+    </script>
+
+    <style id="dark-mode-overrides">
+        .dark body {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        .dark nav, .dark aside, .dark .bg-white, .dark .bg-surface-container-lowest, 
+        .dark .bg-surface-container-low, .dark .bg-surface-container, .dark .bg-surface,
+        .dark article, .dark .glass-card {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, 
+        .dark .text-primary, .dark .text-on-surface, .dark .text-on-secondary-container {
+            color: #f8fafc !important;
+        }
+        .dark p, .dark span, .dark .text-slate-gray, .dark .text-on-surface-variant {
+            color: #cbd5e1 !important;
+        }
+        .dark input, .dark textarea, .dark select {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+        .dark .border-border-subtle, .dark .border-outline-variant, .dark .border {
+            border-color: #334155 !important;
+        }
+        .dark .bg-secondary-container {
+            background-color: #3b82f6 !important; /* electric blue / active state */
+            color: white !important;
+        }
+        .dark .text-electric-blue {
+            color: #60a5fa !important;
+        }
+        .dark .hover\:bg-surface-container:hover {
+            background-color: #334155 !important;
+        }
+    </style>
+
+</head>
+
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+    <!-- TopNavBar -->
+    <header
+        class="bg-surface-container-lowest dark:bg-surface-container-low fixed top-0 w-full z-50 border-b border-border-subtle dark:border-outline-variant shadow-sm h-16">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page h-full">
+            <div class="flex items-center gap-stack-lg">
+                <span
+                    class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Knome</span>
+                <nav class="hidden md:flex gap-stack-md">
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Dashboard</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Communities</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Videos</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Podcasts</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Jobs</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Admin</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-stack-md">
+                
+                <button onclick="toggleTheme()" class="p-2 text-slate-gray hover:bg-surface-container hover:text-electric-blue rounded-full transition-all flex items-center justify-center">
+                    <span class="material-symbols-outlined dark:hidden">dark_mode</span>
+                    <span class="material-symbols-outlined hidden dark:block">light_mode</span>
+                </button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-all active:opacity-80">
+                    <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                </button>
+                <button class="p-2 rounded-full hover:bg-surface-container transition-all active:opacity-80">
+                    <span class="material-symbols-outlined text-on-surface-variant">military_tech</span>
+                </button>
+                <div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle">
+                    <img class="w-full h-full object-cover"
+                        data-alt="A professional headshot of a corporate user for an internal knowledge platform. The lighting is bright and airy with a neutral grey background. The style is modern, professional, and consistent with a high-end enterprise application like Slack or LinkedIn."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc8AzyCVfMAqck2dEl8CIWHz_Atz3k25UCiHP3ysFqdFW8-KdydhMVg7tgdN1jH_Mut71Hmuy6FduKRUxyMyd8NpZyeYxuVvIfbJm5vb4jqhe8ESomr7PCwJH2xWqF1_skg1b2xejDugh-i1dPqt--24zNJmZ-Qs-F8WGrNB_NvE3hvTG_oN_9IZLki_YoIcm1sL-Qd0vwJVFRZV1SncIDqh2J_G5NXqMycb7fWWbJqFxTkTSYu8s6sZ-Nc6eFH1kXWbbf9tksT6YS" />
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="flex max-w-container-max mx-auto pt-16">
+        <!-- SideNavBar -->
+        <aside
+            class="hidden md:flex w-sidebar-width h-[calc(100vh-64px)] sticky top-16 bg-surface-container-lowest dark:bg-surface-container-low border-r border-border-subtle dark:border-outline-variant flex-col gap-stack-md p-stack-lg">
+            <div class="flex items-center gap-stack-sm p-stack-sm mb-4">
+                <div
+                    class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                    <span class="material-symbols-outlined">person</span>
+                </div>
+                <div>
+                    <p class="font-headline-sm text-headline-sm">Welcome back</p>
+                    <p class="font-body-md text-body-md text-slate-gray">Karma: 1,250</p>
+                </div>
+            </div>
+            <nav class="flex flex-col gap-1">
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="font-body-md">Home</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">group</span>
+                    <span class="font-body-md">My Communities</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <span class="font-body-md">Suggested People</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">bookmark</span>
+                    <span class="font-body-md">Saved Content</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="font-body-md">Settings</span>
+                </a>
+            </nav>
+            <button
+                class="mt-4 bg-electric-blue text-white py-3 px-4 rounded-lg font-label-md text-label-md shadow-sm active:scale-95 transition-all">
+                Create Post
+            </button>
+            <div class="mt-auto pt-4 border-t border-border-subtle">
+                <a class="flex items-center gap-3 p-2 text-slate-gray hover:text-on-surface transition-all" href="#">
+                    <span class="material-symbols-outlined">help</span>
+                    <span class="font-label-md">Help</span>
+                </a>
+                <a class="flex items-center gap-3 p-2 text-slate-gray hover:text-on-surface transition-all" href="#">
+                    <span class="material-symbols-outlined">shield</span>
+                    <span class="font-label-md">Privacy</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Editor Canvas -->
+        <main class="flex-1 p-margin-page bg-background custom-scrollbar overflow-y-auto h-[calc(100vh-64px)]">
+            <div class="max-w-4xl mx-auto flex flex-col gap-stack-lg">
+                <!-- Editor Header Actions (Mobile visible, Desktop sticky or Top Right) -->
+                <div class="flex justify-between items-center mb-2">
+                    <div>
+                        <h1 class="font-headline-lg text-headline-lg text-primary">Create New Article</h1>
+                        <p class="font-body-md text-body-md text-slate-gray">Draft saved at 10:42 AM</p>
+                    </div>
+                    <div class="flex gap-stack-sm">
+                        <button
+                            class="px-4 py-2 rounded-lg border border-border-subtle text-slate-gray font-label-md hover:bg-surface-container transition-all active:scale-95">Save
+                            Draft</button>
+                        <button
+                            class="px-4 py-2 rounded-lg border border-border-subtle text-slate-gray font-label-md hover:bg-surface-container transition-all active:scale-95">Schedule</button>
+                        <button
+                            class="px-6 py-2 rounded-lg bg-electric-blue text-white font-label-md shadow-sm hover:shadow-md transition-all active:scale-95">Publish</button>
+                    </div>
+                </div>
+                <!-- Bento-style Form Layout -->
+                <div class="grid grid-cols-12 gap-stack-lg">
+                    <!-- Primary Input Section -->
+                    <div class="col-span-12 lg:col-span-8 flex flex-col gap-stack-lg">
+                        <!-- Title Card -->
+                        <div
+                            class="bg-white p-stack-lg rounded-xl border border-border-subtle shadow-[0px_1px_3px_rgba(15,23,42,0.08),0px_4px_6px_rgba(15,23,42,0.05)]">
+                            <label class="block font-label-md text-label-md text-slate-gray mb-2">Article Title</label>
+                            <input
+                                class="w-full bg-transparent border-none p-0 font-headline-lg text-headline-lg text-primary placeholder:text-surface-container-highest focus:ring-0"
+                                maxlength="150" placeholder="Enter a descriptive title..." type="text" />
+                            <div class="flex justify-end mt-2">
+                                <span class="font-meta-sm text-meta-sm text-slate-gray">0 / 150</span>
+                            </div>
+                        </div>
+                        <!-- Rich Text Editor Container -->
+                        <div
+                            class="bg-white rounded-xl border border-border-subtle shadow-[0px_1px_3px_rgba(15,23,42,0.08),0px_4px_6px_rgba(15,23,42,0.05)] overflow-hidden flex flex-col h-[600px]">
+                            <!-- Toolbar -->
+                            <div
+                                class="bg-surface-container-low px-4 py-2 border-b border-border-subtle flex flex-wrap items-center gap-1">
+                                <button class="p-2 rounded hover:bg-surface-container-highest transition-colors"
+                                    title="Bold"><span
+                                        class="material-symbols-outlined text-[20px]">format_bold</span></button>
+                                <button class="p-2 rounded hover:bg-surface-container-highest transition-colors"
+                                    title="Italic"><span
+                                        class="material-symbols-outlined text-[20px]">format_italic</span></button>
+                                <button class="p-2 rounded hover:bg-surface-container-highest transition-colors"
+                                    title="Underline"><span
+                                        class="material-symbols-outlined text-[20px]">format_underlined</span></button>
+                                <div class="w-px h-6 bg-border-subtle mx-1"></div>
+                                <button class="p-2 rounded hover:bg-surface-container-highest transition-colors"
+                                    title="Bullet List"><span
+                                        class="material-symbols-outlined text-[20px]">format_list_bulleted</span></button>
+                                <button class="p-2 rounded hover:bg-surface-container-highest transition-colors"
+                                    title="Numbered List"><span
+                                        class="material-symbols-outlined text-[20px]">format_list_numbered</span></button>
+                                <div class="w-px h-6 bg-border-subtle mx-1"></div>
+                                <button class="p-2 rounded hover:bg-surface-container-highest transition-colors"
+                                    title="Insert Table"><span
+                                        class="material-symbols-outlined text-[20px]">table_chart</span></button>
+                                <button class="p-2 rounded hover:bg-surface-container-highest transition-colors"
+                                    title="Insert Link"><span
+                                        class="material-symbols-outlined text-[20px]">link</span></button>
+                                <button class="p-2 rounded hover:bg-surface-container-highest transition-colors"
+                                    title="Insert Image"><span
+                                        class="material-symbols-outlined text-[20px]">image</span></button>
+                                <div class="w-px h-6 bg-border-subtle mx-1"></div>
+                                <button class="p-2 rounded hover:bg-surface-container-highest transition-colors"
+                                    title="Code Block"><span
+                                        class="material-symbols-outlined text-[20px]">code</span></button>
+                                <button class="p-2 rounded hover:bg-surface-container-highest transition-colors"
+                                    title="Quote"><span
+                                        class="material-symbols-outlined text-[20px]">format_quote</span></button>
+                                <div class="ml-auto flex items-center gap-2">
+                                    <span class="font-meta-sm text-meta-sm text-slate-gray">Auto-save on</span>
+                                    <span
+                                        class="material-symbols-outlined text-[16px] text-teal-accent">check_circle</span>
+                                </div>
+                            </div>
+                            <!-- Editor Content Area -->
+                            <div class="editor-content flex-1 p-stack-lg overflow-y-auto font-body-lg text-body-lg text-on-surface custom-scrollbar prose max-w-none focus:outline-none"
+                                contenteditable="true" data-placeholder="Start writing your knowledge article...">
+                                <p class="text-on-surface-variant">Start writing your knowledge article here...</p>
+                            </div>
+                            <!-- Editor Footer -->
+                            <div
+                                class="bg-surface-container-low px-4 py-2 border-t border-border-subtle flex justify-between items-center">
+                                <div class="flex gap-stack-md font-meta-sm text-meta-sm text-slate-gray">
+                                    <span>Words: 42</span>
+                                    <span>Characters: 284</span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-2 text-slate-gray hover:text-electric-blue cursor-pointer transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">keyboard</span>
+                                    <span class="font-meta-sm">Shortcuts</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sidebar Meta Section -->
+                    <div class="col-span-12 lg:col-span-4 flex flex-col gap-stack-lg">
+                        <!-- Categorization Card -->
+                        <div
+                            class="bg-white p-stack-lg rounded-xl border border-border-subtle shadow-[0px_1px_3px_rgba(15,23,42,0.08),0px_4px_6px_rgba(15,23,42,0.05)]">
+                            <h3 class="font-headline-sm text-headline-sm mb-4">Categorization</h3>
+                            <div class="flex flex-col gap-4">
+                                <div>
+                                    <label class="block font-label-md text-label-md text-slate-gray mb-1">Primary
+                                        Category</label>
+                                    <select
+                                        class="w-full bg-surface-container-low border border-border-subtle rounded-lg p-2 font-body-md focus:ring-2 focus:ring-electric-blue focus:border-electric-blue outline-none transition-all">
+                                        <option>Select Category</option>
+                                        <option>Engineering</option>
+                                        <option>Design</option>
+                                        <option>Product Management</option>
+                                        <option>Operations</option>
+                                        <option>HR &amp; Culture</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block font-label-md text-label-md text-slate-gray mb-1">Tags</label>
+                                    <div class="flex flex-wrap gap-2 mb-2">
+                                        <span
+                                            class="inline-flex items-center gap-1 bg-secondary-fixed text-on-secondary-fixed-variant px-2 py-1 rounded-full text-label-md font-label-md">
+                                            Documentation <span
+                                                class="material-symbols-outlined text-[14px] cursor-pointer">close</span>
+                                        </span>
+                                        <span
+                                            class="inline-flex items-center gap-1 bg-secondary-fixed text-on-secondary-fixed-variant px-2 py-1 rounded-full text-label-md font-label-md">
+                                            Internal <span
+                                                class="material-symbols-outlined text-[14px] cursor-pointer">close</span>
+                                        </span>
+                                    </div>
+                                    <div class="relative">
+                                        <input
+                                            class="w-full bg-surface-container-low border border-border-subtle rounded-lg p-2 font-body-md focus:ring-2 focus:ring-electric-blue focus:border-electric-blue outline-none transition-all"
+                                            placeholder="Add tag..." type="text" />
+                                        <span
+                                            class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-gray">add</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Attachments Card -->
+                        <div
+                            class="bg-white p-stack-lg rounded-xl border border-border-subtle shadow-[0px_1px_3px_rgba(15,23,42,0.08),0px_4px_6px_rgba(15,23,42,0.05)]">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-headline-sm text-headline-sm">Supporting Media</h3>
+                                <span class="material-symbols-outlined text-slate-gray">attach_file</span>
+                            </div>
+                            <div
+                                class="border-2 border-dashed border-border-subtle rounded-xl p-stack-lg flex flex-col items-center justify-center text-center group hover:border-electric-blue transition-colors cursor-pointer">
+                                <div
+                                    class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center mb-2 group-hover:bg-primary-fixed transition-colors">
+                                    <span class="material-symbols-outlined text-electric-blue">cloud_upload</span>
+                                </div>
+                                <p class="font-label-md text-label-md text-on-surface">Click to upload or drag and drop
+                                </p>
+                                <p class="font-meta-sm text-meta-sm text-slate-gray mt-1">PDF, JPG, MP4 (max 50MB)</p>
+                            </div>
+                            <div class="mt-4 flex flex-col gap-2">
+                                <div
+                                    class="flex items-center gap-3 p-2 rounded-lg border border-border-subtle hover:bg-surface-container-low transition-colors">
+                                    <span class="material-symbols-outlined text-electric-blue">picture_as_pdf</span>
+                                    <div class="flex-1 overflow-hidden">
+                                        <p class="font-label-md text-label-md truncate">Project_Brief_V2.pdf</p>
+                                        <p class="font-meta-sm text-meta-sm text-slate-gray">2.4 MB</p>
+                                    </div>
+                                    <button class="text-slate-gray hover:text-error transition-colors"><span
+                                            class="material-symbols-outlined">delete</span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Visibility & Settings Card -->
+                        <div
+                            class="bg-white p-stack-lg rounded-xl border border-border-subtle shadow-[0px_1px_3px_rgba(15,23,42,0.08),0px_4px_6px_rgba(15,23,42,0.05)]">
+                            <h3 class="font-headline-sm text-headline-sm mb-4">Article Settings</h3>
+                            <div class="flex flex-col gap-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-label-md text-label-md">Visibility</p>
+                                        <p class="font-meta-sm text-meta-sm text-slate-gray">Who can see this article
+                                        </p>
+                                    </div>
+                                    <select
+                                        class="bg-transparent border-none text-electric-blue font-label-md focus:ring-0 text-right cursor-pointer">
+                                        <option>Public</option>
+                                        <option>Private</option>
+                                        <option>Internal Only</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-label-md text-label-md">Allow Comments</p>
+                                        <p class="font-meta-sm text-meta-sm text-slate-gray">Enable feedback loop</p>
+                                    </div>
+                                    <div
+                                        class="w-10 h-6 bg-electric-blue rounded-full relative flex items-center px-1 cursor-pointer">
+                                        <div class="w-4 h-4 bg-white rounded-full ml-auto shadow-sm"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer Navigation -->
+            <footer class="mt-stack-lg border-t border-border-subtle py-stack-lg">
+                <div class="flex justify-between items-center max-w-4xl mx-auto">
+                    <p class="font-label-md text-label-md text-slate-gray">© 2024 Knome Internal Platform</p>
+                    <div class="flex gap-stack-md">
+                        <a class="font-label-md text-label-md text-slate-gray hover:text-electric-blue underline transition-all"
+                            href="#">User Agreement</a>
+                        <a class="font-label-md text-label-md text-slate-gray hover:text-electric-blue underline transition-all"
+                            href="#">Knowledge Base</a>
+                        <a class="font-label-md text-label-md text-slate-gray hover:text-electric-blue underline transition-all"
+                            href="#">Support</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+    <!-- Micro-interaction Scripts -->
+    <script>
+        // Placeholder simple interaction for the editor
+        const editor = document.querySelector('.editor-content');
+        editor.addEventListener('focus', function () {
+            if (this.innerText.trim() === 'Start writing your knowledge article here...') {
+                this.innerHTML = '<p><br></p>';
+            }
+        });
+
+        // Title length counter
+        const titleInput = document.querySelector('input[placeholder="Enter a descriptive title..."]');
+        const counter = document.querySelector('.font-meta-sm.text-meta-sm.text-slate-gray');
+        titleInput.addEventListener('input', function () {
+            counter.innerText = `${this.value.length} / 150`;
+            if (this.value.length >= 140) {
+                counter.classList.add('text-error');
+            } else {
+                counter.classList.remove('text-error');
+            }
+        });
+
+        // Simple toolbar button active state toggle
+        const toolbarBtns = document.querySelectorAll('.bg-surface-container-low button');
+        toolbarBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('bg-primary-fixed');
+                btn.classList.toggle('text-on-primary-fixed-variant');
+            });
+        });
+    </script>
+
+    <script>
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

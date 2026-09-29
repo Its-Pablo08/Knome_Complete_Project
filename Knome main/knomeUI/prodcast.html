@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Knome | Podcasts</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .active-tab-indicator {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #2563EB;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary-container": "#fefcff",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "background": "#f7f9fb",
+                        "on-tertiary-fixed": "#00201d",
+                        "border-subtle": "#E2E8F0",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "electric-blue": "#2563EB",
+                        "tertiary-fixed": "#89f5e7",
+                        "on-secondary-fixed": "#001a42",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#00201d",
+                        "on-error-container": "#93000a",
+                        "charcoal-dark": "#1E293B",
+                        "primary": "#000000",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "teal-accent": "#14B8A6",
+                        "tertiary": "#000000",
+                        "secondary-container": "#2170e4",
+                        "on-secondary-container": "#fefcff",
+                        "on-primary-container": "#7c839b",
+                        "inverse-primary": "#bec6e0",
+                        "primary-container": "#131b2e",
+                        "on-secondary-fixed-variant": "#004395",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#0c9488",
+                        "surface-bright": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "surface": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-background": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#565e74",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#0058be",
+                        "surface-container": "#eceef0",
+                        "on-primary-fixed": "#131b2e",
+                        "surface-variant": "#e0e3e5",
+                        "outline-variant": "#c6c6cd",
+                        "slate-gray": "#64748B",
+                        "primary-fixed": "#dae2fd",
+                        "on-surface": "#191c1e",
+                        "outline": "#76777d",
+                        "on-surface-variant": "#45464d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "sidebar-width": "260px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "rail-width": "300px",
+                        "margin-page": "32px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+        // Apply theme immediately to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        }
+    </script>
+
+    <style id="dark-mode-overrides">
+        .dark body {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        .dark nav, .dark aside, .dark .bg-white, .dark .bg-surface-container-lowest, 
+        .dark .bg-surface-container-low, .dark .bg-surface-container, .dark .bg-surface,
+        .dark article, .dark .glass-card {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, 
+        .dark .text-primary, .dark .text-on-surface, .dark .text-on-secondary-container {
+            color: #f8fafc !important;
+        }
+        .dark p, .dark span, .dark .text-slate-gray, .dark .text-on-surface-variant {
+            color: #cbd5e1 !important;
+        }
+        .dark input, .dark textarea, .dark select {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+        .dark .border-border-subtle, .dark .border-outline-variant, .dark .border {
+            border-color: #334155 !important;
+        }
+        .dark .bg-secondary-container {
+            background-color: #3b82f6 !important; /* electric blue / active state */
+            color: white !important;
+        }
+        .dark .text-electric-blue {
+            color: #60a5fa !important;
+        }
+        .dark .hover\:bg-surface-container:hover {
+            background-color: #334155 !important;
+        }
+    </style>
+
+</head>
+
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden custom-scrollbar">
+    <!-- TopNavBar -->
+    <header class="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-border-subtle shadow-sm h-16">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page h-full">
+            <div class="flex items-center gap-8">
+                <span class="font-headline-md text-headline-md font-bold text-primary">Knome</span>
+                <nav class="hidden md:flex gap-6">
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors"
+                        href="#">Dashboard</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors"
+                        href="#">Communities</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors"
+                        href="#">Videos</a>
+                    <a class="text-electric-blue font-bold border-b-2 border-electric-blue pb-1 text-body-md"
+                        href="#">Podcasts</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors"
+                        href="#">Jobs</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="relative hidden sm:block">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-gray">search</span>
+                    <input
+                        class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-body-md focus:ring-2 focus:ring-electric-blue w-64"
+                        placeholder="Search podcasts..." type="text" />
+                </div>
+                
+                <button onclick="toggleTheme()" class="p-2 text-slate-gray hover:bg-surface-container hover:text-electric-blue rounded-full transition-all flex items-center justify-center">
+                    <span class="material-symbols-outlined dark:hidden">dark_mode</span>
+                    <span class="material-symbols-outlined hidden dark:block">light_mode</span>
+                </button>
+<button class="p-2 text-slate-gray hover:bg-surface-container rounded-full transition-all">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle">
+                    <img class="w-full h-full object-cover"
+                        data-alt="A professional corporate headshot of a middle-aged executive woman with a friendly smile, wearing a dark navy suit and standing in a brightly lit, modern office hallway with glass partitions. The lighting is soft and natural, emphasizing a high-trust, authoritative yet accessible corporate brand identity."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhUj31yowGbzbubUKwo5OVfmelQZAT-jKe3RwNnFgsMa9oSRuh6d2njMq7dEob4V5wQ5oy3cfdkIk00BqT3mn173ssWUzk8999U7X7_td7EaCEPaihWGjKSrnOfASuLzyVG4BqFwMEgpa92aehQnzcuXkDeRyRAUONYfrRYmc8b8Yz4OAfNwZGGRN7B6rqkRzXl-0NLnUAuuOBYrzPTQl5kXprkZHWyvzV8sBgicpInbKGO18dupe0quQ7Da3PjuG2fG38s1T3lozW" />
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="flex max-w-container-max mx-auto pt-16">
+        <!-- SideNavBar -->
+        <aside
+            class="w-sidebar-width h-[calc(100vh-64px)] sticky top-16 border-r border-border-subtle bg-surface-container-lowest hidden lg:flex flex-col gap-stack-md p-stack-lg">
+            <div class="flex items-center gap-3 p-2 mb-4">
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-electric-blue to-teal-accent flex items-center justify-center text-white">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mic</span>
+                </div>
+                <div>
+                    <p class="font-label-md text-label-md text-slate-gray">Welcome back</p>
+                    <p class="font-headline-sm text-headline-sm font-bold">Karma: 1,250</p>
+                </div>
+            </div>
+            <nav class="flex flex-col gap-1">
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="font-body-md">Home</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 bg-secondary-container text-on-secondary-container font-semibold rounded-lg translate-x-1"
+                    href="#">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">podcasts</span>
+                    <span class="font-body-md">My Communities</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <span class="font-body-md">Suggested People</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">bookmark</span>
+                    <span class="font-body-md">Saved Content</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="font-body-md">Settings</span>
+                </a>
+            </nav>
+            <button
+                class="mt-4 bg-electric-blue text-white py-3 px-4 rounded-lg font-label-md flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-md shadow-electric-blue/20">
+                <span class="material-symbols-outlined">add</span>
+                Create Post
+            </button>
+            <div class="mt-auto pt-4 border-t border-border-subtle">
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:text-electric-blue transition-all" href="#">
+                    <span class="material-symbols-outlined">help</span>
+                    <span class="font-label-md">Help</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:text-electric-blue transition-all" href="#">
+                    <span class="material-symbols-outlined">shield</span>
+                    <span class="font-label-md">Privacy</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 min-w-0 p-stack-lg bg-background flex flex-col gap-stack-lg pb-32">
+            <!-- Header & Tabs -->
+            <section class="flex flex-col gap-6">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Podcast Channel</h1>
+                        <p class="text-slate-gray mt-1 font-body-lg text-body-lg">Explore the latest internal talks,
+                            industry insights, and leadership series.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button
+                            class="flex items-center gap-2 px-4 py-2 border border-border-subtle rounded-lg font-label-md text-slate-gray hover:bg-surface-container transition-all">
+                            <span class="material-symbols-outlined">filter_list</span>
+                            Filter
+                        </button>
+                    </div>
+                </div>
+                <div class="flex border-b border-border-subtle relative">
+                    <button class="px-6 py-4 text-electric-blue font-bold relative">
+                        All Episodes
+                        <div class="active-tab-indicator"></div>
+                    </button>
+                    <button class="px-6 py-4 text-slate-gray font-semibold hover:text-on-surface transition-colors">
+                        Series
+                    </button>
+                    <button class="px-6 py-4 text-slate-gray font-semibold hover:text-on-surface transition-colors">
+                        My Podcasts
+                    </button>
+                </div>
+            </section>
+            <!-- Featured Series (Horizontal Scroll / Bento Style) -->
+            <section>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="font-headline-sm text-headline-sm text-primary">Featured Series</h2>
+                    <a class="text-electric-blue font-label-md hover:underline" href="#">View all</a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <!-- Series Card 1 -->
+                    <div
+                        class="group relative overflow-hidden rounded-xl bg-white border border-border-subtle shadow-sm hover:shadow-md transition-all duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                data-alt="Vibrant digital cover art for a technology podcast titled 'The Quantum Leap'. The image features abstract glowing circuits in electric blue and teal against a deep charcoal background, creating a high-contrast, professional, and forward-thinking aesthetic. Soft bokeh lights add depth and a premium modern feel."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMXCR9LHPoou9zK1HZhbtou09eXRVpq2i2rblWPpKLCT2hF_QHALrUXt-Dkm78LLbJ24XPTAdvqkr2iv8eti9D7y630aGCp3bMhn2-BU0C9oSOuODLdr7iwZsJjRI6gOAj0OBzVnD89td-8TTpAWHZ_t8723E4dyVFxCN2bBl_yGrV_iS5aiCwZXVVCEgxQ4Bxl-nZQUTqv8N-ORWyzR2gQZm84KOJNx4ix1RX1-ogaPeUcnM2_pt53KGnbewuzFim1tTPZuJMtdmW" />
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span
+                                    class="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded text-[10px] font-bold uppercase tracking-wider">Tech
+                                    Focus</span>
+                                <span class="text-meta-sm text-slate-gray">12 Episodes</span>
+                            </div>
+                            <h3
+                                class="font-headline-sm text-headline-sm text-primary group-hover:text-electric-blue transition-colors">
+                                The Quantum Leap</h3>
+                            <p class="text-body-md text-slate-gray mt-1 line-clamp-2">Deep dives into emerging
+                                technology and how it reshapes our internal infrastructure.</p>
+                        </div>
+                    </div>
+                    <!-- Series Card 2 -->
+                    <div
+                        class="group relative overflow-hidden rounded-xl bg-white border border-border-subtle shadow-sm hover:shadow-md transition-all duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                data-alt="Sophisticated podcast cover art titled 'Leadership Uncut'. The design uses a minimalist approach with a single microphone silhouette in matte black against a clean, light-grey textured background. Touches of electric blue in the typography highlight the professional and authoritative tone of the series."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSc_ZVNtV61gdbMThjFoBr8TPcCI21n2MDYDJ4_I_7doUhHX2fmY5-dKf4TiBEzHGXccLm_e9eIHS2oOaibUjcYYewNnTpADP6kZ2QGGIaVuATvtvuE2hP3u06Du0yRZd2_dL_qRUN-wnAmFEwjDcVmeo5EfOh_HaXl8lEKxB5JNeygzRkITC5ObVU4rRsutBiMi7AwNf_5mD6ATKytdo_zN0RomLXccFgIRgfo2vhwJtfUeY6H9wT2RGb4uMjsnqS4-6Elr9hiLkQ" />
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span
+                                    class="px-2 py-0.5 bg-secondary-fixed text-on-secondary-fixed-variant rounded text-[10px] font-bold uppercase tracking-wider">Leadership</span>
+                                <span class="text-meta-sm text-slate-gray">8 Episodes</span>
+                            </div>
+                            <h3
+                                class="font-headline-sm text-headline-sm text-primary group-hover:text-electric-blue transition-colors">
+                                Leadership Uncut</h3>
+                            <p class="text-body-md text-slate-gray mt-1 line-clamp-2">Candid conversations with our
+                                global directors about growth, failure, and strategy.</p>
+                        </div>
+                    </div>
+                    <!-- Series Card 3 -->
+                    <div
+                        class="group relative overflow-hidden rounded-xl bg-white border border-border-subtle shadow-sm hover:shadow-md transition-all duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                data-alt="An artistic podcast cover for 'Culture & Karma' featuring an illustration of diverse hands connecting to form a circular network. The color palette includes soft pastels, electric blue, and teal, reflecting a collaborative and positive community vibe. The lighting is warm and inviting, fitting a corporate modern aesthetic."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY9jQR02a5Ba2ItcRZSC3ZvV0SW-X9ayEh3hu_gkV6aCvWe-bFDszjnG0OVKuo8YgDY-8BITJThp8xu7ziKWLZ-e1H2vQy62HVr3X_2S5puiHKUVvST7jsKBA6T-htFidqQ84HXdL7iySolFGoKE7Kcek-ssCz531erUJod-goPiXjaXaGVJ1IRJl3AXV0Q9oIdpTvBACmLDEP1--A7d2VmSB0cetamaxVMVe52WvP75s4Y6bCWA9gux9mf_Uynvj18G4E7L6VYIln" />
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span
+                                    class="px-2 py-0.5 bg-primary-fixed text-on-primary-fixed-variant rounded text-[10px] font-bold uppercase tracking-wider">Community</span>
+                                <span class="text-meta-sm text-slate-gray">24 Episodes</span>
+                            </div>
+                            <h3
+                                class="font-headline-sm text-headline-sm text-primary group-hover:text-electric-blue transition-colors">
+                                Culture & Karma</h3>
+                            <p class="text-body-md text-slate-gray mt-1 line-clamp-2">Highlighting the people behind the
+                                projects and the culture that drives Knome.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-stack-lg">
+                <!-- All Episodes List -->
+                <section class="xl:col-span-2 flex flex-col gap-4">
+                    <h2 class="font-headline-sm text-headline-sm text-primary">All Episodes</h2>
+                    <div class="flex flex-col gap-3">
+                        <!-- Episode Item 1 -->
+                        <div
+                            class="flex items-center gap-4 p-4 bg-white border border-border-subtle rounded-xl hover:border-electric-blue transition-colors group cursor-pointer">
+                            <div class="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                                <img class="w-full h-full object-cover"
+                                    data-alt="Miniature thumbnail for a podcast episode showing a 3D rendered electric blue sphere with data streams orbiting it. Professional, high-tech, and sharp visual style on a white background."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6QVzQetOQ_7S8vAzWuD-Dpu47DXIzVyqS_2vf5atZHLlDuxVN1ftAHY6yNrO3t_boMomzGdyKIv1XBCvzTb3hy9MBTo5hl62d-ldiutl77tHP9D5YlHPya-A0JEnS_reqCm9nxhd15rfQXNdZLyLkGNbN8Wwp36ILf7QylQoXdTJACv3hlCyWbqbNpwS2CODmS3EdQcKn_mM99YMaSipD81A1NYAMSm5L5AOPS0vFLOD8OfDM3equ7OkU-eN_uacsqzh0pYenP9Ds" />
+                                <div
+                                    class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span class="material-symbols-outlined text-white"
+                                        style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-meta-sm text-electric-blue font-bold uppercase tracking-tight">The
+                                    Quantum Leap • S1 E12</p>
+                                <h4 class="font-headline-sm text-[16px] text-primary truncate">The Ethics of Generative
+                                    AI in the Workplace</h4>
+                                <div class="flex items-center gap-3 mt-1">
+                                    <span class="text-meta-sm text-slate-gray flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">schedule</span> 42:15
+                                    </span>
+                                    <span class="text-meta-sm text-slate-gray flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">calendar_today</span> Oct
+                                        12, 2023
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="p-2 text-slate-gray hover:text-electric-blue hover:bg-surface-container rounded-full transition-all">
+                                    <span class="material-symbols-outlined">add_circle</span>
+                                </button>
+                                <button
+                                    class="p-2 text-slate-gray hover:text-electric-blue hover:bg-surface-container rounded-full transition-all">
+                                    <span class="material-symbols-outlined">more_vert</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Episode Item 2 -->
+                        <div
+                            class="flex items-center gap-4 p-4 bg-white border border-border-subtle rounded-xl hover:border-electric-blue transition-colors group cursor-pointer">
+                            <div class="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                                <img class="w-full h-full object-cover"
+                                    data-alt="Miniature thumbnail for a podcast episode featuring a sleek matte black microphone with a soft teal light halo. Modern, professional studio feel."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdR3K4InincOjrgbjGjTKdemE2g26AK5B5r6QQIwpDbITPOXkoQwzxSpaWmlI4SSJ48Tn6THIKyNUpIL4LWSMSJDt9mZDpp6SlUqI0jltT7HqgZjm5V8pkpdSEp1mFf3oQMXggHBjFfjosq_a_rppSd_eRRUVVi41IohXtqR_IDmU2QjB3Y6ALw3eqnI7rUHjLugHfprBXr_ua88Q4JCN40Az8mn0DL5Y54FhxdRmN4IasTUgkVI_4N1N7YH3zZwbVGoT_Z5vuRFqU" />
+                                <div
+                                    class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span class="material-symbols-outlined text-white"
+                                        style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-meta-sm text-electric-blue font-bold uppercase tracking-tight">Leadership
+                                    Uncut • S2 E04</p>
+                                <h4 class="font-headline-sm text-[16px] text-primary truncate">Scaling Teams Without
+                                    Losing Soul</h4>
+                                <div class="flex items-center gap-3 mt-1">
+                                    <span class="text-meta-sm text-slate-gray flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">schedule</span> 35:20
+                                    </span>
+                                    <span class="text-meta-sm text-slate-gray flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">calendar_today</span> Oct
+                                        08, 2023
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="p-2 text-slate-gray hover:text-electric-blue hover:bg-surface-container rounded-full transition-all">
+                                    <span class="material-symbols-outlined">add_circle</span>
+                                </button>
+                                <button
+                                    class="p-2 text-slate-gray hover:text-electric-blue hover:bg-surface-container rounded-full transition-all">
+                                    <span class="material-symbols-outlined">more_vert</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Episode Item 3 -->
+                        <div
+                            class="flex items-center gap-4 p-4 bg-white border border-border-subtle rounded-xl hover:border-electric-blue transition-colors group cursor-pointer">
+                            <div class="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                                <img class="w-full h-full object-cover"
+                                    data-alt="Miniature thumbnail for a podcast episode showing a group of diverse corporate characters in stylized 3D, conversing in a bright modern cafeteria. Cheerful, collaborative, and professional aesthetic."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCauyRJYn9WN66eczem2Xf91oV30AxbsG50ktlJ2kmGnkg5QRz-tXogvIoRrJ2YbWjVOxOXuqZfWom6NnhJlNMzo7nNiabFvtbTrH3zXbJr60U5hxEJUf15aZMmUggVFymC01bugp_AVW_g6j9SFCsH7xcfunGviQoeNm_WjYPWjPvQpQgcrGDKIWDMv_l2RE-y9ENoILAHnVZjVcmm1aSfV2bI7r2p0T8L0t5UEvRcfAeUXvxpj596FMprjLyPNCp6nXV-jf7ZBPEM" />
+                                <div
+                                    class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span class="material-symbols-outlined text-white"
+                                        style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-meta-sm text-electric-blue font-bold uppercase tracking-tight">Culture &
+                                    Karma • S3 E15</p>
+                                <h4 class="font-headline-sm text-[16px] text-primary truncate">The Secret to
+                                    Cross-Functional Bliss</h4>
+                                <div class="flex items-center gap-3 mt-1">
+                                    <span class="text-meta-sm text-slate-gray flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">schedule</span> 28:45
+                                    </span>
+                                    <span class="text-meta-sm text-slate-gray flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">calendar_today</span> Oct
+                                        05, 2023
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="p-2 text-slate-gray hover:text-electric-blue hover:bg-surface-container rounded-full transition-all">
+                                    <span class="material-symbols-outlined">add_circle</span>
+                                </button>
+                                <button
+                                    class="p-2 text-slate-gray hover:text-electric-blue hover:bg-surface-container rounded-full transition-all">
+                                    <span class="material-symbols-outlined">more_vert</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Upload / Record Section -->
+                <aside class="flex flex-col gap-4">
+                    <h2 class="font-headline-sm text-headline-sm text-primary">Creator Studio</h2>
+                    <div class="bg-white border border-border-subtle rounded-xl p-6 shadow-sm flex flex-col gap-5">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-label-md text-slate-gray">Episode Title</label>
+                            <input
+                                class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue outline-none text-body-md"
+                                placeholder="e.g. Future of Work" type="text" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-label-md text-slate-gray">Description</label>
+                            <textarea
+                                class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue outline-none text-body-md resize-none"
+                                placeholder="What is this episode about?" rows="3"></textarea>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-label-md text-slate-gray">Select Series</label>
+                            <select
+                                class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue outline-none text-body-md appearance-none bg-no-repeat bg-[right_1rem_center]">
+                                <option>The Quantum Leap</option>
+                                <option>Leadership Uncut</option>
+                                <option>Culture & Karma</option>
+                                <option>+ Create New Series</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 mt-2">
+                            <button
+                                class="flex flex-col items-center justify-center gap-2 py-4 border-2 border-dashed border-border-subtle rounded-xl hover:border-electric-blue hover:bg-surface-container transition-all group">
+                                <span
+                                    class="material-symbols-outlined text-slate-gray group-hover:text-electric-blue">mic</span>
+                                <span class="text-label-md text-slate-gray group-hover:text-electric-blue">Record</span>
+                            </button>
+                            <button
+                                class="flex flex-col items-center justify-center gap-2 py-4 border-2 border-dashed border-border-subtle rounded-xl hover:border-electric-blue hover:bg-surface-container transition-all group">
+                                <span
+                                    class="material-symbols-outlined text-slate-gray group-hover:text-electric-blue">upload_file</span>
+                                <span class="text-label-md text-slate-gray group-hover:text-electric-blue">Upload</span>
+                            </button>
+                        </div>
+                        <button
+                            class="w-full py-3 bg-primary text-white rounded-lg font-label-md hover:opacity-90 active:scale-95 transition-all">
+                            Publish Episode
+                        </button>
+                    </div>
+                    <!-- Audio Visualization Placeholder for "Record" state -->
+                    <div
+                        class="hidden border border-border-subtle rounded-xl bg-charcoal-dark p-6 flex-col items-center gap-4">
+                        <div class="flex items-center gap-1 h-8">
+                            <div class="w-1 bg-electric-blue animate-pulse h-4 rounded-full"></div>
+                            <div class="w-1 bg-teal-accent animate-pulse h-6 rounded-full"
+                                style="animation-delay: 0.1s"></div>
+                            <div class="w-1 bg-electric-blue animate-pulse h-8 rounded-full"
+                                style="animation-delay: 0.2s"></div>
+                            <div class="w-1 bg-teal-accent animate-pulse h-5 rounded-full"
+                                style="animation-delay: 0.3s"></div>
+                            <div class="w-1 bg-electric-blue animate-pulse h-3 rounded-full"
+                                style="animation-delay: 0.4s"></div>
+                        </div>
+                        <p class="text-white text-meta-sm font-bold">00:00:12</p>
+                        <button class="px-4 py-1.5 bg-error text-white rounded-full text-label-md">Stop
+                            Recording</button>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+    <!-- Integrated Audio Player -->
+    <div
+        class="fixed bottom-0 left-0 right-0 bg-white border-t border-border-subtle shadow-[0_-4px_12px_rgba(0,0,0,0.05)] z-[60]">
+        <div class="max-w-container-max mx-auto h-20 px-margin-page flex items-center gap-8">
+            <!-- Episode Info -->
+            <div class="flex items-center gap-3 w-72">
+                <div class="w-12 h-12 rounded bg-surface-container overflow-hidden">
+                    <img class="w-full h-full object-cover"
+                        data-alt="Thumbnail showing a stylized blue circuit board for the current playing episode."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJBuzk6UCycBeVZ17dGYAL2F6M_7G9ABgXmQCzg0FbC2-J7FsRShKvAhbTC_prTzgJGOLn8NazGo80fuNOVc_mB84uhSudlgJxJ193hwQhk9J5jIXoQHPoPBZ4F0k1KT0gSHNZJldbHJG9S8ifeVy81za-bwS_FX9ayFeI5RVPlxZE5HwRsFvNLgSNZQ9N69kdQyU0kdblyn-IN4MM-p37vSX5p1gfHLIVMbr8zWoHNNxO2ttX_S26WhjdpGLKxaq5QvCegKV9Osls" />
+                </div>
+                <div class="min-w-0">
+                    <h5 class="text-body-md font-bold truncate">Ethics of Gen AI</h5>
+                    <p class="text-meta-sm text-slate-gray truncate">The Quantum Leap</p>
+                </div>
+                <button class="text-slate-gray hover:text-electric-blue ml-2">
+                    <span class="material-symbols-outlined">favorite</span>
+                </button>
+            </div>
+            <!-- Controls -->
+            <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="flex items-center gap-6">
+                    <button class="text-slate-gray hover:text-on-surface">
+                        <span class="material-symbols-outlined">shuffle</span>
+                    </button>
+                    <button class="text-slate-gray hover:text-on-surface">
+                        <span class="material-symbols-outlined">replay_10</span>
+                    </button>
+                    <button
+                        class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-md">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                    </button>
+                    <button class="text-slate-gray hover:text-on-surface">
+                        <span class="material-symbols-outlined">forward_30</span>
+                    </button>
+                    <button class="text-slate-gray hover:text-on-surface">
+                        <span class="material-symbols-outlined">repeat</span>
+                    </button>
+                </div>
+                <div class="flex items-center gap-3 w-full max-w-xl">
+                    <span class="text-meta-sm text-slate-gray w-10 text-right">04:12</span>
+                    <div
+                        class="flex-1 h-1 bg-surface-container rounded-full relative overflow-hidden group cursor-pointer">
+                        <div class="absolute inset-0 bg-electric-blue w-1/4 rounded-full"></div>
+                    </div>
+                    <span class="text-meta-sm text-slate-gray w-10">42:15</span>
+                </div>
+            </div>
+            <!-- Volume & Speed -->
+            <div class="flex items-center justify-end gap-6 w-72">
+                <div class="flex items-center gap-2">
+                    <button
+                        class="text-slate-gray font-label-md px-2 py-1 hover:bg-surface-container rounded">1.5x</button>
+                    <button class="text-slate-gray hover:text-on-surface">
+                        <span class="material-symbols-outlined">volume_up</span>
+                    </button>
+                    <div class="w-20 h-1 bg-surface-container rounded-full relative">
+                        <div class="absolute inset-0 bg-slate-gray w-2/3 rounded-full"></div>
+                    </div>
+                </div>
+                <button class="text-slate-gray hover:text-on-surface">
+                    <span class="material-symbols-outlined">playlist_play</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Simple Micro-interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function () {
+                // Flash feedback for interaction
+                this.classList.add('opacity-50');
+                setTimeout(() => this.classList.remove('opacity-50'), 100);
+            });
+        });
+
+        // Tab Switching Simulation
+        const tabs = document.querySelectorAll('.relative button');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => {
+                    t.classList.remove('text-electric-blue', 'font-bold');
+                    t.classList.add('text-slate-gray', 'font-semibold');
+                    const indicator = t.querySelector('.active-tab-indicator');
+                    if (indicator) indicator.remove();
+                });
+                tab.classList.add('text-electric-blue', 'font-bold');
+                tab.classList.remove('text-slate-gray', 'font-semibold');
+                const indicator = document.createElement('div');
+                indicator.className = 'active-tab-indicator';
+                tab.appendChild(indicator);
+            });
+        });
+    </script>
+
+    <script>
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

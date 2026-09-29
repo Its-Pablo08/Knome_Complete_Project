@@ -1,0 +1,14 @@
+namespace Knome.API.Constants;
+
+/// <summary>
+/// Role name constants matching the RoleName column in the Roles table.
+/// These are used in [Authorize(Roles = "...")] attributes and policy names.
+/// RoleCode is the short code (EMP, CADM, etc.) — not used for authorization.
+/// </summary>
+public static class Roles
+{
+    public const string Employee = "Employee";
+    public const string CommunityAdmin = "Community Admin";
+    public const string HRAdmin = "HR Administrator";
+    public const string SystemAdmin = "System Administrator";
+}

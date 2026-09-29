@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Knome | Admin Console</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-secondary": "#ffffff",
+                        "slate-gray": "#64748B",
+                        "primary-fixed": "#dae2fd",
+                        "surface-container-low": "#f2f4f6",
+                        "primary-container": "#131b2e",
+                        "on-tertiary-container": "#0c9488",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "inverse-surface": "#2d3133",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#fefcff",
+                        "on-error-container": "#93000a",
+                        "secondary": "#0058be",
+                        "outline": "#76777d",
+                        "border-subtle": "#E2E8F0",
+                        "tertiary": "#000000",
+                        "teal-accent": "#14B8A6",
+                        "surface-tint": "#565e74",
+                        "on-background": "#191c1e",
+                        "surface-container": "#eceef0",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-fixed": "#131b2e",
+                        "surface": "#f7f9fb",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-fixed": "#d8e2ff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#004395",
+                        "charcoal-dark": "#1E293B",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface-container-highest": "#e0e3e5",
+                        "electric-blue": "#2563EB",
+                        "inverse-primary": "#bec6e0",
+                        "on-primary-container": "#7c839b",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-secondary-fixed": "#001a42",
+                        "tertiary-container": "#00201d",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "on-tertiary-fixed": "#00201d",
+                        "tertiary-fixed": "#89f5e7",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "primary": "#000000",
+                        "secondary-container": "#2170e4",
+                        "surface-container-high": "#e6e8ea",
+                        "outline-variant": "#c6c6cd",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "rail-width": "300px",
+                        "container-max": "1280px",
+                        "stack-lg": "24px",
+                        "gutter": "24px",
+                        "margin-page": "32px",
+                        "stack-sm": "8px",
+                        "sidebar-width": "260px"
+                    },
+                    "fontFamily": {
+                        "meta-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "meta-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+
+    <script>
+        // Apply theme immediately to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        }
+    </script>
+
+    <style id="dark-mode-overrides">
+        .dark body {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        .dark nav, .dark aside, .dark .bg-white, .dark .bg-surface-container-lowest, 
+        .dark .bg-surface-container-low, .dark .bg-surface-container, .dark .bg-surface,
+        .dark article, .dark .glass-card {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, 
+        .dark .text-primary, .dark .text-on-surface, .dark .text-on-secondary-container {
+            color: #f8fafc !important;
+        }
+        .dark p, .dark span, .dark .text-slate-gray, .dark .text-on-surface-variant {
+            color: #cbd5e1 !important;
+        }
+        .dark input, .dark textarea, .dark select {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+        .dark .border-border-subtle, .dark .border-outline-variant, .dark .border {
+            border-color: #334155 !important;
+        }
+        .dark .bg-secondary-container {
+            background-color: #3b82f6 !important; /* electric blue / active state */
+            color: white !important;
+        }
+        .dark .text-electric-blue {
+            color: #60a5fa !important;
+        }
+        .dark .hover\:bg-surface-container:hover {
+            background-color: #334155 !important;
+        }
+    </style>
+
+</head>
+
+<body class="bg-surface text-on-surface transition-colors duration-300">
+    <!-- TopNavBar -->
+    <header
+        class="fixed top-0 w-full z-50 bg-surface-container-lowest dark:bg-surface-container-low shadow-sm border-b border-border-subtle dark:border-outline-variant h-16">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page h-full">
+            <div class="flex items-center gap-stack-lg">
+                <span
+                    class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Knome</span>
+                <nav class="hidden md:flex gap-6 h-full items-center">
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Dashboard</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Communities</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Videos</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Podcasts</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Jobs</a>
+                    <a class="text-electric-blue font-bold border-b-2 border-electric-blue pb-1 font-body-md text-body-md"
+                        href="#">Admin</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-4">
+                <button
+                    class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container rounded-full p-2 transition-all">notifications</button>
+                <button
+                    class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container rounded-full p-2 transition-all">military_tech</button>
+                <div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle">
+                    <img class="w-full h-full object-cover"
+                        data-alt="A professional headshot of a female executive in her late 30s, wearing a charcoal business suit, with soft corporate studio lighting. The background is a clean, minimalist off-white gradient, reflecting a high-end enterprise aesthetic consistent with the Knome platform's professional and authoritative brand identity."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQVfO0PA4cQBYHdGUJ3whu5CpbKZKHqDDYV8fnh2fnXkhAziuf5bTpj41SELQj6N2gq7FeA6D9mlB1sfqObz77hLujg2BWQXXNXMKTuj_LGA_tQKy1SHpHuDO77YvmqmKvSnaDkQQ_qNStUzn2G2NNrX_qE_nQDrQZNrcWQdQyyybFcucJGKMoGuNct6B3_bQvEQDulgrXOG3is7v0mbXdQDtEPvY65tZD4zDUwOkmX5iDFNvd55hkAuf82fwXRcU2MJPFOYQ5Gn4w" />
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="flex max-w-container-max mx-auto pt-16">
+        <!-- SideNavBar -->
+        <aside
+            class="w-sidebar-width h-[calc(100vh-64px)] sticky top-16 bg-surface-container-lowest dark:bg-surface-container-low border-r border-border-subtle dark:border-outline-variant flex flex-col gap-stack-md p-stack-lg hidden md:flex">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center">
+                    <span class="material-symbols-outlined text-on-secondary-container">admin_panel_settings</span>
+                </div>
+                <div>
+                    <h2 class="font-headline-sm text-headline-sm text-primary">Welcome back</h2>
+                    <p class="font-body-md text-body-md text-slate-gray">Karma: 1,250</p>
+                </div>
+            </div>
+            <nav class="flex-grow flex flex-col gap-1">
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all group"
+                    href="#">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="font-body-md text-body-md">Home</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">group</span>
+                    <span class="font-body-md text-body-md">My Communities</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <span class="font-body-md text-body-md">Suggested People</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">bookmark</span>
+                    <span class="font-body-md text-body-md">Saved Content</span>
+                </a>
+                <a class="flex items-center gap-3 p-3 bg-secondary-container text-on-secondary-container font-semibold rounded-lg translate-x-1 duration-150"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="font-body-md text-body-md">Settings</span>
+                </a>
+            </nav>
+            <button
+                class="mt-4 bg-electric-blue text-white font-label-md text-label-md py-3 rounded-lg shadow-sm hover:opacity-90 active:scale-95 transition-all">
+                Create Post
+            </button>
+            <div class="mt-auto pt-6 border-t border-border-subtle flex flex-col gap-1">
+                <a class="flex items-center gap-3 p-2 text-slate-gray hover:text-electric-blue transition-colors"
+                    href="#">
+                    <span class="material-symbols-outlined text-[20px]">help</span>
+                    <span class="font-label-md text-label-md">Help</span>
+                </a>
+                <a class="flex items-center gap-3 p-2 text-slate-gray hover:text-electric-blue transition-colors"
+                    href="#">
+                    <span class="material-symbols-outlined text-[20px]">shield</span>
+                    <span class="font-label-md text-label-md">Privacy</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-grow p-stack-lg min-h-screen bg-background">
+            <header class="mb-stack-lg flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                    <h1 class="font-headline-lg text-headline-lg text-primary-container">Admin Console</h1>
+                    <p class="text-slate-gray font-body-lg text-body-lg">Manage organizational hierarchy, roles, and
+                        system integrity.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button
+                        class="flex items-center gap-2 px-4 py-2 border border-border-subtle bg-white text-slate-gray rounded-lg font-label-md text-label-md hover:bg-surface-container transition-all">
+                        <span class="material-symbols-outlined text-[18px]">download</span> Export Data
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-4 py-2 bg-error text-white rounded-lg font-label-md text-label-md hover:bg-opacity-90 transition-all shadow-sm"
+                        onclick="document.getElementById('suspend_modal').classList.remove('hidden')">
+                        <span class="material-symbols-outlined text-[18px]">person_off</span> Suspend User
+                    </button>
+                </div>
+            </header>
+            <!-- Tabs -->
+            <div
+                class="flex border-b border-border-subtle mb-stack-lg overflow-x-auto whitespace-nowrap scrollbar-hide">
+                <button
+                    class="px-6 py-4 border-b-2 border-electric-blue text-electric-blue font-bold font-label-md text-label-md">Users
+                    &amp; Roles</button>
+                <button
+                    class="px-6 py-4 border-b-2 border-transparent text-slate-gray hover:text-electric-blue font-label-md text-label-md transition-all">System
+                    Config</button>
+                <button
+                    class="px-6 py-4 border-b-2 border-transparent text-slate-gray hover:text-electric-blue font-label-md text-label-md transition-all">Default
+                    Communities</button>
+                <button
+                    class="px-6 py-4 border-b-2 border-transparent text-slate-gray hover:text-electric-blue font-label-md text-label-md transition-all">Moderation
+                    Log</button>
+            </div>
+            <!-- Bento Grid Content -->
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-stack-lg items-start">
+                <!-- Main Table Section (Span 2) -->
+                <div class="xl:col-span-2 space-y-stack-lg">
+                    <section class="bg-white border border-border-subtle rounded-xl shadow-sm overflow-hidden">
+                        <div
+                            class="p-stack-md border-b border-border-subtle bg-surface-container-lowest flex items-center justify-between">
+                            <h3 class="font-headline-sm text-headline-sm text-primary-container">User Management</h3>
+                            <div class="relative w-64">
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-gray text-[20px]">search</span>
+                                <input
+                                    class="w-full pl-10 pr-4 py-2 border border-border-subtle rounded-lg text-body-md focus:ring-2 focus:ring-electric-blue focus:border-transparent outline-none"
+                                    placeholder="Search employees..." type="text" />
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-left border-collapse">
+                                <thead
+                                    class="bg-surface-container text-slate-gray font-label-md text-label-md uppercase tracking-wider">
+                                    <tr>
+                                        <th class="px-6 py-4">Employee Name</th>
+                                        <th class="px-6 py-4">Department</th>
+                                        <th class="px-6 py-4">Role</th>
+                                        <th class="px-6 py-4">Status</th>
+                                        <th class="px-6 py-4 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-border-subtle text-body-md font-body-md">
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-xs">
+                                                AJ</div>
+                                            <div>
+                                                <div class="font-semibold text-primary-container">Alex Johnson</div>
+                                                <div class="text-xs text-slate-gray">alex.j@knome.com</div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-slate-gray">Engineering</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="px-2 py-1 bg-surface-container rounded text-xs font-semibold">Employee</span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1.5 text-teal-accent">
+                                                <span class="w-2 h-2 rounded-full bg-teal-accent"></span> Active
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right space-x-2">
+                                            <button
+                                                class="text-electric-blue hover:underline font-label-md">Edit</button>
+                                            <button class="text-error hover:underline font-label-md">Suspend</button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-secondary-fixed text-secondary flex items-center justify-center font-bold text-xs">
+                                                SM</div>
+                                            <div>
+                                                <div class="font-semibold text-primary-container">Sarah Miller</div>
+                                                <div class="text-xs text-slate-gray">s.miller@knome.com</div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-slate-gray">Human Resources</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="px-2 py-1 bg-primary-container text-white rounded text-xs font-semibold">HR
+                                                Admin</span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1.5 text-teal-accent">
+                                                <span class="w-2 h-2 rounded-full bg-teal-accent"></span> Active
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right space-x-2">
+                                            <button
+                                                class="text-electric-blue hover:underline font-label-md">Edit</button>
+                                            <button class="text-error hover:underline font-label-md">Suspend</button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold text-xs">
+                                                RK</div>
+                                            <div>
+                                                <div class="font-semibold text-primary-container">Robert King</div>
+                                                <div class="text-xs text-slate-gray">r.king@knome.com</div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-slate-gray">Product</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="px-2 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded text-xs font-semibold">Comm.
+                                                Admin</span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1.5 text-slate-gray">
+                                                <span class="w-2 h-2 rounded-full bg-slate-gray"></span> Suspended
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right space-x-2">
+                                            <button
+                                                class="text-electric-blue hover:underline font-label-md">Edit</button>
+                                            <button
+                                                class="text-teal-accent hover:underline font-label-md">Reactivate</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
+                            class="p-4 border-t border-border-subtle bg-surface-container-lowest flex justify-between items-center text-xs text-slate-gray">
+                            <span>Showing 3 of 1,248 users</span>
+                            <div class="flex gap-2">
+                                <button
+                                    class="px-3 py-1 border border-border-subtle rounded hover:bg-surface-container transition-colors">Previous</button>
+                                <button
+                                    class="px-3 py-1 border border-border-subtle bg-electric-blue text-white rounded transition-colors">1</button>
+                                <button
+                                    class="px-3 py-1 border border-border-subtle rounded hover:bg-surface-container transition-colors">2</button>
+                                <button
+                                    class="px-3 py-1 border border-border-subtle rounded hover:bg-surface-container transition-colors">Next</button>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="bg-white border border-border-subtle rounded-xl shadow-sm overflow-hidden">
+                        <div class="p-stack-md border-b border-border-subtle flex items-center justify-between">
+                            <h3 class="font-headline-sm text-headline-sm text-primary-container">Audit Trail</h3>
+                            <button class="text-electric-blue text-xs font-bold hover:underline">View All</button>
+                        </div>
+                        <div class="p-0">
+                            <table class="w-full text-left text-body-md">
+                                <thead
+                                    class="bg-surface-container text-slate-gray font-label-md text-label-md uppercase tracking-wider text-[11px]">
+                                    <tr>
+                                        <th class="px-6 py-3">Timestamp</th>
+                                        <th class="px-6 py-3">Moderator</th>
+                                        <th class="px-6 py-3">Action</th>
+                                        <th class="px-6 py-3">Target</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-border-subtle">
+                                    <tr class="text-sm">
+                                        <td class="px-6 py-3 text-slate-gray">Oct 24, 2024 • 14:22</td>
+                                        <td class="px-6 py-3 font-medium">Sarah Miller (HR)</td>
+                                        <td class="px-6 py-3 text-error">Suspended User</td>
+                                        <td class="px-6 py-3 italic">@r.king</td>
+                                    </tr>
+                                    <tr class="text-sm">
+                                        <td class="px-6 py-3 text-slate-gray">Oct 24, 2024 • 12:05</td>
+                                        <td class="px-6 py-3 font-medium">Admin System</td>
+                                        <td class="px-6 py-3 text-teal-accent">Auto-Archive</td>
+                                        <td class="px-6 py-3 italic">#archived-topics</td>
+                                    </tr>
+                                    <tr class="text-sm">
+                                        <td class="px-6 py-3 text-slate-gray">Oct 23, 2024 • 09:45</td>
+                                        <td class="px-6 py-3 font-medium">John Doe</td>
+                                        <td class="px-6 py-3 text-electric-blue">Updated Role</td>
+                                        <td class="px-6 py-3 italic">@alex.j</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+                <!-- Right Rail Section -->
+                <div class="space-y-stack-lg">
+                    <section class="bg-white border border-border-subtle rounded-xl p-stack-md shadow-sm">
+                        <h4 class="font-label-md text-label-md text-slate-gray uppercase mb-4">Platform Stats</h4>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-end border-b border-border-subtle pb-2">
+                                <div>
+                                    <div class="text-xs text-slate-gray">Active Users</div>
+                                    <div class="text-2xl font-bold text-primary-container">12,482</div>
+                                </div>
+                                <div class="text-teal-accent text-xs font-bold mb-1">↑ 12%</div>
+                            </div>
+                            <div class="flex justify-between items-end border-b border-border-subtle pb-2">
+                                <div>
+                                    <div class="text-xs text-slate-gray">Flagged Posts</div>
+                                    <div class="text-2xl font-bold text-error">14</div>
+                                </div>
+                                <div class="text-error text-xs font-bold mb-1">↓ 3%</div>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <div class="text-xs text-slate-gray">Karma Avg.</div>
+                                    <div class="text-2xl font-bold text-electric-blue">842</div>
+                                </div>
+                                <div class="text-teal-accent text-xs font-bold mb-1">↑ 5%</div>
+                            </div>
+                        </div>
+                    </section>
+                    <section
+                        class="bg-primary-container text-white rounded-xl p-stack-md shadow-lg overflow-hidden relative">
+                        <div class="absolute -right-4 -bottom-4 opacity-10">
+                            <span class="material-symbols-outlined text-[120px]"
+                                style="font-variation-settings: 'FILL' 1;">security</span>
+                        </div>
+                        <h4 class="font-headline-sm text-headline-sm mb-2 relative z-10">Security Update</h4>
+                        <p class="text-blue-200 text-sm mb-4 relative z-10">Enhanced encryption protocols for internal
+                            messaging are now live across all communities.</p>
+                        <button
+                            class="bg-white text-primary-container font-label-md text-label-md px-4 py-2 rounded relative z-10 hover:bg-blue-50 transition-colors">Read
+                            Protocol</button>
+                    </section>
+                    <section class="bg-white border border-border-subtle rounded-xl p-stack-md shadow-sm">
+                        <h4 class="font-label-md text-label-md text-slate-gray uppercase mb-4">Pending Requests</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-gray">
+                                    <span class="material-symbols-outlined">forum</span>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="text-sm font-semibold">New Community</div>
+                                    <div class="text-xs text-slate-gray">#rust-experts</div>
+                                </div>
+                                <button class="material-symbols-outlined text-teal-accent text-xl">check_circle</button>
+                                <button class="material-symbols-outlined text-error text-xl">cancel</button>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-gray">
+                                    <span class="material-symbols-outlined">account_balance_wallet</span>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="text-sm font-semibold">Budget Approval</div>
+                                    <div class="text-xs text-slate-gray">DevRel Q4 Events</div>
+                                </div>
+                                <button class="material-symbols-outlined text-teal-accent text-xl">check_circle</button>
+                                <button class="material-symbols-outlined text-error text-xl">cancel</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Footer -->
+    <footer
+        class="bg-surface-container-lowest dark:bg-surface-container-low border-t border-border-subtle dark:border-outline-variant w-full py-stack-lg mt-stack-lg">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page">
+            <div class="flex items-center gap-6">
+                <span class="font-headline-sm text-headline-sm font-bold text-primary">Knome</span>
+                <span class="text-slate-gray font-label-md text-label-md">© 2024 Knome Internal Platform</span>
+            </div>
+            <div class="flex gap-6">
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue transition-all"
+                    href="#">User Agreement</a>
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue transition-all"
+                    href="#">Knowledge Base</a>
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue transition-all"
+                    href="#">Support</a>
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue transition-all"
+                    href="#">Feedback</a>
+            </div>
+        </div>
+    </footer>
+    <!-- Suspend User Modal -->
+    <div class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm px-4"
+        id="suspend_modal">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all">
+            <div class="p-6 border-b border-border-subtle flex justify-between items-center">
+                <h2 class="font-headline-sm text-headline-sm text-primary-container">Suspend User Access</h2>
+                <button class="material-symbols-outlined text-slate-gray hover:text-primary"
+                    onclick="document.getElementById('suspend_modal').classList.add('hidden')">close</button>
+            </div>
+            <form class="p-6 space-y-4">
+                <div>
+                    <label class="block font-label-md text-label-md text-slate-gray mb-1.5">Target Employee
+                        Email</label>
+                    <input
+                        class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue outline-none transition-all"
+                        placeholder="e.g. j.smith@knome.com" type="email" />
+                </div>
+                <div>
+                    <label class="block font-label-md text-label-md text-slate-gray mb-1.5">Suspension Type</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label
+                            class="relative flex items-center justify-center p-3 border border-border-subtle rounded-lg cursor-pointer hover:bg-slate-50 transition-all">
+                            <input checked="" class="absolute opacity-0" name="suspension" type="radio" />
+                            <span class="font-body-md text-body-md">Temporary</span>
+                        </label>
+                        <label
+                            class="relative flex items-center justify-center p-3 border border-border-subtle rounded-lg cursor-pointer hover:bg-slate-50 transition-all">
+                            <input class="absolute opacity-0" name="suspension" type="radio" />
+                            <span class="font-body-md text-body-md text-error">Permanent</span>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-label-md text-label-md text-slate-gray mb-1.5">Duration (if
+                        temporary)</label>
+                    <select
+                        class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue outline-none bg-white">
+                        <option>24 Hours</option>
+                        <option>7 Days</option>
+                        <option>30 Days</option>
+                        <option>Custom Date...</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-label-md text-label-md text-slate-gray mb-1.5">Reason for Action</label>
+                    <textarea
+                        class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue outline-none transition-all"
+                        placeholder="Describe policy violation..." rows="3"></textarea>
+                </div>
+                <div class="flex gap-3 pt-4">
+                    <button
+                        class="flex-grow px-4 py-2 border border-border-subtle rounded-lg font-label-md text-label-md hover:bg-slate-50 transition-all"
+                        onclick="document.getElementById('suspend_modal').classList.add('hidden')"
+                        type="button">Cancel</button>
+                    <button
+                        class="flex-grow px-4 py-2 bg-error text-white rounded-lg font-label-md text-label-md hover:opacity-90 shadow-sm transition-all"
+                        type="submit">Confirm Suspension</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Micro-interaction for tabs
+        const tabButtons = document.querySelectorAll('button[class*="border-b-2"]');
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabButtons.forEach(b => {
+                    b.classList.remove('border-electric-blue', 'text-electric-blue', 'font-bold');
+                    b.classList.add('border-transparent', 'text-slate-gray');
+                });
+                btn.classList.add('border-electric-blue', 'text-electric-blue', 'font-bold');
+                btn.classList.remove('border-transparent', 'text-slate-gray');
+            });
+        });
+
+        // Simple table row hover effect script
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'translateX(4px)';
+                row.style.transition = 'transform 0.2s ease-out';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+
+    <script>
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

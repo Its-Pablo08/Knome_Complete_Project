@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Knome - Video Channel</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+
+        .video-card-hover:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E2E8F0;
+            border-radius: 10px;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary-container": "#fefcff",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "background": "#f7f9fb",
+                        "on-tertiary-fixed": "#00201d",
+                        "border-subtle": "#E2E8F0",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "electric-blue": "#2563EB",
+                        "tertiary-fixed": "#89f5e7",
+                        "on-secondary-fixed": "#001a42",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#00201d",
+                        "on-error-container": "#93000a",
+                        "charcoal-dark": "#1E293B",
+                        "primary": "#000000",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "teal-accent": "#14B8A6",
+                        "tertiary": "#000000",
+                        "secondary-container": "#2170e4",
+                        "on-primary-container": "#7c839b",
+                        "inverse-primary": "#bec6e0",
+                        "primary-container": "#131b2e",
+                        "on-secondary-fixed-variant": "#004395",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#0c9488",
+                        "surface-bright": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "surface": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-background": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#565e74",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#0058be",
+                        "surface-container": "#eceef0",
+                        "on-primary-fixed": "#131b2e",
+                        "surface-variant": "#e0e3e5",
+                        "outline-variant": "#c6c6cd",
+                        "slate-gray": "#64748B",
+                        "primary-fixed": "#dae2fd",
+                        "on-surface": "#191c1e",
+                        "outline": "#76777d",
+                        "on-surface-variant": "#45464d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "sidebar-width": "260px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "rail-width": "300px",
+                        "margin-page": "32px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "meta-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "meta-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+
+    <script>
+        // Apply theme immediately to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        }
+    </script>
+
+    <style id="dark-mode-overrides">
+        .dark body {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        .dark nav, .dark aside, .dark .bg-white, .dark .bg-surface-container-lowest, 
+        .dark .bg-surface-container-low, .dark .bg-surface-container, .dark .bg-surface,
+        .dark article, .dark .glass-card {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, 
+        .dark .text-primary, .dark .text-on-surface, .dark .text-on-secondary-container {
+            color: #f8fafc !important;
+        }
+        .dark p, .dark span, .dark .text-slate-gray, .dark .text-on-surface-variant {
+            color: #cbd5e1 !important;
+        }
+        .dark input, .dark textarea, .dark select {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+        .dark .border-border-subtle, .dark .border-outline-variant, .dark .border {
+            border-color: #334155 !important;
+        }
+        .dark .bg-secondary-container {
+            background-color: #3b82f6 !important; /* electric blue / active state */
+            color: white !important;
+        }
+        .dark .text-electric-blue {
+            color: #60a5fa !important;
+        }
+        .dark .hover\:bg-surface-container:hover {
+            background-color: #334155 !important;
+        }
+    </style>
+
+</head>
+
+<body class="bg-surface font-body-md text-on-surface">
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-border-subtle shadow-sm h-16">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page h-full">
+            <div class="flex items-center gap-stack-lg">
+                <span class="font-headline-md text-headline-md font-bold text-primary">Knome</span>
+                <div class="hidden md:flex gap-stack-md">
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Dashboard</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Communities</a>
+                    <a class="text-electric-blue font-bold border-b-2 border-electric-blue pb-1 text-body-md"
+                        href="#">Videos</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Podcasts</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Jobs</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Admin</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-stack-md">
+                
+                <button onclick="toggleTheme()" class="p-2 text-slate-gray hover:bg-surface-container hover:text-electric-blue rounded-full transition-all flex items-center justify-center">
+                    <span class="material-symbols-outlined dark:hidden">dark_mode</span>
+                    <span class="material-symbols-outlined hidden dark:block">light_mode</span>
+                </button>
+<button class="p-2 text-slate-gray hover:text-electric-blue transition-all">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button class="p-2 text-slate-gray hover:text-electric-blue transition-all">
+                    <span class="material-symbols-outlined">military_tech</span>
+                </button>
+                <div class="h-8 w-8 rounded-full bg-slate-200 overflow-hidden ml-2">
+                    <img class="w-full h-full object-cover"
+                        data-alt="A professional headshot of a corporate employee in a well-lit modern office setting, smiling warmly. The background shows blurred architectural details and soft office plants, consistent with the clean, high-contrast, professional corporate design system of the Knome platform."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa0Z0OMABULHrNJ7AWnfmP3dmgoYo43FFIkpUPz_zVsbwUp268VwALgLdFThlJQgKBBVEDdqYEHMmv6k9fgmBsreXOkW6KV26p3tB3rElD42qxpHv8z9CdsWJR5PeqQZwp7SutrlW5G5trIjuYgmXpMUw23b0h5PTUCQDqQGYu39Yxvz1U-MDA2p-6uQuYOo-eRr_-mE_mY_pB6K5Tk3eSw4idHq4WCxJFXcgLtU_5dVpcL2-kfsBiUly7-3bgdFyW1L0UYOBKtFCw" />
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="flex max-w-container-max mx-auto pt-16">
+        <!-- SideNavBar -->
+        <aside
+            class="w-sidebar-width h-[calc(100vh-64px)] sticky top-16 border-r border-border-subtle bg-surface-container-lowest hidden md:flex flex-col gap-stack-md p-stack-lg">
+            <div class="flex items-center gap-stack-md mb-stack-md">
+                <div
+                    class="h-10 w-10 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                    <span class="material-symbols-outlined fill-icon">person</span>
+                </div>
+                <div>
+                    <p class="font-label-md text-label-md text-on-surface">Welcome back</p>
+                    <p class="font-meta-sm text-meta-sm text-slate-gray">Karma: 1,250</p>
+                </div>
+            </div>
+            <nav class="flex-grow flex flex-col gap-1">
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="font-label-md">Home</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">group</span>
+                    <span class="font-label-md">My Communities</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <span class="font-label-md">Suggested People</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">bookmark</span>
+                    <span class="font-label-md">Saved Content</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="font-label-md">Settings</span>
+                </a>
+            </nav>
+            <button
+                class="mt-4 w-full bg-electric-blue text-white py-2.5 rounded-lg font-label-md shadow-sm hover:opacity-90 active:scale-95 transition-all">
+                Create Post
+            </button>
+            <div class="mt-auto border-t border-border-subtle pt-4 flex flex-col gap-1">
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:text-on-surface-variant transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined text-[20px]">help</span>
+                    <span class="font-label-md">Help</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:text-on-surface-variant transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined text-[20px]">shield</span>
+                    <span class="font-label-md">Privacy</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 p-stack-lg flex flex-col gap-stack-lg custom-scrollbar">
+            <!-- Featured Video Hero -->
+            <section class="relative rounded-xl overflow-hidden bg-charcoal-dark h-[440px] shadow-lg group">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10"></div>
+                <img class="w-full h-full object-cover"
+                    data-alt="High-resolution wide cinematic shot of a futuristic corporate meeting room with glass walls and advanced holographic displays. The lighting is dominated by professional electric blue tones and cool grays, reflecting a sleek and modern internal corporate platform aesthetic. A diverse group of professionals are engaged in a collaborative session."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeod45EWQ82RydEm4O0cbOkWCbx9mDz3z7mSMBK68OO83SfQSYPK37sXjjmYw5zy1FT87S7wha-27ES0ZqmdCVrfMfbxSMBiQ-Mo3sFjyQsTV1mTQel129dwna6iKR44FqUCOxvzKExcMBaL6ovq6m8gQF_kL5ieYFCufAs1Fy9fVQjPuG_aPmYqQkPlo5i0rarkOU13vcnjLjlSDhB-xuvut5qo00SeDARDP5GCKYl7JxSN_1wS6LlV7eIcmIUn08g90uXThvCp_s" />
+                <div class="absolute bottom-0 left-0 w-full p-stack-lg z-20 flex justify-between items-end">
+                    <div class="max-w-2xl">
+                        <span
+                            class="bg-electric-blue text-white text-[10px] uppercase tracking-widest font-bold px-2 py-1 rounded-sm mb-3 inline-block">Featured
+                            Presentation</span>
+                        <h1 class="text-white font-headline-lg text-headline-lg mb-2">Q4 Global Strategy Townhall:
+                            Navigating Our 2024 Roadmap</h1>
+                        <p class="text-slate-200 font-body-lg text-body-lg mb-4 line-clamp-2">Join our CEO and executive
+                            leadership team as they break down the core pillars of our upcoming expansion into EMEA
+                            markets and the integration of AI tools in our workflow.</p>
+                        <div class="flex items-center gap-stack-md text-white/80 font-meta-sm text-meta-sm">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">schedule</span> 1h 24m</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">visibility</span> 4.2k views</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">corporate_fare</span> Strategy &amp;
+                                Ops</span>
+                        </div>
+                    </div>
+                    <button
+                        class="bg-white hover:bg-electric-blue hover:text-white transition-all text-primary w-14 h-14 rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 active:scale-95">
+                        <span class="material-symbols-outlined fill-icon text-[32px]">play_arrow</span>
+                    </button>
+                </div>
+            </section>
+            <!-- Video Management Tabs & Search -->
+            <section class="flex flex-col gap-stack-md">
+                <div
+                    class="flex flex-col md:flex-row justify-between items-start md:items-center gap-stack-md border-b border-border-subtle">
+                    <div class="flex gap-stack-lg">
+                        <button
+                            class="py-4 border-b-2 border-electric-blue text-electric-blue font-bold font-label-md">All
+                            Videos</button>
+                        <button
+                            class="py-4 border-b-2 border-transparent text-slate-gray hover:text-on-surface transition-all font-label-md">My
+                            Uploads</button>
+                        <button
+                            class="py-4 border-b-2 border-transparent text-slate-gray hover:text-on-surface transition-all font-label-md">By
+                            Department</button>
+                    </div>
+                    <div class="flex items-center gap-2 pb-2 md:pb-0">
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-gray text-[20px]">search</span>
+                            <input
+                                class="pl-10 pr-4 py-2 bg-surface-container-low border border-border-subtle rounded-lg text-body-md focus:outline-none focus:ring-2 focus:ring-electric-blue/20 focus:border-electric-blue w-64 transition-all"
+                                placeholder="Search videos..." type="text" />
+                        </div>
+                        <button
+                            class="bg-surface-container-low border border-border-subtle p-2 rounded-lg text-slate-gray hover:bg-surface-container transition-all">
+                            <span class="material-symbols-outlined text-[20px]">filter_list</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Bento-like Grid for All Videos -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-stack-lg">
+                    <!-- Video Card 1 -->
+                    <div
+                        class="group video-card-hover bg-white rounded-xl overflow-hidden border border-border-subtle shadow-sm hover:shadow-md transition-all cursor-pointer">
+                        <div class="relative h-48 overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                data-alt="A clean, professionally shot workspace featuring a modern laptop showing data visualizations. The aesthetic is bright and corporate with soft teal and blue lighting, emphasizing a tech-focused and efficient internal platform environment."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ5efARC84V24gS4CXRLq3HJubUNnoFenbeJIdDv0_sHIf0Dz53FX8sWfo5HT3aCcDIb8gYeS_OOxmPURAI4iRu6n8ZGxhy9OuU_qlkr2CHvoi4tkbJSRa5qBPa9i3QFgxo3ML_JmDFoIXJ6yfhgAI4aAh3_9_e0p67FnciySF4gXetXsv9lAHbFJxXI6wPVQKKiqfl_jLsf2ECs-OVYjC8uLb_01Yw4zUC8rCc5Go2yQrI_yyzZ__frCXlrcYVPtuqfpRb7_uYXvu" />
+                            <div
+                                class="play-overlay absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 transition-opacity">
+                                <span
+                                    class="material-symbols-outlined text-white text-[48px] fill-icon">play_circle</span>
+                            </div>
+                            <span
+                                class="absolute bottom-2 right-2 bg-black/70 text-white text-[11px] px-2 py-0.5 rounded font-bold">12:45</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline-sm text-headline-sm text-primary mb-2 line-clamp-2">Productivity
+                                Hacks: Mastering the New Knome Dashboard</h3>
+                            <div class="flex items-center justify-between mt-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="h-6 w-6 rounded-full bg-surface-container-highest">
+                                        <img class="w-full h-full rounded-full object-cover"
+                                            data-alt="A small, professional headshot of a young female professional with glasses, appearing knowledgeable and friendly, set against a neutral corporate office background with cool tones."
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBc2ki4TE0p60Dm59nFfEcY3X8XoiUHgpjYIqYYClMpm2tLK6zDLl8CW2O2wuG4nXdMQPSwCimW7EYJYhhn3t7iwsTVNoXtjTPnkTnztFX7GAvMwxGWf-BVgCTkms7Zf79o5Kp1LGXdeEoBt50j1l951yojFmYjdZLFjQFow0Do-3G05fzQNsh36M6wNsc505prnWIMd6PURWHCKWxSbB2lOBA3BKKZMJREtAsR3BzJ7Y8mpMGpgIjRZJmi29VQv5XT91-l4rNsw6V" />
+                                    </div>
+                                    <span class="text-meta-sm font-label-md text-slate-gray">Sarah Jenkins</span>
+                                </div>
+                                <span
+                                    class="bg-teal-accent/10 text-on-tertiary-container text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Learning</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-stack-md mt-3 pt-3 border-t border-slate-100 text-meta-sm text-slate-gray">
+                                <span class="flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[14px]">visibility</span> 842</span>
+                                <span class="flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[14px]">thumb_up</span> 156</span>
+                                <span class="ml-auto">Oct 12, 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Video Card 2 -->
+                    <div
+                        class="group video-card-hover bg-white rounded-xl overflow-hidden border border-border-subtle shadow-sm hover:shadow-md transition-all cursor-pointer">
+                        <div class="relative h-48 overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                data-alt="An abstract visualization of digital networks and nodes glowing in electric blue and vibrant teal, representing complex data flow. The style is modern, sleek, and high-end, fitting for a corporate internal tech platform for software engineering."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK7D862d2ocMQzOaDsTU1yd8B_c-MdoMJJezVkAtpkg2ULGXxaZTGNjYa165Etmu5Sk3Kn1z4xPDWHpQT1X9lb_BgyOCmxu-NQRDTXOcj1pqQ7NwnAgsLqzTFG5z5XE-SPkbrvhkiucppPH3AuLqELCrAEomIBz7y2tGriv9TGwQCltm72wt5v1WfDmvc4IGQP0FqG3h2ENkCmZkMYRiR2P4ogV37KzM4Q0BlUxVDmmQTm_lw2rZGnvVd4ATRIcf5sthZGhCcVs089" />
+                            <div
+                                class="play-overlay absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 transition-opacity">
+                                <span
+                                    class="material-symbols-outlined text-white text-[48px] fill-icon">play_circle</span>
+                            </div>
+                            <span
+                                class="absolute bottom-2 right-2 bg-black/70 text-white text-[11px] px-2 py-0.5 rounded font-bold">24:10</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline-sm text-headline-sm text-primary mb-2 line-clamp-2">Engineering
+                                Deep Dive: Moving to Microservices</h3>
+                            <div class="flex items-center justify-between mt-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="h-6 w-6 rounded-full bg-surface-container-highest">
+                                        <img class="w-full h-full rounded-full object-cover"
+                                            data-alt="A professional headshot of a male software engineer in a casual but modern office environment, with subtle coding-related backgrounds and soft lighting that matches the Knome navy blue theme."
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnSOnfN_7lAHAtvIolrsg7P8lEp-s7S36ZMCS9tVyi1h4BMcN33NeirlJg_h2o4_pmR3w727WT_gNw5Xf5_GYv1d_RJECCIVpFwdAbECkgLpEkzsuPzUMHZ081N9HQpICRjkv_yiip5REWeiKOrdSFzMUcbOC4iR3tqwNk4E-dcrflBMxjfeF5fEQTKu4MDeBK_zjjdk-mFhjHVVRiar45tRz5xG4Tu9d2kZ2QdDhkX1qylXLCRNGeSese5o7rl352ed2e9nPEzwCq" />
+                                    </div>
+                                    <span class="text-meta-sm font-label-md text-slate-gray">Alex Rivers</span>
+                                </div>
+                                <span
+                                    class="bg-secondary-fixed text-on-secondary-fixed-variant text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Engineering</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-stack-md mt-3 pt-3 border-t border-slate-100 text-meta-sm text-slate-gray">
+                                <span class="flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[14px]">visibility</span> 1.2k</span>
+                                <span class="flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[14px]">thumb_up</span> 289</span>
+                                <span class="ml-auto">Oct 10, 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Video Card 3 -->
+                    <div
+                        class="group video-card-hover bg-white rounded-xl overflow-hidden border border-border-subtle shadow-sm hover:shadow-md transition-all cursor-pointer">
+                        <div class="relative h-48 overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                data-alt="A bright, minimalist office breakroom with modern furniture and people talking in the background, out of focus. The scene is bright and airy with high-key lighting and a professional modern aesthetic, using a light mode palette of whites and soft grays."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfAgbT3EdS-fTF7T1V2tbXkKBmm82Xr3cOSU6c66TDKclyM7I7zPWoWt20Q1yzZtbojQv4eqAagZV40Y90Yd8yzCNMftCzDzo9WS658NyHHQRPfD9dv4eIen_K3WnanrJF21IveeObH02Y8zn2y2Xqa0SCSkkrqaFaGjQLGWN8C0bJO0olL3XkOsPPAi08t0-i4jL_3VOxUloGQnqn9HzunpbTEjLdFg_x4otu3dPjce9Y-Djgy0DNy1imwJR8qTDhCusF82t-WR4o" />
+                            <div
+                                class="play-overlay absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 transition-opacity">
+                                <span
+                                    class="material-symbols-outlined text-white text-[48px] fill-icon">play_circle</span>
+                            </div>
+                            <span
+                                class="absolute bottom-2 right-2 bg-black/70 text-white text-[11px] px-2 py-0.5 rounded font-bold">05:22</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-headline-sm text-headline-sm text-primary mb-2 line-clamp-2">Culture
+                                Committee: New Office Wellness Initiatives</h3>
+                            <div class="flex items-center justify-between mt-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="h-6 w-6 rounded-full bg-surface-container-highest">
+                                        <img class="w-full h-full rounded-full object-cover"
+                                            data-alt="A professional headshot of a woman in a colorful corporate casual outfit, smiling, representing the People and Culture department, with soft professional lighting in a modern interior."
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1mmOpMEa-cOr2Oj-jOx_Aev_zrK1fljhMZiyll7vOb9bOHpEKdXfcGQk7ubRbkI6Mby2kOyI1AaJwK1ZPPz0t7e-wfIveHUrAVNhb_bZu9fsjTG5YhyylxjtUOjsZlXWl1YQIqYYWiwBzBKrM5c5tvzKttXG1lAlXSXaXIsHRT-RfArToQF3mT2ljNyAsEwS5_fLVe0AxE0dLPqytqKqrogEiiwQxwjC_e5YWzqEkgvtGtPQ6cQFbjYdGn61O7SQGRFNdiXLyZvgU" />
+                                    </div>
+                                    <span class="text-meta-sm font-label-md text-slate-gray">Maria Garcia</span>
+                                </div>
+                                <span
+                                    class="bg-surface-container-highest text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">People
+                                    &amp; Culture</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-stack-md mt-3 pt-3 border-t border-slate-100 text-meta-sm text-slate-gray">
+                                <span class="flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[14px]">visibility</span> 541</span>
+                                <span class="flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[14px]">thumb_up</span> 42</span>
+                                <span class="ml-auto">Oct 08, 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Upload New Video Section -->
+            <section class="mt-stack-lg bg-surface-container-low border border-border-subtle rounded-xl p-stack-lg">
+                <div class="flex items-center gap-stack-md mb-stack-lg border-b border-border-subtle pb-stack-md">
+                    <span class="material-symbols-outlined text-electric-blue text-[28px]">cloud_upload</span>
+                    <div>
+                        <h2 class="font-headline-sm text-headline-sm text-primary">Upload New Video</h2>
+                        <p class="text-slate-gray text-body-md">Share knowledge or department updates with the team.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
+                    <!-- Form Fields -->
+                    <div class="flex flex-col gap-stack-md">
+                        <div>
+                            <label class="block text-label-md font-bold text-on-surface-variant mb-2">Video
+                                Title</label>
+                            <input
+                                class="w-full px-4 py-2.5 bg-white border border-border-subtle rounded-lg text-body-md focus:ring-2 focus:ring-electric-blue/20 focus:border-electric-blue transition-all"
+                                placeholder="Enter a descriptive title..." type="text" />
+                        </div>
+                        <div>
+                            <label
+                                class="block text-label-md font-bold text-on-surface-variant mb-2">Description</label>
+                            <textarea
+                                class="w-full px-4 py-2.5 bg-white border border-border-subtle rounded-lg text-body-md focus:ring-2 focus:ring-electric-blue/20 focus:border-electric-blue transition-all resize-none"
+                                placeholder="What is this video about? Use @mentions for colleagues..."
+                                rows="4"></textarea>
+                        </div>
+                        <div class="grid grid-cols-2 gap-stack-md">
+                            <div>
+                                <label
+                                    class="block text-label-md font-bold text-on-surface-variant mb-2">Category</label>
+                                <select
+                                    class="w-full px-4 py-2.5 bg-white border border-border-subtle rounded-lg text-body-md focus:ring-2 focus:ring-electric-blue/20 focus:border-electric-blue transition-all">
+                                    <option>Training &amp; Learning</option>
+                                    <option>Townhall</option>
+                                    <option>Tech Talk</option>
+                                    <option>Company Culture</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-label-md font-bold text-on-surface-variant mb-2">Source</label>
+                                <select
+                                    class="w-full px-4 py-2.5 bg-white border border-border-subtle rounded-lg text-body-md focus:ring-2 focus:ring-electric-blue/20 focus:border-electric-blue transition-all">
+                                    <option>Direct Upload</option>
+                                    <option>External Link</option>
+                                    <option>Microsoft Stream</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Upload and Thumbnail Area -->
+                    <div class="flex flex-col gap-stack-md">
+                        <label class="block text-label-md font-bold text-on-surface-variant mb-2">Custom
+                            Thumbnail</label>
+                        <div
+                            class="flex-grow border-2 border-dashed border-border-subtle rounded-xl bg-white hover:bg-surface-container-lowest transition-all flex flex-col items-center justify-center p-stack-lg cursor-pointer group">
+                            <div
+                                class="h-16 w-16 rounded-full bg-surface-container-low flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-slate-gray text-[32px]">image</span>
+                            </div>
+                            <p class="text-body-md font-bold text-on-surface mb-1">Drag and drop or <span
+                                    class="text-electric-blue">browse</span></p>
+                            <p class="text-meta-sm text-slate-gray">PNG, JPG up to 10MB (16:9 recommended)</p>
+                        </div>
+                        <div class="flex items-center gap-stack-md mt-4">
+                            <button
+                                class="flex-grow bg-electric-blue text-white py-3 rounded-lg font-label-md shadow-md hover:opacity-90 active:scale-[0.98] transition-all">
+                                Publish Video
+                            </button>
+                            <button
+                                class="px-6 py-3 border border-border-subtle bg-white text-slate-gray rounded-lg font-label-md hover:bg-surface-container transition-all">
+                                Save Draft
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Footer -->
+            <footer class="mt-auto pt-stack-lg border-t border-border-subtle">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-stack-md">
+                    <p class="text-slate-gray font-label-md text-label-md">© 2024 Knome Internal Platform</p>
+                    <div class="flex gap-stack-lg">
+                        <a class="text-slate-gray hover:text-electric-blue underline transition-all font-label-md"
+                            href="#">User Agreement</a>
+                        <a class="text-slate-gray hover:text-electric-blue underline transition-all font-label-md"
+                            href="#">Knowledge Base</a>
+                        <a class="text-slate-gray hover:text-electric-blue underline transition-all font-label-md"
+                            href="#">Support</a>
+                        <a class="text-slate-gray hover:text-electric-blue underline transition-all font-label-md"
+                            href="#">Feedback</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+        <!-- Right Rail / Community Activity -->
+        <aside
+            class="hidden xl:flex w-rail-width p-stack-lg flex-col gap-stack-lg border-l border-border-subtle bg-surface">
+            <div class="bg-white p-stack-md rounded-xl border border-border-subtle shadow-sm">
+                <h3 class="font-headline-sm text-headline-sm mb-4">Trending Tags</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span
+                        class="bg-surface-container-low px-3 py-1.5 rounded-full text-label-md text-slate-gray hover:bg-electric-blue hover:text-white cursor-pointer transition-all">#AIStrategy</span>
+                    <span
+                        class="bg-surface-container-low px-3 py-1.5 rounded-full text-label-md text-slate-gray hover:bg-electric-blue hover:text-white cursor-pointer transition-all">#NewHires</span>
+                    <span
+                        class="bg-surface-container-low px-3 py-1.5 rounded-full text-label-md text-slate-gray hover:bg-electric-blue hover:text-white cursor-pointer transition-all">#Agile</span>
+                    <span
+                        class="bg-surface-container-low px-3 py-1.5 rounded-full text-label-md text-slate-gray hover:bg-electric-blue hover:text-white cursor-pointer transition-all">#OfficeTour</span>
+                    <span
+                        class="bg-surface-container-low px-3 py-1.5 rounded-full text-label-md text-slate-gray hover:bg-electric-blue hover:text-white cursor-pointer transition-all">#Microservices</span>
+                </div>
+            </div>
+            <div class="bg-white p-stack-md rounded-xl border border-border-subtle shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-headline-sm text-headline-sm">Most Active Channels</h3>
+                    <a class="text-electric-blue font-label-md" href="#">See all</a>
+                </div>
+                <ul class="flex flex-col gap-stack-md">
+                    <li class="flex items-center gap-3 group cursor-pointer">
+                        <div
+                            class="h-10 w-10 bg-secondary-fixed rounded-lg flex items-center justify-center text-on-secondary-fixed font-bold">
+                            E</div>
+                        <div>
+                            <p class="font-label-md group-hover:text-electric-blue transition-colors">Engineering Weekly
+                            </p>
+                            <p class="text-meta-sm text-slate-gray">2.4k followers • 12 new vids</p>
+                        </div>
+                    </li>
+                    <li class="flex items-center gap-3 group cursor-pointer">
+                        <div
+                            class="h-10 w-10 bg-tertiary-fixed rounded-lg flex items-center justify-center text-on-tertiary-fixed font-bold">
+                            L</div>
+                        <div>
+                            <p class="font-label-md group-hover:text-electric-blue transition-colors">L&amp;D Academy
+                            </p>
+                            <p class="text-meta-sm text-slate-gray">1.8k followers • 5 new vids</p>
+                        </div>
+                    </li>
+                    <li class="flex items-center gap-3 group cursor-pointer">
+                        <div
+                            class="h-10 w-10 bg-surface-container-highest rounded-lg flex items-center justify-center text-on-surface-variant font-bold">
+                            C</div>
+                        <div>
+                            <p class="font-label-md group-hover:text-electric-blue transition-colors">CEO Townhalls</p>
+                            <p class="text-meta-sm text-slate-gray">5.2k followers • Monthly</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div
+                class="bg-gradient-to-br from-electric-blue to-secondary-container p-stack-md rounded-xl text-white shadow-lg">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="material-symbols-outlined text-[20px] fill-icon">military_tech</span>
+                    <span class="text-meta-sm font-bold tracking-widest uppercase">Video Achievement</span>
+                </div>
+                <p class="font-headline-sm text-headline-sm mb-2">Video Champion</p>
+                <p class="text-body-md text-white/80 mb-4">You've reached 100 views on your last video! Keep sharing
+                    knowledge to earn the 'Broadcaster' badge.</p>
+                <div class="w-full bg-white/20 h-2 rounded-full overflow-hidden">
+                    <div class="bg-white h-full w-3/4 rounded-full"></div>
+                </div>
+                <p class="mt-2 text-meta-sm font-label-md text-right">75% to next level</p>
+            </div>
+        </aside>
+    </div>
+    <!-- Micro-interaction Scripts -->
+    <script>
+        // Simple tab switching logic
+        const tabs = document.querySelectorAll('.py-4.border-b-2');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => {
+                    t.classList.remove('border-electric-blue', 'text-electric-blue', 'font-bold');
+                    t.classList.add('border-transparent', 'text-slate-gray');
+                });
+                tab.classList.remove('border-transparent', 'text-slate-gray');
+                tab.classList.add('border-electric-blue', 'text-electric-blue', 'font-bold');
+            });
+        });
+
+        // Hover animation for cards (handled by Tailwind classes primarily)
+        // Adding more complex interactions if needed here.
+    </script>
+
+    <script>
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

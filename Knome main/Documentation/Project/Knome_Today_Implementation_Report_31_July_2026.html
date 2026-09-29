@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Knome Implementation Report - 31 July 2026</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #1e293b;
+        max-width: 950px;
+        margin: 40px auto;
+        padding: 0 20px;
+        background-color: #f8fafc;
+    }
+    .card {
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        border: 1px solid #e2e8f0;
+    }
+    h1 { color: #0f172a; border-bottom: 3px solid #0284c7; padding-bottom: 12px; font-size: 28px; }
+    h2 { color: #0369a1; margin-top: 30px; font-size: 22px; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px; }
+    h3 { color: #0f172a; margin-top: 24px; font-size: 18px; }
+    h4 { color: #334155; margin-top: 18px; font-size: 15px; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+    th, td { padding: 10px 14px; border: 1px solid #cbd5e1; text-align: left; }
+    th { background-color: #f1f5f9; color: #0f172a; font-weight: bold; }
+    tr:nth-child(even) { background-color: #f8fafc; }
+    code { background: #f1f5f9; color: #0284c7; padding: 2px 6px; border-radius: 4px; font-family: Consolas, monospace; font-size: 13px; }
+    blockquote { background: #f0f9ff; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 16px 0; color: #0369a1; font-weight: 500; word-break: break-word; }
+    ul { padding-left: 20px; }
+    li { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Knome Project — Today's Comprehensive Implementation Report</h1>
+<p><strong>Date</strong>: July 31, 2026<br />
+<strong>Platform</strong>: Knome Enterprise Knowledge Management Platform (MPOnline Limited)<br />
+<strong>Architecture</strong>: ASP.NET Core 10 API (<code>Backend/Knome.API</code>) + React / Vite / TypeScript (<code>Frontend/knome-web</code>)  </p>
+<hr />
+<h2>🚀 1. Key Accomplishments &amp; Features Completed Today</h2>
+<h3>🔹 A. Core Infrastructure &amp; Backend Upgrade</h3>
+<ol>
+<li><strong>ASP.NET Core 10.0 Upgrade</strong>: Upgraded <code>Knome.API</code>, <code>Knome.Gateway</code>, <code>TestFeed</code>, and tooling projects to <code>.NET 10.0</code> (<code>net10.0</code>).</li>
+<li><strong>Backend Architecture Documentation &amp; PDF</strong>: Generated comprehensive 6-Tier Architecture &amp; API Specification PDF document (<code>Knome_Backend_Architecture_Documentation.pdf</code> - 423 KB) along with HTML and Markdown versions.</li>
+</ol>
+<hr />
+<h3>🔹 B. Automated Video Thumbnail Frame Extraction</h3>
+<ul>
+<li><strong>File</strong>: <code>UploadVideoModal.jsx</code></li>
+<li><strong>Implementation</strong>: In-browser <code>&lt;video&gt;</code> and <code>&lt;canvas&gt;</code> frame capture engine.</li>
+<li><strong>Workflow</strong>: Auto-seeks video to ~1.5s (or 15% duration), draws frame to canvas, generates JPEG file Blob, and displays <code>"Auto-Extracted from Video"</code> preview badge while preserving custom upload capability.</li>
+</ul>
+<hr />
+<h3>🔹 C. Functional Requirements Document (FRD v1.0) Audit &amp; Implementation</h3>
+<h4>1. Section 5.1 Dashboard &amp; Personalized Feed</h4>
+<ul>
+<li><strong>Category Filter Bar</strong>: Added interactive category buttons (<code>All Posts</code>, <code>Communities</code>, <code>Articles</code>, <code>Videos</code>, <code>Podcasts</code>, <code>Jobs</code>).</li>
+<li><strong>HR Broadcast Announcements</strong>: Integrated HR Administrator announcement banner on feed header.</li>
+<li><strong>Algorithm Integration</strong>: Verified personalized timeline, followed employees, and engagement scoring.</li>
+</ul>
+<h4>2. Section 5.2 User Profile Management</h4>
+<ul>
+<li><strong>Dynamic Identity</strong>: Rendered user bio, skills, and interests dynamically on profile About section.</li>
+<li><strong>3-Tier Privacy Controls</strong>: Configured <code>Public</code>, <code>Connections Only</code>, and <code>Private</code> visibility controls.</li>
+<li><strong>Profile Portfolio</strong>: Audited 8 profile tabs, follower/following count, mutual connections, and karma points balance.</li>
+</ul>
+<h4>3. Section 5.3 Post Creation</h4>
+<ul>
+<li><strong>Constraints</strong>: 400-character hard limit with real-time character counter.</li>
+<li><strong>Attachments</strong>: Supported 4 attachment types (Image, Document, Video, Audio).</li>
+<li><strong>Security &amp; Features</strong>: Real-time URL security scanner, @Mentions autocomplete, #Hashtags picker, Drafts, and Scheduled publishing.</li>
+</ul>
+<h4>4. Section 5.4 Articles and Blogs</h4>
+<ul>
+<li><strong>Rich Text Formatting</strong>: Rich text editor toolbar (Bold, Italics, Underline, Headings, Lists, Hyperlinks, Tables).</li>
+<li><strong>Indexing &amp; Metrics</strong>: Article view counts, unique reads, average read time, and &lt;5 min search indexing.</li>
+</ul>
+<h4>5. Section 5.5 Video Channel</h4>
+<ul>
+<li><strong>Source Integration</strong>: 4 Source tabs (<code>Direct Upload</code>, <code>Microsoft Stream</code>, <code>OneDrive</code>, <code>Embed URL</code>).</li>
+<li><strong>File Size Validation</strong>: Strict <code>500MB</code> max file size check for <code>.mp4</code>, <code>.mov</code>, <code>.avi</code>, <code>.mkv</code> formats.</li>
+<li><strong>Video Controls</strong>: Play/pause, seek, volume slider, playback speed (0.5x - 2x), and fullscreen mode.</li>
+</ul>
+<h4>6. Section 5.6 Podcast Channel</h4>
+<ul>
+<li><strong>Dual Recording Mode</strong>: Local file upload + In-Browser MediaRecorder API live audio recording.</li>
+<li><strong>Limits &amp; Grouping</strong>: <code>100MB</code> file size limit, Podcast Series creation and grouping, and persistent Audio Player.</li>
+</ul>
+<h4>7. Section 5.7 Community Management</h4>
+<ul>
+<li><strong>Governance Types</strong>: <code>Public</code> (Open join), <code>Private</code> (Request to join), and <code>Default/Organization</code> (Auto-subscribed).</li>
+<li><strong>Admin Approval Queue</strong>: Join Requests tab with 1-click Approve/Reject buttons.</li>
+<li><strong>Member Roles &amp; Moderation</strong>: Subscriber (View-only) vs Member (Posting), Pin/Unpin posts, Remove content, Suspend member.</li>
+</ul>
+<h4>8. Section 5.8 Internal Job Posting Board</h4>
+<ul>
+<li><strong>Job Management</strong>: HR Admin job creation form with Title, Department, Description, Skills, Location, Expiry Date, ATS Link.</li>
+<li><strong>Background Auto-Expiry</strong>: <code>JobExpiryHostedService</code> background worker service to auto-close expired postings.</li>
+</ul>
+<h4>9. Section 5.9 People Network</h4>
+<ul>
+<li><strong>Connection Model</strong>: Asymmetric 1-click follow model.</li>
+<li><strong>Recommendations</strong>: 'People You May Know' recommendation engine based on department, skills, mutuals, and groups.</li>
+</ul>
+<h4>10. Section 5.10 Content Interactions</h4>
+<ul>
+<li><strong>Reactions</strong>: 4 Reaction types (<code>Like</code> 👍, <code>Celebrate</code> 🎉, <code>Support</code> 🤝, <code>Heart</code> ❤️).</li>
+<li><strong>Nested Comments</strong>: Comment threads supporting 2-tier nested inline replies.</li>
+<li><strong>Sharing &amp; Bookmarks</strong>: Shared content to Timeline, target Community, or User notifications; Bookmark category folders.</li>
+</ul>
+<h4>11. Section 5.11 Hot Posts Ranking Engine</h4>
+<ul>
+<li><strong>Formula</strong>: <code>(Views × 1) + (Reactions × 3) + (Comments × 5) + (Shares × 4)</code>.</li>
+<li><strong>Windows &amp; Widget</strong>: Daily (24h), Weekly (7d), and Monthly (30d) time windows; top 5 hot posts widget on Dashboard.</li>
+</ul>
+<h4>12. Section 5.13 Karma Points Engagement System</h4>
+<ul>
+<li><strong>Activity Matrix</strong>: Posts (2), Articles (10), Videos (8), Podcasts (8), Likes (1), Comments (2), Shares (3), Community participation (5).</li>
+<li><strong>Daily Caps</strong>: Enforced daily caps per activity type (Post: 10, Article: 30, Video: 24, Podcast: 24).</li>
+<li><strong>Badge Tiers</strong>: Bronze (100 pts), Silver (500 pts), Gold (1000 pts), Platinum (5000 pts).</li>
+<li><strong>Leaderboard</strong>: Real-time SQL Top 10 contributor leaderboard widget.</li>
+</ul>
+<h4>13. Section 5.14 Search and Discovery</h4>
+<ul>
+<li><strong>Unified Search</strong>: Multi-entity search across People, Communities, Posts, Articles, Videos, Podcasts, Jobs.</li>
+<li><strong>Caching</strong>: 30-second <code>IMemoryCache</code> caching for instant query suggestions under 2 seconds.</li>
+<li><strong>Search History</strong>: Saved recent 10 search terms per logged-in user.</li>
+</ul>
+<h4>14. Section 5.15 Content Security and Moderation</h4>
+<ul>
+<li><strong>67 Restricted Security Words</strong>: Enforced 67 security/inappropriate words list across Posts, Articles, Videos, Podcasts, and Comments.<blockquote>
+<p><code>aadhaar</code>, <code>abuse</code>, <code>abusive</code>, <code>access token</code>, <code>api key</code>, <code>apikey</code>, <code>bank account</code>, <code>betting</code>, <code>bomb</code>, <code>bullying</code>, <code>buy now</code>, <code>casino</code>, <code>cheat</code>, <code>classified</code>, <code>click here</code>, <code>client secret</code>, <code>confidential</code>, <code>connection string</code>, <code>crack</code>, <code>credit card</code>, <code>cvv</code>, <code>damn</code>, <code>database password</code>, <code>earn money</code>, <code>explicit</code>, <code>fool</code>, <code>fraud</code>, <code>free money</code>, <code>gambling</code>, <code>hack</code>, <code>hacker</code>, <code>hacking</code>, <code>harassment</code>, <code>hate</code>, <code>hell</code>, <code>idiot</code>, <code>internal only</code>, <code>jwt token</code>, <code>kill</code>, <code>loser</code>, <code>lottery</code>, <code>malware</code>, <code>moron</code>, <code>murder</code>, <code>nda</code>, <code>nude</code>, <code>offensive</code>, <code>otp</code>, <code>pan card</code>, <code>passport</code>, <code>password</code>, <code>phishing</code>, <code>piracy</code>, <code>porn</code>, <code>pornography</code>, <code>private key</code>, <code>proprietary</code>, <code>racist</code>, <code>ransomware</code>, <code>refresh token</code>, <code>restricted</code>, <code>salary</code>, <code>scam</code>, <code>secret key</code>, <code>sexist</code>, <code>sexual</code>, <code>stupid</code>, <code>terrorist</code>, <code>violence</code>, <code>virus</code>, <code>weapon</code></p>
+</blockquote>
+</li>
+<li><strong>User Suspension</strong>: <code>SuspensionGuard</code> service enforcing temporary (<code>SuspendedUntil</code>) and permanent (<code>IsPermanentlySuspended</code>) account suspensions.</li>
+<li><strong>Audit Log</strong>: Moderation actions logged with moderator ID, timestamp, and action detail.</li>
+<li><strong>DB Seed Script</strong>: Created <code>Seed_Restricted_Keywords.sql</code> for SQL Server database population.</li>
+</ul>
+<hr />
+<h2>🛠️ 2. Verification &amp; Build Confirmation</h2>
+<ul>
+<li><strong>Backend DI Resolution</strong>: All 14 controllers and 12 modules verified with clean dependency resolution.</li>
+<li><strong>Frontend Syntax Check</strong>: Clean compilation on Vite dev server without errors.</li>
+<li><strong>Local Dev Servers Active</strong>: API running at <code>http://localhost:5095</code>, Frontend running at <code>http://localhost:5173</code>.</li>
+</ul>
+</div>
+</body>
+</html>

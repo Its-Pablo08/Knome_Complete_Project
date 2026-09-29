@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Knome | Internal Job Board</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .job-card-hover {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+        }
+
+        .job-card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0px 10px 15px -3px rgba(15, 23, 42, 0.1), 0px 4px 6px -4px rgba(15, 23, 42, 0.05);
+        }
+
+        /* Custom scrollbar for sidebars */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #E2E8F0;
+            border-radius: 10px;
+        }
+
+        .dark ::-webkit-scrollbar-thumb {
+            background: #45464d;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-secondary": "#ffffff",
+                        "slate-gray": "#64748B",
+                        "primary-fixed": "#dae2fd",
+                        "surface-container-low": "#f2f4f6",
+                        "primary-container": "#131b2e",
+                        "on-tertiary-container": "#0c9488",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "inverse-surface": "#2d3133",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#fefcff",
+                        "on-error-container": "#93000a",
+                        "secondary": "#0058be",
+                        "outline": "#76777d",
+                        "border-subtle": "#E2E8F0",
+                        "tertiary": "#000000",
+                        "teal-accent": "#14B8A6",
+                        "surface-tint": "#565e74",
+                        "on-background": "#191c1e",
+                        "surface-container": "#eceef0",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-fixed": "#131b2e",
+                        "surface": "#f7f9fb",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-fixed": "#d8e2ff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#004395",
+                        "charcoal-dark": "#1E293B",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface-container-highest": "#e0e3e5",
+                        "electric-blue": "#2563EB",
+                        "inverse-primary": "#bec6e0",
+                        "on-primary-container": "#7c839b",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-secondary-fixed": "#001a42",
+                        "tertiary-container": "#00201d",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "on-tertiary-fixed": "#00201d",
+                        "tertiary-fixed": "#89f5e7",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "primary": "#000000",
+                        "secondary-container": "#2170e4",
+                        "surface-container-high": "#e6e8ea",
+                        "outline-variant": "#c6c6cd",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "rail-width": "300px",
+                        "container-max": "1280px",
+                        "stack-lg": "24px",
+                        "gutter": "24px",
+                        "margin-page": "32px",
+                        "stack-sm": "8px",
+                        "sidebar-width": "260px"
+                    },
+                    "fontFamily": {
+                        "meta-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "meta-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+
+    <script>
+        // Apply theme immediately to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        }
+    </script>
+
+    <style id="dark-mode-overrides">
+        .dark body {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        .dark nav, .dark aside, .dark .bg-white, .dark .bg-surface-container-lowest, 
+        .dark .bg-surface-container-low, .dark .bg-surface-container, .dark .bg-surface,
+        .dark article, .dark .glass-card {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, 
+        .dark .text-primary, .dark .text-on-surface, .dark .text-on-secondary-container {
+            color: #f8fafc !important;
+        }
+        .dark p, .dark span, .dark .text-slate-gray, .dark .text-on-surface-variant {
+            color: #cbd5e1 !important;
+        }
+        .dark input, .dark textarea, .dark select {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+        .dark .border-border-subtle, .dark .border-outline-variant, .dark .border {
+            border-color: #334155 !important;
+        }
+        .dark .bg-secondary-container {
+            background-color: #3b82f6 !important; /* electric blue / active state */
+            color: white !important;
+        }
+        .dark .text-electric-blue {
+            color: #60a5fa !important;
+        }
+        .dark .hover\:bg-surface-container:hover {
+            background-color: #334155 !important;
+        }
+    </style>
+
+</head>
+
+<body class="bg-background text-on-surface selection:bg-electric-blue selection:text-white">
+    <!-- TopNavBar -->
+    <header
+        class="fixed top-0 w-full z-50 bg-surface-container-lowest dark:bg-surface-container-low border-b border-border-subtle dark:border-outline-variant shadow-sm h-16">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page h-full">
+            <div class="flex items-center gap-stack-lg">
+                <span
+                    class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Knome</span>
+                <nav class="hidden md:flex gap-stack-md ml-stack-lg">
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Dashboard</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Communities</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Videos</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Podcasts</a>
+                    <a class="text-electric-blue font-bold border-b-2 border-electric-blue pb-1 font-body-md text-body-md"
+                        href="#">Jobs</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Admin</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-stack-md">
+                <div class="relative hidden sm:block">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-gray">search</span>
+                    <input
+                        class="pl-10 pr-4 py-2 bg-surface-container rounded-lg border-none focus:ring-2 focus:ring-electric-blue w-64 text-body-md"
+                        placeholder="Search opportunities..." type="text" />
+                </div>
+                
+                <button onclick="toggleTheme()" class="p-2 text-slate-gray hover:bg-surface-container hover:text-electric-blue rounded-full transition-all flex items-center justify-center">
+                    <span class="material-symbols-outlined dark:hidden">dark_mode</span>
+                    <span class="material-symbols-outlined hidden dark:block">light_mode</span>
+                </button>
+<button class="p-2 text-slate-gray hover:bg-surface-container rounded-full transition-all">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button class="p-2 text-slate-gray hover:bg-surface-container rounded-full transition-all">
+                    <span class="material-symbols-outlined">military_tech</span>
+                </button>
+                <img class="w-8 h-8 rounded-full border border-border-subtle object-cover"
+                    data-alt="A professional headshot of a mid-30s corporate employee with a warm, confident expression. The lighting is soft and professional, set against a blurred modern office background with cool blue tones. High-fidelity digital photography with crisp focus on the facial features, conveying trust and leadership within a corporate design system."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnJrZbFdNSCVLVW857RSkjD3e9_Bz3WVI7r9EhfuTrhRHeR4XTCX2_Cwx4jhhAt0SZkgl2ldmKrmY79WK9LogX6PBkwXYB1a5Y4p5M_ZCMKFI4GcV7D39FG8M9CeiS90YBmlT1aGpO2GWvb4pORPWJXQznvGkz-DjuMJRFyKGEjuePk0CuZ58hq4cVtxy3VJByzSmPC3TxEd4EVnscQ6cHHzpjQaMlyuW5Q-Z9QDyNgB3CIQNTUcEXAnMoHZeGFy5YebY9p1MVYoMl" />
+            </div>
+        </div>
+    </header>
+    <div class="flex max-w-container-max mx-auto pt-16 min-h-screen">
+        <!-- SideNavBar -->
+        <aside
+            class="hidden md:flex flex-col gap-stack-md p-stack-lg w-sidebar-width h-[calc(100vh-64px)] sticky top-16 bg-surface-container-lowest dark:bg-surface-container-low border-r border-border-subtle dark:border-outline-variant">
+            <div class="flex items-center gap-stack-md p-2">
+                <img class="w-12 h-12 rounded-full object-cover"
+                    data-alt="A macro close-up of a high-tech corporate ID badge with a vibrant teal and blue circular gradient 'Karma' emblem. The emblem has a metallic sheen and looks premium. Background is a softly focused clean white surface. Modern, authoritative enterprise aesthetic with sharp details."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTEj_Bjyj1A9dpDSegaTallFpH4b0KXhNn_inSrhDNXT1xSkDOtbiSKtBu-gLCJ3qJtG9K4hqzYteIYWcFbQ6-cjMBt-ignCfdZUkf71SShUgo1MVWkxS584BjXMc27LNsoosDGVPTtYmFG0qKUrzUVh_Y4QXkpjzSoMkivpX_TOB_6LE5GqsM7qL7o6G2oY2CTs2VWEpJjahuPJd2JWToxiBOeY_93QYFOtEAAg0wryTSNu3qln36OGHFJaywIlR7ZrNs3EcqsUMu" />
+                <div>
+                    <p class="font-headline-sm text-headline-sm text-on-surface">Welcome back</p>
+                    <p class="font-body-md text-body-md text-slate-gray">Karma: 1,250</p>
+                </div>
+            </div>
+            <nav class="flex flex-col gap-1 mt-4">
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="font-body-md text-body-md">Home</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">group</span>
+                    <span class="font-body-md text-body-md">My Communities</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <span class="font-body-md text-body-md">Suggested People</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">bookmark</span>
+                    <span class="font-body-md text-body-md">Saved Content</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="font-body-md text-body-md">Settings</span>
+                </a>
+            </nav>
+            <button
+                class="mt-4 w-full py-3 bg-electric-blue text-white rounded-lg font-label-md text-label-md shadow-sm active:scale-95 transition-all">
+                Create Post
+            </button>
+            <div class="mt-auto pt-4 border-t border-border-subtle">
+                <a class="flex items-center gap-3 px-4 py-2 text-slate-gray hover:text-electric-blue transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">help</span>
+                    <span class="font-label-md text-label-md">Help</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-2 text-slate-gray hover:text-electric-blue transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">shield</span>
+                    <span class="font-label-md text-label-md">Privacy</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 p-margin-page bg-background">
+            <!-- Page Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-stack-lg gap-stack-md">
+                <div>
+                    <h1 class="font-headline-lg text-headline-lg text-on-surface">Internal Job Board</h1>
+                    <p class="font-body-lg text-body-lg text-slate-gray mt-1">Discover your next career move within
+                        Knome.</p>
+                </div>
+                <div class="flex gap-stack-sm overflow-x-auto pb-2">
+                    <button
+                        class="px-4 py-2 bg-secondary-container text-on-secondary-container font-semibold rounded-full text-label-md whitespace-nowrap">All
+                        Roles</button>
+                    <button
+                        class="px-4 py-2 bg-surface-container-lowest border border-border-subtle text-slate-gray hover:border-electric-blue hover:text-electric-blue rounded-full text-label-md transition-all whitespace-nowrap">Engineering</button>
+                    <button
+                        class="px-4 py-2 bg-surface-container-lowest border border-border-subtle text-slate-gray hover:border-electric-blue hover:text-electric-blue rounded-full text-label-md transition-all whitespace-nowrap">Design</button>
+                    <button
+                        class="px-4 py-2 bg-surface-container-lowest border border-border-subtle text-slate-gray hover:border-electric-blue hover:text-electric-blue rounded-full text-label-md transition-all whitespace-nowrap">Marketing</button>
+                </div>
+            </div>
+            <!-- Bento-style Job Grid -->
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-stack-lg">
+                <!-- Featured Job Card -->
+                <div
+                    class="job-card-hover bg-surface-container-lowest border border-border-subtle p-stack-lg rounded-xl shadow-sm col-span-1 xl:col-span-2 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4">
+                        <span
+                            class="bg-teal-accent/10 text-on-tertiary-container px-3 py-1 rounded-full text-label-md font-bold">Featured</span>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-stack-lg items-start">
+                        <div
+                            class="w-16 h-16 bg-primary-fixed rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="material-symbols-outlined text-electric-blue text-3xl">developer_mode_tv</span>
+                        </div>
+                        <div class="flex-1">
+                            <h3
+                                class="font-headline-sm text-headline-sm text-on-surface group-hover:text-electric-blue transition-colors">
+                                Senior Principal Product Designer</h3>
+                            <div class="flex flex-wrap gap-x-4 gap-y-2 mt-2 text-slate-gray font-body-md text-body-md">
+                                <span class="flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[18px]">apartment</span> Product
+                                    Experience</span>
+                                <span class="flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[18px]">location_on</span> Remote /
+                                    NYC</span>
+                                <span class="flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[18px]">calendar_today</span> Closes: Oct
+                                    30</span>
+                            </div>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <span
+                                    class="bg-surface-container px-3 py-1 rounded-full text-meta-sm font-label-md text-on-surface-variant">Design
+                                    Systems</span>
+                                <span
+                                    class="bg-surface-container px-3 py-1 rounded-full text-meta-sm font-label-md text-on-surface-variant">Strategy</span>
+                                <span
+                                    class="bg-surface-container px-3 py-1 rounded-full text-meta-sm font-label-md text-on-surface-variant">Figma</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2 w-full md:w-auto">
+                            <button
+                                class="w-full px-6 py-3 bg-electric-blue text-white rounded-lg font-label-md text-label-md hover:bg-secondary transition-all">Apply
+                                Now</button>
+                            <button
+                                class="w-full px-6 py-3 border border-border-subtle text-on-surface rounded-lg font-label-md text-label-md hover:bg-surface-container transition-all">Save
+                                Role</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Job Card 1 -->
+                <div
+                    class="job-card-hover bg-surface-container-lowest border border-border-subtle p-stack-md rounded-xl shadow-sm flex flex-col gap-4">
+                    <div class="flex justify-between items-start">
+                        <div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center">
+                            <span class="material-symbols-outlined text-slate-gray">code</span>
+                        </div>
+                        <span class="text-meta-sm text-slate-gray">2 days ago</span>
+                    </div>
+                    <div>
+                        <h4 class="font-headline-sm text-headline-sm text-on-surface">Full Stack Engineer (L5)</h4>
+                        <p class="text-body-md text-slate-gray mt-1">Infrastructure &amp; DevTools</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="bg-surface-container px-2 py-1 rounded text-meta-sm text-on-surface-variant">React</span>
+                        <span
+                            class="bg-surface-container px-2 py-1 rounded text-meta-sm text-on-surface-variant">Node.js</span>
+                        <span
+                            class="bg-surface-container px-2 py-1 rounded text-meta-sm text-on-surface-variant">Go</span>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-border-subtle flex justify-between items-center">
+                        <span class="text-meta-sm font-label-md text-slate-gray flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">location_on</span> London, UK
+                        </span>
+                        <button class="text-electric-blue font-label-md text-label-md hover:underline">Apply</button>
+                    </div>
+                </div>
+                <!-- Job Card 2 -->
+                <div
+                    class="job-card-hover bg-surface-container-lowest border border-border-subtle p-stack-md rounded-xl shadow-sm flex flex-col gap-4">
+                    <div class="flex justify-between items-start">
+                        <div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center">
+                            <span class="material-symbols-outlined text-slate-gray">analytics</span>
+                        </div>
+                        <span class="text-meta-sm text-slate-gray">4 days ago</span>
+                    </div>
+                    <div>
+                        <h4 class="font-headline-sm text-headline-sm text-on-surface">Senior Data Analyst</h4>
+                        <p class="text-body-md text-slate-gray mt-1">Growth &amp; Revenue</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="bg-surface-container px-2 py-1 rounded text-meta-sm text-on-surface-variant">SQL</span>
+                        <span
+                            class="bg-surface-container px-2 py-1 rounded text-meta-sm text-on-surface-variant">Python</span>
+                        <span
+                            class="bg-surface-container px-2 py-1 rounded text-meta-sm text-on-surface-variant">Tableau</span>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-border-subtle flex justify-between items-center">
+                        <span class="text-meta-sm font-label-md text-slate-gray flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">location_on</span> San Francisco
+                        </span>
+                        <button class="text-electric-blue font-label-md text-label-md hover:underline">Apply</button>
+                    </div>
+                </div>
+                <!-- Job Card 3 -->
+                <div
+                    class="job-card-hover bg-surface-container-lowest border border-border-subtle p-stack-md rounded-xl shadow-sm flex flex-col gap-4">
+                    <div class="flex justify-between items-start">
+                        <div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center">
+                            <span class="material-symbols-outlined text-slate-gray">campaign</span>
+                        </div>
+                        <span class="text-meta-sm text-slate-gray">1 week ago</span>
+                    </div>
+                    <div>
+                        <h4 class="font-headline-sm text-headline-sm text-on-surface">Content Strategy Manager</h4>
+                        <p class="text-body-md text-slate-gray mt-1">Corporate Communications</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="bg-surface-container px-2 py-1 rounded text-meta-sm text-on-surface-variant">Copywriting</span>
+                        <span
+                            class="bg-surface-container px-2 py-1 rounded text-meta-sm text-on-surface-variant">PR</span>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-border-subtle flex justify-between items-center">
+                        <span class="text-meta-sm font-label-md text-slate-gray flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">location_on</span> Remote
+                        </span>
+                        <button class="text-electric-blue font-label-md text-label-md hover:underline">Apply</button>
+                    </div>
+                </div>
+                <!-- Job Card 4 -->
+                <div
+                    class="job-card-hover bg-surface-container-lowest border border-border-subtle p-stack-md rounded-xl shadow-sm flex flex-col gap-4">
+                    <div class="flex justify-between items-start">
+                        <div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center">
+                            <span class="material-symbols-outlined text-slate-gray">psychology</span>
+                        </div>
+                        <span class="text-meta-sm text-slate-gray">2 weeks ago</span>
+                    </div>
+                    <div>
+                        <h4 class="font-headline-sm text-headline-sm text-on-surface">HR Business Partner</h4>
+                        <p class="text-body-md text-slate-gray mt-1">People Operations</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="bg-surface-container px-2 py-1 rounded text-meta-sm text-on-surface-variant">Leadership</span>
+                        <span
+                            class="bg-surface-container px-2 py-1 rounded text-meta-sm text-on-surface-variant">Coaching</span>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-border-subtle flex justify-between items-center">
+                        <span class="text-meta-sm font-label-md text-slate-gray flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">location_on</span> Berlin
+                        </span>
+                        <button class="text-electric-blue font-label-md text-label-md hover:underline">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- HR/Admin Side Rail (Post a Job Form) -->
+        <aside
+            class="hidden lg:block w-rail-width p-stack-lg border-l border-border-subtle bg-surface-container-lowest h-[calc(100vh-64px)] sticky top-16 overflow-y-auto">
+            <div class="mb-stack-lg">
+                <h2 class="font-headline-sm text-headline-sm text-on-surface">Post a New Job</h2>
+                <p class="text-body-md text-slate-gray mt-1">Visible to HR &amp; Admins only.</p>
+            </div>
+            <form class="space-y-stack-md">
+                <div class="space-y-1">
+                    <label class="font-label-md text-label-md text-on-surface-variant">Job Title</label>
+                    <input
+                        class="w-full px-3 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-electric-blue transition-all outline-none text-body-md"
+                        placeholder="e.g. Senior Software Engineer" type="text" />
+                </div>
+                <div class="space-y-1">
+                    <label class="font-label-md text-label-md text-on-surface-variant">Department</label>
+                    <select
+                        class="w-full px-3 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue outline-none text-body-md">
+                        <option>Engineering</option>
+                        <option>Design</option>
+                        <option>Product</option>
+                        <option>Operations</option>
+                        <option>Marketing</option>
+                    </select>
+                </div>
+                <div class="space-y-1">
+                    <label class="font-label-md text-label-md text-on-surface-variant">Description</label>
+                    <textarea
+                        class="w-full px-3 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue outline-none text-body-md"
+                        placeholder="Briefly describe the role..." rows="4"></textarea>
+                </div>
+                <div class="space-y-1">
+                    <label class="font-label-md text-label-md text-on-surface-variant">Skills (comma separated)</label>
+                    <input
+                        class="w-full px-3 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue outline-none text-body-md"
+                        placeholder="React, Figma, SQL" type="text" />
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="space-y-1">
+                        <label class="font-label-md text-label-md text-on-surface-variant">Location</label>
+                        <input
+                            class="w-full px-3 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue outline-none text-body-md"
+                            placeholder="Remote" type="text" />
+                    </div>
+                    <div class="space-y-1">
+                        <label class="font-label-md text-label-md text-on-surface-variant">Closing Date</label>
+                        <input
+                            class="w-full px-3 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue outline-none text-body-md"
+                            type="date" />
+                    </div>
+                </div>
+                <button
+                    class="w-full py-3 bg-charcoal-dark text-white rounded-lg font-label-md text-label-md shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                    type="submit">
+                    <span class="material-symbols-outlined text-[20px]">send</span>
+                    Publish Opportunity
+                </button>
+            </form>
+            <!-- Small widget in sidebar -->
+            <div class="mt-stack-lg p-stack-md bg-surface-container rounded-xl">
+                <p class="font-label-md text-label-md text-on-surface">Recent Submissions</p>
+                <div class="mt-stack-sm space-y-2">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-teal-accent"></div>
+                        <span class="text-meta-sm text-on-surface-variant">Frontend Developer Lead</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-slate-gray"></div>
+                        <span class="text-meta-sm text-on-surface-variant">Product Manager (Growth)</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <!-- Footer -->
+    <footer
+        class="bg-surface-container-lowest dark:bg-surface-container-low border-t border-border-subtle dark:border-outline-variant w-full py-stack-lg mt-stack-lg">
+        <div
+            class="flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto px-margin-page gap-stack-md">
+            <div class="flex flex-col items-center md:items-start">
+                <span class="font-headline-sm text-headline-sm font-bold text-primary">Knome</span>
+                <p class="font-label-md text-label-md text-slate-gray mt-1">© 2024 Knome Internal Platform</p>
+            </div>
+            <div class="flex gap-stack-lg">
+                <a class="font-label-md text-label-md text-slate-gray hover:text-electric-blue underline transition-all"
+                    href="#">User Agreement</a>
+                <a class="font-label-md text-label-md text-slate-gray hover:text-electric-blue underline transition-all"
+                    href="#">Knowledge Base</a>
+                <a class="font-label-md text-label-md text-slate-gray hover:text-electric-blue underline transition-all"
+                    href="#">Support</a>
+                <a class="font-label-md text-label-md text-slate-gray hover:text-electric-blue underline transition-all"
+                    href="#">Feedback</a>
+            </div>
+        </div>
+    </footer>
+    <!-- Theme Toggle Floating Action Button (for demo purposes) -->
+    <div class="fixed bottom-6 right-6 z-[60]">
+        <button
+            class="w-14 h-14 bg-white dark:bg-charcoal-dark border border-border-subtle dark:border-outline-variant rounded-full shadow-xl flex items-center justify-center text-on-surface-variant dark:text-primary-fixed-dim hover:scale-110 transition-transform"
+            id="themeToggle">
+            <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
+        </button>
+    </div>
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const html = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                themeIcon.textContent = 'dark_mode';
+            } else {
+                html.classList.add('dark');
+                themeIcon.textContent = 'light_mode';
+            }
+        });
+
+        // Simple animation on load for cards
+        window.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.job-card-hover');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+
+    <script>
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

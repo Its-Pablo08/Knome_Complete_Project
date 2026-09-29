@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Profile | Knome Internal Platform</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .karma-gradient {
+            background: linear-gradient(135deg, #14B8A6 0%, #2563EB 100%);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+
+        .active-tab-indicator {
+            position: absolute;
+            bottom: -1px;
+            height: 2px;
+            background-color: #2563EB;
+            transition: all 0.3s ease;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#131b2e",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#00201d",
+                        "on-secondary-fixed-variant": "#004395",
+                        "on-error": "#ffffff",
+                        "background": "#f7f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-container": "#fefcff",
+                        "border-subtle": "#E2E8F0",
+                        "on-background": "#191c1e",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#2170e4",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "primary-fixed": "#dae2fd",
+                        "on-primary-fixed": "#131b2e",
+                        "on-surface-variant": "#45464d",
+                        "on-tertiary": "#ffffff",
+                        "charcoal-dark": "#1E293B",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed": "#001a42",
+                        "inverse-primary": "#bec6e0",
+                        "secondary": "#0058be",
+                        "electric-blue": "#2563EB",
+                        "surface-tint": "#565e74",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2d3133",
+                        "primary": "#000000",
+                        "surface-container": "#eceef0",
+                        "outline-variant": "#c6c6cd",
+                        "on-tertiary-container": "#0c9488",
+                        "secondary-fixed": "#d8e2ff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "tertiary": "#000000",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-container-highest": "#e0e3e5",
+                        "slate-gray": "#64748B",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#89f5e7",
+                        "surface-dim": "#d8dadc",
+                        "teal-accent": "#14B8A6",
+                        "on-primary-container": "#7c839b",
+                        "surface-container-high": "#e6e8ea",
+                        "on-surface": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "outline": "#76777d",
+                        "tertiary-container": "#00201d",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "margin-page": "32px",
+                        "stack-md": "16px",
+                        "stack-lg": "24px",
+                        "rail-width": "300px",
+                        "sidebar-width": "260px",
+                        "container-max": "1280px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "meta-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "meta-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+
+    <script>
+        // Apply theme immediately to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        }
+    </script>
+
+    <style id="dark-mode-overrides">
+        .dark body {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        .dark nav, .dark aside, .dark .bg-white, .dark .bg-surface-container-lowest, 
+        .dark .bg-surface-container-low, .dark .bg-surface-container, .dark .bg-surface,
+        .dark article, .dark .glass-card {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, 
+        .dark .text-primary, .dark .text-on-surface, .dark .text-on-secondary-container {
+            color: #f8fafc !important;
+        }
+        .dark p, .dark span, .dark .text-slate-gray, .dark .text-on-surface-variant {
+            color: #cbd5e1 !important;
+        }
+        .dark input, .dark textarea, .dark select {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+        .dark .border-border-subtle, .dark .border-outline-variant, .dark .border {
+            border-color: #334155 !important;
+        }
+        .dark .bg-secondary-container {
+            background-color: #3b82f6 !important; /* electric blue / active state */
+            color: white !important;
+        }
+        .dark .text-electric-blue {
+            color: #60a5fa !important;
+        }
+        .dark .hover\:bg-surface-container:hover {
+            background-color: #334155 !important;
+        }
+    </style>
+
+</head>
+
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-border-subtle shadow-sm h-16">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page h-full">
+            <div class="flex items-center gap-12">
+                <span class="font-headline-md text-headline-md font-bold text-primary">Knome</span>
+                <div class="hidden md:flex gap-8 items-center h-full">
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Dashboard</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Communities</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Videos</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Podcasts</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Jobs</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Admin</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-stack-md">
+                <div class="relative hidden sm:block">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-gray text-[20px]">search</span>
+                    <input
+                        class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-body-md w-64 focus:ring-2 focus:ring-electric-blue/20"
+                        placeholder="Search knowledge..." type="text" />
+                </div>
+                
+                <button onclick="toggleTheme()" class="p-2 text-slate-gray hover:bg-surface-container hover:text-electric-blue rounded-full transition-all flex items-center justify-center">
+                    <span class="material-symbols-outlined dark:hidden">dark_mode</span>
+                    <span class="material-symbols-outlined hidden dark:block">light_mode</span>
+                </button>
+<button class="p-2 text-slate-gray hover:bg-surface-container rounded-full transition-all">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button class="p-2 text-slate-gray hover:bg-surface-container rounded-full transition-all">
+                    <span class="material-symbols-outlined">military_tech</span>
+                </button>
+                <div
+                    class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle cursor-pointer transition-all active:scale-95">
+                    <img class="w-full h-full object-cover"
+                        data-alt="A professional headshot of a female executive with a warm smile, wearing a modern charcoal blazer. She has dark hair tied back and is positioned against a soft-focus office background with warm lighting. The aesthetic is clean, high-end corporate, and authoritative yet accessible, fitting the Knome brand's modern professional identity."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDt-bKPslvTV3dB_2m7J-z5QJ3Qx9LEqKIPhYzWs70lgqBeiFmAmjhHEst5RPmrWNKNZg_LVGLemZCk2fjc4h1wOyKSL-q6fZh_cS-CKXevkvzhpJEUIAWvpbPnR02PToJUldD1jnLBqgvO4w6G4thlsP_vioC9dk3JVogfaO4fEsrpnxPkbPyWvUqz1DGjpk7EBtEBJsscswtZYo4cnccqGK7KXbeNLGCTrm0O4e1MjoTmzGEAat2uK3ZNyfMoca4OZY5RwYwhW1TD" />
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="flex max-w-container-max mx-auto pt-16">
+        <!-- SideNavBar -->
+        <aside
+            class="w-sidebar-width h-[calc(100vh-64px)] sticky top-16 border-r border-border-subtle bg-surface-container-lowest flex flex-col gap-stack-md p-stack-lg hidden md:flex">
+            <div class="flex flex-col items-center gap-stack-md pb-stack-lg border-b border-border-subtle">
+                <div class="w-20 h-20 rounded-2xl overflow-hidden shadow-md">
+                    <img class="w-full h-full object-cover"
+                        data-alt="A large, detailed professional portrait of Sarah Chen, a Senior Product Manager. She has an intelligent and confident expression, set against a minimalist architectural background with clean lines and soft daylight. The lighting is sophisticated, highlighting her features with a premium corporate finish. The overall mood is one of focused productivity and leadership."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuATRcHW7XTtcjQ5NHvefX_Vn38YFzbnHhrf5V0MSIp4zcqGUMCyIlyiygC2chooq4FgGyLUi8Kk2z-z0mz4duf79oSH59Y57-I485PKfpjNovBPzYlIVlVtWDXwTUR0WNVk0xBBASwk3xg0TujM0GLrxdNPyQVAtb7kXVI48hE2pbGHd2fUr4_GrUNyubmux9nKRzDy1oO7gm0RivLuuvmZ9iOJhxCro7HYVRbC9BmeGZmbgp8D6z1bGj7v3QdH7GCIXawApezyIfah" />
+                </div>
+                <div class="text-center">
+                    <h3 class="font-headline-sm text-headline-sm text-primary">Sarah Chen</h3>
+                    <p class="text-slate-gray text-body-md">Senior Product Manager</p>
+                    <div
+                        class="mt-2 inline-flex items-center gap-1 px-3 py-1 rounded-full karma-gradient text-white text-[11px] font-bold tracking-wider uppercase">
+                        <span class="material-symbols-outlined text-[14px]"
+                            style="font-variation-settings: 'FILL' 1;">stars</span>
+                        1,250 Karma
+                    </div>
+                </div>
+            </div>
+            <nav class="flex-1 flex flex-col gap-1 py-4">
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all group"
+                    href="#">
+                    <span class="material-symbols-outlined group-hover:translate-x-1 duration-150">home</span>
+                    <span class="font-body-md">Home</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all group"
+                    href="#">
+                    <span class="material-symbols-outlined group-hover:translate-x-1 duration-150">group</span>
+                    <span class="font-body-md">My Communities</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all group"
+                    href="#">
+                    <span class="material-symbols-outlined group-hover:translate-x-1 duration-150">person_add</span>
+                    <span class="font-body-md">Suggested People</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all group"
+                    href="#">
+                    <span class="material-symbols-outlined group-hover:translate-x-1 duration-150">bookmark</span>
+                    <span class="font-body-md">Saved Content</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container font-semibold rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="font-body-md">Settings</span>
+                </a>
+            </nav>
+            <button
+                class="bg-electric-blue text-white py-3 px-4 rounded-xl font-headline-sm flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-electric-blue/20">
+                <span class="material-symbols-outlined">add_circle</span>
+                Create Post
+            </button>
+            <div class="mt-auto border-t border-border-subtle pt-4 flex flex-col gap-1">
+                <a class="flex items-center gap-3 px-4 py-2 text-slate-gray hover:text-electric-blue transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined text-[20px]">help</span>
+                    <span class="text-label-md">Help</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-2 text-slate-gray hover:text-electric-blue transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined text-[20px]">shield</span>
+                    <span class="text-label-md">Privacy</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Canvas -->
+        <main class="flex-1 min-h-screen bg-background px-8 py-8 flex flex-col gap-8">
+            <!-- Profile Header Bento -->
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Info Card -->
+                <div
+                    class="lg:col-span-2 bg-surface-container-lowest border border-border-subtle rounded-xl p-8 flex flex-col gap-6 shadow-[0px_1px_3px_rgba(15,23,42,0.08),0px_4px_6px_rgba(15,23,42,0.05)]">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h1 class="font-headline-lg text-headline-lg text-primary">Sarah Chen</h1>
+                            <p class="text-slate-gray font-body-lg text-body-lg">Senior Product Manager • Product Design
+                            </p>
+                        </div>
+                        <div class="flex gap-3">
+                            <button
+                                class="px-6 py-2 bg-surface-container-lowest border border-border-subtle text-on-surface font-label-md rounded-lg hover:bg-surface-container transition-all">Edit
+                                Profile</button>
+                            <button
+                                class="px-6 py-2 bg-electric-blue text-white font-label-md rounded-lg hover:brightness-110 transition-all shadow-md shadow-electric-blue/10">Follow</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 py-4 border-y border-border-subtle">
+                        <div class="text-center">
+                            <p class="font-headline-sm text-headline-sm text-primary">48</p>
+                            <p class="text-slate-gray text-label-md">Posts</p>
+                        </div>
+                        <div class="text-center border-x border-border-subtle">
+                            <p class="font-headline-sm text-headline-sm text-primary">1.2k</p>
+                            <p class="text-slate-gray text-label-md">Followers</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="font-headline-sm text-headline-sm text-primary">342</p>
+                            <p class="text-slate-gray text-label-md">Following</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <h4 class="font-label-md text-label-md text-primary uppercase tracking-wider">About Me</h4>
+                        <p class="text-on-surface-variant text-body-md leading-relaxed">
+                            Driving user-centric innovation at Knome for over 5 years. Passionate about bridging the gap
+                            between complex backend systems and delightful user experiences. When I'm not drafting PRDs
+                            or analyzing metrics, I'm contributing to our internal knowledge base on Design Thinking and
+                            Accessibility.
+                        </p>
+                    </div>
+                </div>
+                <!-- Identity/Stats Card -->
+                <div
+                    class="bg-primary-container text-white rounded-xl p-8 flex flex-col justify-between shadow-xl relative overflow-hidden group">
+                    <!-- Subtle background decoration -->
+                    <div
+                        class="absolute -right-8 -top-8 w-32 h-32 bg-electric-blue/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700">
+                    </div>
+                    <div class="relative z-10">
+                        <h4 class="text-secondary-fixed-dim font-label-md text-label-md uppercase tracking-widest mb-6">
+                            Expertise Level</h4>
+                        <div class="flex items-center gap-4 mb-8">
+                            <div
+                                class="w-16 h-16 rounded-full border-4 border-teal-accent flex items-center justify-center bg-white/5">
+                                <span class="font-headline-md text-headline-md text-teal-accent">L4</span>
+                            </div>
+                            <div>
+                                <p class="font-headline-sm text-headline-sm">Product Architect</p>
+                                <p class="text-slate-gray text-body-md">Top 2% Contributors</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-meta-sm mb-1 text-slate-gray">
+                                    <span>Knowledge Progress</span>
+                                    <span>85%</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                                    <div
+                                        class="h-full bg-teal-accent w-[85%] rounded-full shadow-[0_0_8px_rgba(20,184,166,0.5)]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative z-10 pt-8 border-t border-white/10">
+                        <div class="flex items-center justify-between text-meta-sm">
+                            <span class="text-slate-gray">Last Achievement</span>
+                            <span class="text-teal-accent">Knowledge Master</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Skills & Interests Bento Row -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 shadow-sm">
+                    <h4 class="font-headline-sm text-headline-sm text-primary mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-electric-blue">psychology</span>
+                        Core Skills
+                    </h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="px-3 py-1.5 bg-secondary-fixed text-on-secondary-fixed text-label-md rounded-lg">Product
+                            Strategy</span>
+                        <span class="px-3 py-1.5 bg-secondary-fixed text-on-secondary-fixed text-label-md rounded-lg">UX
+                            Research</span>
+                        <span
+                            class="px-3 py-1.5 bg-secondary-fixed text-on-secondary-fixed text-label-md rounded-lg">Data
+                            Analytics</span>
+                        <span
+                            class="px-3 py-1.5 bg-secondary-fixed text-on-secondary-fixed text-label-md rounded-lg">Agile
+                            Methodologies</span>
+                        <span
+                            class="px-3 py-1.5 bg-secondary-fixed text-on-secondary-fixed text-label-md rounded-lg">Stakeholder
+                            Management</span>
+                        <span class="px-3 py-1.5 bg-secondary-fixed text-on-secondary-fixed text-label-md rounded-lg">UI
+                            Prototyping</span>
+                    </div>
+                </div>
+                <div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 shadow-sm">
+                    <h4 class="font-headline-sm text-headline-sm text-primary mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-teal-accent">interests</span>
+                        Interests
+                    </h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="px-3 py-1.5 bg-surface-container-high text-on-surface-variant text-label-md rounded-lg">AI/ML
+                            Ethics</span>
+                        <span
+                            class="px-3 py-1.5 bg-surface-container-high text-on-surface-variant text-label-md rounded-lg">Sustainable
+                            Tech</span>
+                        <span
+                            class="px-3 py-1.5 bg-surface-container-high text-on-surface-variant text-label-md rounded-lg">Urban
+                            Planning</span>
+                        <span
+                            class="px-3 py-1.5 bg-surface-container-high text-on-surface-variant text-label-md rounded-lg">Photography</span>
+                        <span
+                            class="px-3 py-1.5 bg-surface-container-high text-on-surface-variant text-label-md rounded-lg">Digital
+                            Mentorship</span>
+                    </div>
+                </div>
+            </section>
+            <!-- Main Tabs Content Section -->
+            <section
+                class="bg-surface-container-lowest border border-border-subtle rounded-xl shadow-sm overflow-hidden flex flex-col">
+                <div class="border-b border-border-subtle px-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
+                    <div class="flex gap-8 relative h-16">
+                        <button
+                            class="tab-btn flex items-center gap-2 text-electric-blue font-bold h-full border-b-2 border-electric-blue"
+                            onclick="switchTab(this, 'posts')">
+                            <span class="material-symbols-outlined text-[20px]">dynamic_feed</span>
+                            Posts
+                        </button>
+                        <button
+                            class="tab-btn flex items-center gap-2 text-slate-gray font-body-md h-full hover:text-electric-blue transition-colors"
+                            onclick="switchTab(this, 'articles')">
+                            <span class="material-symbols-outlined text-[20px]">article</span>
+                            Articles
+                        </button>
+                        <button
+                            class="tab-btn flex items-center gap-2 text-slate-gray font-body-md h-full hover:text-electric-blue transition-colors"
+                            onclick="switchTab(this, 'videos')">
+                            <span class="material-symbols-outlined text-[20px]">videocam</span>
+                            Videos
+                        </button>
+                        <button
+                            class="tab-btn flex items-center gap-2 text-slate-gray font-body-md h-full hover:text-electric-blue transition-colors"
+                            onclick="switchTab(this, 'podcasts')">
+                            <span class="material-symbols-outlined text-[20px]">mic</span>
+                            Podcasts
+                        </button>
+                        <button
+                            class="tab-btn flex items-center gap-2 text-slate-gray font-body-md h-full hover:text-electric-blue transition-colors"
+                            onclick="switchTab(this, 'communities')">
+                            <span class="material-symbols-outlined text-[20px]">groups</span>
+                            Communities Joined
+                        </button>
+                        <button
+                            class="tab-btn flex items-center gap-2 text-slate-gray font-body-md h-full hover:text-electric-blue transition-colors"
+                            onclick="switchTab(this, 'karma')">
+                            <span class="material-symbols-outlined text-[20px]">history</span>
+                            Karma History
+                        </button>
+                    </div>
+                </div>
+                <div class="p-8" id="tab-content">
+                    <!-- Posts Active View (Initial) -->
+                    <div class="space-y-6">
+                        <div
+                            class="flex flex-col gap-4 p-5 bg-surface-container-lowest border border-border-subtle rounded-xl hover:shadow-md transition-all">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full overflow-hidden">
+                                        <img class="w-full h-full object-cover"
+                                            data-alt="Close up of Sarah Chen's profile photo, showing her professional and friendly demeanor. The image is circular and framed by a subtle border, fitting the UI's avatar style. The lighting is bright and clear, reflecting a modern corporate aesthetic."
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSF_4vJ_11SrDF7RbhF3HS-2-Q--hKUigLHIYvkI75o-Hn6j2wV0MryJWoXvtowuw6d4-7QJIpLARGkh6o1SiHx6qMSa8XKDcJpx5cIjdzqInnh9ByPiovirm3khlxvv5OygHQd6fjP5Uunurb4-v3dT8lByVmzGq9l8SEENNJcAIM0K9RquqTDxbwA_80CW8V44zonapz53EuuFbYdZzHP8lsrhmFFEJnsDJDRpoy2kZUyN0mU1QdsOllT4khAo8WGeJaxCfQ1SWA" />
+                                    </div>
+                                    <div>
+                                        <p class="font-label-md text-primary">Sarah Chen posted in <span
+                                                class="text-electric-blue font-bold">Product Innovations</span></p>
+                                        <p class="text-meta-sm text-slate-gray">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <button class="text-slate-gray hover:bg-surface-container p-2 rounded-full"><span
+                                        class="material-symbols-outlined">more_horiz</span></button>
+                            </div>
+                            <h5 class="font-headline-sm text-headline-sm">Reflecting on our Q3 UX Research findings</h5>
+                            <p class="text-on-surface-variant text-body-md">We’ve seen a significant shift in user
+                                behavior regarding the onboarding flow. My team is proposing a tiered approach that
+                                adapts to the user's technical background...</p>
+                            <div class="flex items-center gap-6 pt-4 border-t border-border-subtle">
+                                <button class="flex items-center gap-2 text-slate-gray hover:text-electric-blue"><span
+                                        class="material-symbols-outlined text-[20px]">thumb_up</span><span
+                                        class="text-label-md">124</span></button>
+                                <button class="flex items-center gap-2 text-slate-gray hover:text-electric-blue"><span
+                                        class="material-symbols-outlined text-[20px]">comment</span><span
+                                        class="text-label-md">18</span></button>
+                                <button class="flex items-center gap-2 text-slate-gray hover:text-electric-blue"><span
+                                        class="material-symbols-outlined text-[20px]">share</span><span
+                                        class="text-label-md">4</span></button>
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col gap-4 p-5 bg-surface-container-lowest border border-border-subtle rounded-xl hover:shadow-md transition-all">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full overflow-hidden">
+                                        <img class="w-full h-full object-cover"
+                                            data-alt="A professional avatar of Sarah Chen, highlighting her warm and approachable persona. The photography style is high-end corporate, with excellent clarity and soft, diffused lighting that complements the clean, blue-themed UI design of the Knome platform."
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqoR1iV1g2YAgtSAsezku_61vezxoAFNXUswV5BewQjVsMqmguIEI1JrgTfR3A0BQ2fvpTrh300eXzgrUx3pf9bp6xqmD1VOg66ZM4N0C5OJRTmWQcxemxINh5f6q1BfAxLtw1SZM_v427XcCAurKXjAte121DdL2L0hU30Uac00SJY4Lo4K2V0jcFI03uXpXirBthAC8Q60TE0nIJT97YpNV9D0Tw4Pqyx-Awo3TTm---2G6BnMnQ8wHK4nncZIU7oFXBkmNJAFUV" />
+                                    </div>
+                                    <div>
+                                        <p class="font-label-md text-primary">Sarah Chen shared an update</p>
+                                        <p class="text-meta-sm text-slate-gray">Yesterday at 14:20</p>
+                                    </div>
+                                </div>
+                                <button class="text-slate-gray hover:bg-surface-container p-2 rounded-full"><span
+                                        class="material-symbols-outlined">more_horiz</span></button>
+                            </div>
+                            <p class="text-on-surface-variant text-body-md">Just finished a deep dive session on
+                                Material Design 3. Excited to implement these tokens into our next sprint cycle! Check
+                                out the documentation here if you're interested.</p>
+                            <div class="w-full h-48 bg-cover bg-center rounded-lg border border-border-subtle"
+                                data-alt="A clean and modern UI design system documentation page screenshot. It shows various UI components like buttons, input fields, and color palettes organized in a neat, professional grid. The color scheme is predominantly blues and grays, matching the Knome platform's identity. The image feels structured and informative."
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBUkuqIDqb-3Rye8mgdXX6PoKBNUbxwyq4nf9yrm9qqo3FEGPeH9dn4A8DFXyCqMzUohprGal5rxLMdGejAIyzGzx4HqN5cdj9d8V1cWMPm5kJBeV2n0fqAmnx_GTYATSzfTzlu_jOxZZTNEC2qRFKnR6nU76yYnxazHvy1BRFPzXNLLSZZtPx2lmglix6gco_3H0hiGCWFqq6cmXIuwhZmMmZwvnbyDS0dnnvavYZjLom2fQ0a0Ekml8HNJ39zQR0JEf3LjVKNdZor')">
+                            </div>
+                            <div class="flex items-center gap-6 pt-4 border-t border-border-subtle">
+                                <button class="flex items-center gap-2 text-slate-gray hover:text-electric-blue"><span
+                                        class="material-symbols-outlined text-[20px]">thumb_up</span><span
+                                        class="text-label-md">89</span></button>
+                                <button class="flex items-center gap-2 text-slate-gray hover:text-electric-blue"><span
+                                        class="material-symbols-outlined text-[20px]">comment</span><span
+                                        class="text-label-md">5</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Right Rail -->
+        <aside
+            class="w-rail-width h-[calc(100vh-64px)] sticky top-16 border-l border-border-subtle bg-background px-6 py-8 flex flex-col gap-8 hidden xl:flex">
+            <!-- Karma Badges Section -->
+            <div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 shadow-sm">
+                <h4 class="font-label-md text-label-md text-primary uppercase tracking-wider mb-4">Top Badges</h4>
+                <div class="flex flex-wrap gap-4">
+                    <div class="group relative">
+                        <div
+                            class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 shadow-sm transition-transform group-hover:scale-110">
+                            <span class="material-symbols-outlined text-[28px]"
+                                style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                        </div>
+                        <div
+                            class="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-charcoal-dark text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20">
+                            Mentor Elite</div>
+                    </div>
+                    <div class="group relative">
+                        <div
+                            class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shadow-sm transition-transform group-hover:scale-110">
+                            <span class="material-symbols-outlined text-[28px]"
+                                style="font-variation-settings: 'FILL' 1;">history_edu</span>
+                        </div>
+                        <div
+                            class="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-charcoal-dark text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20">
+                            Top Writer</div>
+                    </div>
+                    <div class="group relative">
+                        <div
+                            class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 shadow-sm transition-transform group-hover:scale-110">
+                            <span class="material-symbols-outlined text-[28px]"
+                                style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                        </div>
+                        <div
+                            class="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-charcoal-dark text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20">
+                            Innovator</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Activity Heatmap Mockup -->
+            <div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 shadow-sm">
+                <h4 class="font-label-md text-label-md text-primary uppercase tracking-wider mb-4">Contribution Grid
+                </h4>
+                <div class="grid grid-cols-7 gap-1">
+                    <!-- Simple JS loop would generate this, but hardcoding a representative section -->
+                    <div class="w-full aspect-square bg-surface-container rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/20 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/40 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/60 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/20 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-surface-container rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/80 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/60 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/20 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/40 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/100 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/60 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/40 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-surface-container rounded-sm"></div>
+                    <div class="w-full aspect-square bg-surface-container rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/20 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/40 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/20 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/80 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/60 rounded-sm"></div>
+                    <div class="w-full aspect-square bg-teal-accent/20 rounded-sm"></div>
+                </div>
+                <p class="text-meta-sm text-slate-gray mt-3">242 contributions in the last year</p>
+            </div>
+            <!-- Mutual Connections -->
+            <div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 shadow-sm">
+                <h4 class="font-label-md text-label-md text-primary uppercase tracking-wider mb-4">Mutual Connections
+                </h4>
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container">
+                            <img class="w-full h-full object-cover"
+                                data-alt="A professional male profile avatar, featuring a man with glasses and a friendly, intelligent expression. High-key lighting and a professional office backdrop, consistent with the Knome platform's high-fidelity corporate aesthetic."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTE7AIkYM-SzmGN8vz4ND6IG0Btx7JXQUQyr9vL_qnGp5oS5YcEG8Ppy3gvBsRG3LJug6cDjxlfZFofNrGWUKPnwp-0hBOdk6YN_I9ah1bW16LThOVIXnpA4d_DCxwQZ2CxvLuJk0HMnpQONHaQlvkqJaFypXYKILXBm6OiF7jIs2meUikd7dMVO32tRwesU-DOa6pJG1uEylDRGNbFSl310Z4T6NSk0rhVy8t1ZG6jMryqTcRdfXzOCs_s3J9TaXCInxjmpqHaHoL" />
+                        </div>
+                        <div>
+                            <p class="text-label-md text-primary">Alex Rivera</p>
+                            <p class="text-meta-sm text-slate-gray">Engineering Lead</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container">
+                            <img class="w-full h-full object-cover"
+                                data-alt="A professional female profile avatar, showcasing a woman with a confident smile. She is wearing a modern navy suit and positioned against a blurred creative workspace background. The visual style is premium and corporate, matching the Knome identity."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwlJJbW6GaG5x09lEJ-PLCxEPijvpi392rCpqrVNfPuvPIplQuphIcp9PEcbOkAe7TKCW8gDZSn5uPLCTxzYmeGMJhoaLilS6-GTfH326gZszCgr59o06Wyg-0YWTSZifekW9AwhjikadFmo4J60GZI8UUfxXt83DyM7xpV2vqtzUYCDb0Ncpbkk4EeRP6kwSx9y6sLdKNGKC9I9PuS6gkdKF5NWWEQfx8iGJw1Nodqq48eBJwkh_qLIKzpkbOyZD87_RaQ279mjVl" />
+                        </div>
+                        <div>
+                            <p class="text-label-md text-primary">Priya Sharma</p>
+                            <p class="text-meta-sm text-slate-gray">Senior UX Researcher</p>
+                        </div>
+                    </div>
+                </div>
+                <button
+                    class="w-full mt-4 py-2 text-electric-blue text-label-md font-bold hover:bg-surface-container transition-all rounded-lg">View
+                    All 12 Mutuals</button>
+            </div>
+        </aside>
+    </div>
+    <!-- Footer -->
+    <footer class="w-full py-stack-lg bg-surface-container-lowest border-t border-border-subtle">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page">
+            <span class="font-headline-sm text-headline-sm font-bold text-primary">Knome</span>
+            <div class="flex items-center gap-8">
+                <a class="text-slate-gray font-label-md hover:text-electric-blue underline transition-all" href="#">User
+                    Agreement</a>
+                <a class="text-slate-gray font-label-md hover:text-electric-blue underline transition-all"
+                    href="#">Knowledge Base</a>
+                <a class="text-slate-gray font-label-md hover:text-electric-blue underline transition-all"
+                    href="#">Support</a>
+                <a class="text-slate-gray font-label-md hover:text-electric-blue underline transition-all"
+                    href="#">Feedback</a>
+            </div>
+            <p class="text-slate-gray font-label-md">© 2024 Knome Internal Platform</p>
+        </div>
+    </footer>
+    <script>
+        function switchTab(btn, tabName) {
+            // Remove active classes from all buttons
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('text-electric-blue', 'font-bold', 'border-b-2', 'border-electric-blue');
+                b.classList.add('text-slate-gray', 'font-body-md');
+            });
+
+            // Add active classes to clicked button
+            btn.classList.add('text-electric-blue', 'font-bold', 'border-b-2', 'border-electric-blue');
+            btn.classList.remove('text-slate-gray', 'font-body-md');
+
+            // Mock content switching
+            const container = document.getElementById('tab-content');
+            container.style.opacity = 0;
+
+            setTimeout(() => {
+                let content = '';
+                if (tabName === 'posts') {
+                    content = `<div class="space-y-6">
+                        <div class="flex flex-col gap-4 p-5 bg-surface-container-lowest border border-border-subtle rounded-xl hover:shadow-md transition-all">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200"></div>
+                                    <div>
+                                        <p class="font-label-md text-primary">Sarah Chen posted in <span class="text-electric-blue font-bold">Product Innovations</span></p>
+                                        <p class="text-meta-sm text-slate-gray">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <button class="text-slate-gray hover:bg-surface-container p-2 rounded-full"><span class="material-symbols-outlined">more_horiz</span></button>
+                            </div>
+                            <h5 class="font-headline-sm text-headline-sm">Reflecting on our Q3 UX Research findings</h5>
+                            <p class="text-on-surface-variant text-body-md">We’ve seen a significant shift in user behavior regarding the onboarding flow...</p>
+                        </div>
+                    </div>`;
+                } else if (tabName === 'articles') {
+                    content = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="border border-border-subtle rounded-xl overflow-hidden group cursor-pointer">
+                            <div class="h-40 bg-slate-100 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <div class="absolute bottom-4 left-4 text-white">
+                                    <span class="px-2 py-0.5 bg-electric-blue text-[10px] rounded uppercase font-bold">Published</span>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h6 class="font-headline-sm text-headline-sm group-hover:text-electric-blue transition-colors">Mastering Design Tokens in Enterprise Systems</h6>
+                                <p class="text-meta-sm text-slate-gray mt-2">March 12, 2024 • 12 min read</p>
+                            </div>
+                        </div>
+                    </div>`;
+                } else {
+                    content = `<div class="flex flex-col items-center justify-center py-20 text-slate-gray">
+                        <span class="material-symbols-outlined text-[64px] opacity-20 mb-4">folder_open</span>
+                        <p class="text-body-lg">Content for ${tabName} will be available soon.</p>
+                    </div>`;
+                }
+                container.innerHTML = content;
+                container.style.opacity = 1;
+            }, 200);
+        }
+    </script>
+
+    <script>
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+@Knome.API_HostAddress = http://localhost:5095
+
+GET {{Knome.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

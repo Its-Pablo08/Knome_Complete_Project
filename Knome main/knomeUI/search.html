@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Knome - Advanced Search</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-secondary": "#ffffff",
+                        "slate-gray": "#64748B",
+                        "primary-fixed": "#dae2fd",
+                        "surface-container-low": "#f2f4f6",
+                        "primary-container": "#131b2e",
+                        "on-tertiary-container": "#0c9488",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "inverse-surface": "#2d3133",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#fefcff",
+                        "on-error-container": "#93000a",
+                        "secondary": "#0058be",
+                        "outline": "#76777d",
+                        "border-subtle": "#E2E8F0",
+                        "tertiary": "#000000",
+                        "teal-accent": "#14B8A6",
+                        "surface-tint": "#565e74",
+                        "on-background": "#191c1e",
+                        "surface-container": "#eceef0",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-fixed": "#131b2e",
+                        "surface": "#f7f9fb",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-fixed": "#d8e2ff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#004395",
+                        "charcoal-dark": "#1E293B",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface-container-highest": "#e0e3e5",
+                        "electric-blue": "#2563EB",
+                        "inverse-primary": "#bec6e0",
+                        "on-primary-container": "#7c839b",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-secondary-fixed": "#001a42",
+                        "tertiary-container": "#00201d",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "on-tertiary-fixed": "#00201d",
+                        "tertiary-fixed": "#89f5e7",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "primary": "#000000",
+                        "secondary-container": "#2170e4",
+                        "surface-container-high": "#e6e8ea",
+                        "outline-variant": "#c6c6cd",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "rail-width": "300px",
+                        "container-max": "1280px",
+                        "stack-lg": "24px",
+                        "gutter": "24px",
+                        "margin-page": "32px",
+                        "stack-sm": "8px",
+                        "sidebar-width": "260px"
+                    },
+                    "fontFamily": {
+                        "meta-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "meta-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .card-shadow {
+            box-shadow: 0px 1px 3px rgba(15, 23, 42, 0.08), 0px 4px 6px rgba(15, 23, 42, 0.05);
+        }
+    </style>
+
+    <script>
+        // Apply theme immediately to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        }
+    </script>
+
+    <style id="dark-mode-overrides">
+        .dark body {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        .dark nav, .dark aside, .dark .bg-white, .dark .bg-surface-container-lowest, 
+        .dark .bg-surface-container-low, .dark .bg-surface-container, .dark .bg-surface,
+        .dark article, .dark .glass-card {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, 
+        .dark .text-primary, .dark .text-on-surface, .dark .text-on-secondary-container {
+            color: #f8fafc !important;
+        }
+        .dark p, .dark span, .dark .text-slate-gray, .dark .text-on-surface-variant {
+            color: #cbd5e1 !important;
+        }
+        .dark input, .dark textarea, .dark select {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+        .dark .border-border-subtle, .dark .border-outline-variant, .dark .border {
+            border-color: #334155 !important;
+        }
+        .dark .bg-secondary-container {
+            background-color: #3b82f6 !important; /* electric blue / active state */
+            color: white !important;
+        }
+        .dark .text-electric-blue {
+            color: #60a5fa !important;
+        }
+        .dark .hover\:bg-surface-container:hover {
+            background-color: #334155 !important;
+        }
+    </style>
+
+</head>
+
+<body class="bg-background text-on-surface min-h-screen">
+    <!-- TopNavBar -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-surface-container-lowest dark:bg-surface-container-low border-b border-border-subtle dark:border-outline-variant shadow-sm h-16">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page h-full">
+            <!-- Brand -->
+            <div class="flex items-center gap-8">
+                <span
+                    class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Knome</span>
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex gap-6 items-center">
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Dashboard</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Communities</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Videos</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Podcasts</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Jobs</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Admin</a>
+                </div>
+            </div>
+            <!-- Actions -->
+            <div class="flex items-center gap-stack-md">
+                
+                <button onclick="toggleTheme()" class="p-2 text-slate-gray hover:bg-surface-container hover:text-electric-blue rounded-full transition-all flex items-center justify-center">
+                    <span class="material-symbols-outlined dark:hidden">dark_mode</span>
+                    <span class="material-symbols-outlined hidden dark:block">light_mode</span>
+                </button>
+<button class="p-2 text-slate-gray hover:text-electric-blue transition-all scale-95 active:opacity-80">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button class="p-2 text-slate-gray hover:text-electric-blue transition-all scale-95 active:opacity-80">
+                    <span class="material-symbols-outlined">military_tech</span>
+                </button>
+                <div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle">
+                    <img class="w-full h-full object-cover"
+                        data-alt="A high-quality studio portrait of a professional corporate employee with a warm, welcoming expression. The lighting is soft and flattering, reflecting a high-end corporate office environment in the background with subtle blue and gray tones that match the Knome platform aesthetic."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRqSQWWc4HrYeozGEnCO3cQLMA_giy8-hKxQVYM55XMQMcSVxYmHSCrpz4Vvnba6zuCsD-QV7JcahfyvCz6v58-7lIZI7i_pKsX5OmrWB1DosBu8FUh3S22hIOxztDoVrQy9a2R6iCMr4pQlDj_uEhkYBnVgogxO0apIE3lUDzigoKC4FxaK6jyZ7zoblU6Dn4ZmtBUbjt2a9YnXTK6qi_17kpGVb-43xfUc1tSDLuGkZXxf2CGSDMVivivHfSl_IwAwhWcMyXGS3C" />
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Layout Container -->
+    <div class="flex max-w-container-max mx-auto pt-16 min-h-screen">
+        <!-- SideNavBar (Left) -->
+        <aside
+            class="hidden lg:flex w-sidebar-width h-[calc(100vh-4rem)] sticky top-16 bg-surface-container-lowest dark:bg-surface-container-low border-r border-border-subtle dark:border-outline-variant flex-col gap-stack-md p-stack-lg overflow-y-auto">
+            <div class="flex items-center gap-stack-md mb-stack-md">
+                <div
+                    class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                    <span class="material-symbols-outlined">person</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-sm text-headline-sm text-primary">Welcome back</h3>
+                    <p class="font-body-md text-body-md text-slate-gray">Karma: 1,250</p>
+                </div>
+            </div>
+            <nav class="flex flex-col gap-1">
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="font-body-md text-body-md">Home</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">group</span>
+                    <span class="font-body-md text-body-md">My Communities</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <span class="font-body-md text-body-md">Suggested People</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">bookmark</span>
+                    <span class="font-body-md text-body-md">Saved Content</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container font-semibold rounded-lg translate-x-1 duration-150"
+                    href="#">
+                    <span class="material-symbols-outlined">search</span>
+                    <span class="font-body-md text-body-md">Search</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="font-body-md text-body-md">Settings</span>
+                </a>
+            </nav>
+            <button
+                class="mt-4 bg-electric-blue text-white py-2 px-4 rounded-lg font-label-md text-label-md shadow-sm hover:opacity-90 active:scale-95 transition-all">
+                Create Post
+            </button>
+            <!-- Recent Searches Section -->
+            <div class="mt-8">
+                <h4 class="font-label-md text-label-md text-slate-gray uppercase tracking-wider mb-stack-md">Recent
+                    Searches</h4>
+                <ul class="space-y-2">
+                    <li
+                        class="flex items-center justify-between text-body-md text-on-surface-variant hover:text-electric-blue cursor-pointer group">
+                        <span class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">history</span>
+                            Internal API Docs
+                        </span>
+                        <span
+                            class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100">close</span>
+                    </li>
+                    <li
+                        class="flex items-center justify-between text-body-md text-on-surface-variant hover:text-electric-blue cursor-pointer group">
+                        <span class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">history</span>
+                            Q4 Roadmap
+                        </span>
+                        <span
+                            class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100">close</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="mt-auto border-t border-border-subtle pt-stack-md">
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:text-electric-blue text-body-md"
+                    href="#">
+                    <span class="material-symbols-outlined">help</span>
+                    Help
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:text-electric-blue text-body-md"
+                    href="#">
+                    <span class="material-symbols-outlined">shield</span>
+                    Privacy
+                </a>
+            </div>
+        </aside>
+        <!-- Search Canvas (Center) -->
+        <main class="flex-1 bg-surface-bright min-w-0 p-stack-lg">
+            <!-- Search Header -->
+            <div class="max-w-3xl mx-auto space-y-stack-lg mb-10">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-slate-gray">search</span>
+                    </div>
+                    <input
+                        class="block w-full pl-12 pr-4 py-4 bg-white dark:bg-surface-container border border-border-subtle rounded-xl text-body-lg shadow-sm focus:ring-2 focus:ring-electric-blue focus:border-electric-blue transition-all outline-none"
+                        placeholder="Search for people, posts, or knowledge..." type="text"
+                        value="Architecture scalability in cloud systems" />
+                    <button
+                        class="absolute inset-y-2 right-2 px-6 bg-electric-blue text-white rounded-lg font-label-md hover:bg-opacity-90 transition-all">
+                        Search
+                    </button>
+                </div>
+                <!-- Tabbed Filters -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide no-scrollbar">
+                    <button
+                        class="px-5 py-2 rounded-full bg-electric-blue text-white font-label-md whitespace-nowrap">All</button>
+                    <button
+                        class="px-5 py-2 rounded-full border border-border-subtle hover:bg-surface-container text-slate-gray font-label-md whitespace-nowrap">People</button>
+                    <button
+                        class="px-5 py-2 rounded-full border border-border-subtle hover:bg-surface-container text-slate-gray font-label-md whitespace-nowrap">Communities</button>
+                    <button
+                        class="px-5 py-2 rounded-full border border-border-subtle hover:bg-surface-container text-slate-gray font-label-md whitespace-nowrap">Posts</button>
+                    <button
+                        class="px-5 py-2 rounded-full border border-border-subtle hover:bg-surface-container text-slate-gray font-label-md whitespace-nowrap">Articles</button>
+                    <button
+                        class="px-5 py-2 rounded-full border border-border-subtle hover:bg-surface-container text-slate-gray font-label-md whitespace-nowrap">Videos</button>
+                    <button
+                        class="px-5 py-2 rounded-full border border-border-subtle hover:bg-surface-container text-slate-gray font-label-md whitespace-nowrap">Podcasts</button>
+                    <button
+                        class="px-5 py-2 rounded-full border border-border-subtle hover:bg-surface-container text-slate-gray font-label-md whitespace-nowrap">Jobs</button>
+                </div>
+            </div>
+            <!-- Results List -->
+            <div class="max-w-3xl mx-auto space-y-stack-md">
+                <div class="flex justify-between items-center mb-stack-md">
+                    <h2 class="font-headline-sm text-headline-sm text-primary">About 142 results</h2>
+                    <div class="flex items-center gap-2 text-slate-gray font-body-md">
+                        <span>Sort by:</span>
+                        <select
+                            class="bg-transparent border-none focus:ring-0 cursor-pointer font-semibold text-on-surface">
+                            <option>Relevance</option>
+                            <option>Newest First</option>
+                            <option>Most Viewed</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Result Card: Article -->
+                <div
+                    class="bg-white dark:bg-surface-container card-shadow rounded-xl p-stack-lg hover:border-electric-blue border border-transparent transition-all group cursor-pointer">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span
+                                    class="bg-blue-50 dark:bg-secondary-fixed-dim/20 text-electric-blue text-[11px] font-bold uppercase px-2 py-0.5 rounded">Article</span>
+                                <span class="text-meta-sm text-slate-gray">• Oct 12, 2023</span>
+                            </div>
+                            <h3
+                                class="font-headline-sm text-headline-sm text-primary group-hover:text-electric-blue transition-colors mb-2">
+                                Scalable Architecture: Building for the Next Million Users</h3>
+                            <p class="text-body-md text-on-surface-variant line-clamp-2">
+                                ...discussing how <mark class="bg-yellow-100">architecture scalability</mark> is no
+                                longer just about load balancers, but how data partitions are handled in <mark
+                                    class="bg-yellow-100">cloud systems</mark>. We look at multi-regional clusters...
+                            </p>
+                            <div class="mt-4 flex items-center gap-4 text-meta-sm text-slate-gray">
+                                <span class="flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[16px]">visibility</span> 4.2k
+                                    views</span>
+                                <span class="flex items-center gap-1"><span
+                                        class="material-symbols-outlined text-[16px]">person</span> By David Chen</span>
+                            </div>
+                        </div>
+                        <div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                            <img class="w-full h-full object-cover"
+                                data-alt="A clean, minimalist 3D rendering of interconnected glowing nodes and cubes representing a digital cloud architecture. The design uses a professional palette of Electric Blue, Slate Gray, and White with soft ambient occlusion shadows, fitting a high-tech enterprise internal tool aesthetic."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM067JmLUrf3JbhEn0RktZW5g0dckyujXP52xIfIkRXztBXPg--Ub50TJO7myZNhYNW0VGNQX0Y9DJ-h1ppN6j1QNb2swI7XgDyLhU1RSTqPPXx3d65WMu_xTRaJB8s373vs5rFBJcehdI_pl46mdckp3LN1g48At_vdk0Yf4FUVXxpu7S0j1GtjajkSrWZov9stRCSiK5QIQ_P9jLMyrtx7UZbSIuXC-7azQMGJxjs0GiCA_YW8pj39IgqwfvQKTt4gGhY4UGa5NR" />
+                        </div>
+                    </div>
+                </div>
+                <!-- Result Card: Post -->
+                <div
+                    class="bg-white dark:bg-surface-container card-shadow rounded-xl p-stack-lg hover:border-electric-blue border border-transparent transition-all group cursor-pointer">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span
+                                    class="bg-teal-50 dark:bg-teal-accent/20 text-teal-accent text-[11px] font-bold uppercase px-2 py-0.5 rounded">Post</span>
+                                <span class="text-meta-sm text-slate-gray">• 2 days ago</span>
+                            </div>
+                            <h3
+                                class="font-headline-sm text-headline-sm text-primary group-hover:text-electric-blue transition-colors mb-2">
+                                New AWS Best Practices for Serverless Scaling</h3>
+                            <p class="text-body-md text-on-surface-variant line-clamp-2">
+                                Does anyone have experience with AWS Lambda provisioned concurrency for high-burst <mark
+                                    class="bg-yellow-100">scalability</mark>? Looking to optimize our <mark
+                                    class="bg-yellow-100">cloud systems</mark> latency...
+                            </p>
+                            <div class="mt-4 flex items-center gap-3">
+                                <div class="flex -space-x-2">
+                                    <div
+                                        class="w-6 h-6 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
+                                        <img class="w-full h-full object-cover"
+                                            data-alt="A small professional headshot of a diverse female engineer with a friendly expression. Soft studio lighting and a clean gray backdrop, representing professional expertise in a corporate environment."
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-NUB14ZTRy8ARrVwFifjTJXlOBi2C84z5PzZwiGTO_YDD2r5I7HID26cROzbKndMN0Bh5uV2KD4dMPcK2mSlHCNejfVD-QSlZJT5Gd61vl7Kf1uJK7ggZJN_ddvSRvAHluCvw88KukFZ8EOXIyFpOmrZsOojP4hutTrwDLnZ31j71Hl-kfnEgN3nH532aXS1JQUZ3vbEnoMGrDZDkaFOvOn_JhGkXV7a7cjuNRZsA_vNmD1PJ844jiSOavkoD0Ay-KKl2WRz5wQEc" />
+                                    </div>
+                                    <div
+                                        class="w-6 h-6 rounded-full border-2 border-white bg-slate-300 overflow-hidden">
+                                        <img class="w-full h-full object-cover"
+                                            data-alt="A professional headshot of a male software architect with glasses, smiling warmly. The image is bright and professional, following the Knome platform's clean corporate aesthetic."
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZvJelsu3SdOt6AxqNxljdKvQfH5QEMLs1K5_k3hVRv_cw_SdnlDXUQCdsyfTORyNbqu9o9zSFxRpgDnmAkyxOFDb6B_8rNq7PdNEQL7adclPuCogwiKtiJGyViYNb_IzDPYAEtNa4IJB7blOJhmlHyazqpeFigKoujmlzUIcBOYJGKNzBQABeC8bbF3JGbo0ha2rB2ldmEfI3NhuVJUT3dafK9STm3o9eiST7xWcl8ukvdzlFNuHC_fQX86mvDBcDr-znuv6HoZLG" />
+                                    </div>
+                                </div>
+                                <span class="text-meta-sm text-slate-gray">Sarah and 14 others commented</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Result Card: Community -->
+                <div
+                    class="bg-white dark:bg-surface-container card-shadow rounded-xl p-stack-lg hover:border-electric-blue border border-transparent transition-all group cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-16 h-16 rounded-xl bg-gradient-to-br from-electric-blue to-teal-accent flex items-center justify-center text-white">
+                            <span class="material-symbols-outlined text-3xl">cloud_done</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span
+                                    class="bg-slate-100 dark:bg-slate-gray/20 text-slate-gray text-[11px] font-bold uppercase px-2 py-0.5 rounded">Community</span>
+                            </div>
+                            <h3
+                                class="font-headline-sm text-headline-sm text-primary group-hover:text-electric-blue transition-colors">
+                                Cloud Architecture Guild</h3>
+                            <p class="text-body-md text-on-surface-variant">The official internal group for discussing
+                                enterprise-grade <mark class="bg-yellow-100">cloud systems</mark> and platform
+                                infrastructure.</p>
+                        </div>
+                        <button
+                            class="px-4 py-2 border border-border-subtle rounded-lg font-label-md hover:bg-surface-container transition-all">Join</button>
+                    </div>
+                </div>
+                <!-- Result Card: Person -->
+                <div
+                    class="bg-white dark:bg-surface-container card-shadow rounded-xl p-stack-lg hover:border-electric-blue border border-transparent transition-all group cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-full overflow-hidden">
+                            <img class="w-full h-full object-cover"
+                                data-alt="A portrait of an Asian male professional in his 40s, Principal Architect, wearing a modern navy polo. The background is a blurred office space with soft lighting, reflecting seniority and approachability within a modern tech company."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbBGUvlYZq_Q40S0Xyif9pKqFJ1NYRhFbnjFXbBtV51ixzwPfix5VDysBsj7y1Db5N8c3NDNOEC_2-PgxhJnzGVhgrt1zvrwUiS27h5hICvBieJf_cgRaYgtzrlzsn5DpDbbrmyxs79P7pOLLrYOpmAXvzq3duDgD2Ee_pA_FFB6dL9QJcKXDz3jELGTcMZK5hRJXeG1BwaPvwsV_FngAmSwLyfHBk_dCsGMtJ3Dbmhl6LQKqTYA-PYD5IhJ-3zwD0YrYseV22YRzo" />
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span
+                                    class="bg-purple-50 dark:bg-purple-900/20 text-purple-600 text-[11px] font-bold uppercase px-2 py-0.5 rounded">Person</span>
+                            </div>
+                            <h3
+                                class="font-headline-sm text-headline-sm text-primary group-hover:text-electric-blue transition-colors">
+                                Marcus Watanabe</h3>
+                            <p class="text-body-md text-on-surface-variant">Principal Cloud Architect • Infrastructure
+                                Department</p>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <span class="text-teal-accent font-bold text-meta-sm">Karma: 4.8k</span>
+                            <button
+                                class="px-4 py-2 bg-secondary-container text-on-secondary-container rounded-lg font-label-md hover:bg-opacity-90 transition-all">Connect</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Pagination -->
+            <div class="max-w-3xl mx-auto flex items-center justify-center gap-2 mt-stack-lg py-10">
+                <button
+                    class="w-10 h-10 flex items-center justify-center rounded-lg border border-border-subtle text-slate-gray hover:bg-surface-container transition-all"><span
+                        class="material-symbols-outlined">chevron_left</span></button>
+                <button
+                    class="w-10 h-10 flex items-center justify-center rounded-lg bg-electric-blue text-white font-label-md">1</button>
+                <button
+                    class="w-10 h-10 flex items-center justify-center rounded-lg border border-border-subtle text-slate-gray hover:bg-surface-container font-label-md transition-all">2</button>
+                <button
+                    class="w-10 h-10 flex items-center justify-center rounded-lg border border-border-subtle text-slate-gray hover:bg-surface-container font-label-md transition-all">3</button>
+                <span class="px-2 text-slate-gray">...</span>
+                <button
+                    class="w-10 h-10 flex items-center justify-center rounded-lg border border-border-subtle text-slate-gray hover:bg-surface-container font-label-md transition-all">12</button>
+                <button
+                    class="w-10 h-10 flex items-center justify-center rounded-lg border border-border-subtle text-slate-gray hover:bg-surface-container transition-all"><span
+                        class="material-symbols-outlined">chevron_right</span></button>
+            </div>
+        </main>
+        <!-- Right Filter Rail (Desktop) -->
+        <aside
+            class="hidden xl:block w-rail-width h-[calc(100vh-4rem)] sticky top-16 bg-background p-stack-lg space-y-8 overflow-y-auto">
+            <div class="space-y-stack-md">
+                <h3 class="font-headline-sm text-headline-sm text-primary flex items-center gap-2">
+                    <span class="material-symbols-outlined">filter_list</span>
+                    Advanced Filters
+                </h3>
+                <!-- Date Range Filter -->
+                <div class="space-y-3">
+                    <label class="font-label-md text-label-md text-slate-gray uppercase tracking-wider">Date
+                        Range</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 text-body-md text-on-surface cursor-pointer">
+                            <input checked=""
+                                class="w-4 h-4 text-electric-blue focus:ring-electric-blue border-border-subtle"
+                                name="date" type="radio" />
+                            Anytime
+                        </label>
+                        <label class="flex items-center gap-3 text-body-md text-on-surface cursor-pointer">
+                            <input class="w-4 h-4 text-electric-blue focus:ring-electric-blue border-border-subtle"
+                                name="date" type="radio" />
+                            Last 24 hours
+                        </label>
+                        <label class="flex items-center gap-3 text-body-md text-on-surface cursor-pointer">
+                            <input class="w-4 h-4 text-electric-blue focus:ring-electric-blue border-border-subtle"
+                                name="date" type="radio" />
+                            Last week
+                        </label>
+                        <label class="flex items-center gap-3 text-body-md text-on-surface cursor-pointer">
+                            <input class="w-4 h-4 text-electric-blue focus:ring-electric-blue border-border-subtle"
+                                name="date" type="radio" />
+                            Last month
+                        </label>
+                    </div>
+                </div>
+                <hr class="border-border-subtle" />
+                <!-- Department Filter -->
+                <div class="space-y-3">
+                    <label
+                        class="font-label-md text-label-md text-slate-gray uppercase tracking-wider">Department</label>
+                    <select
+                        class="w-full bg-white dark:bg-surface-container border border-border-subtle rounded-lg p-2 font-body-md focus:ring-2 focus:ring-electric-blue outline-none transition-all">
+                        <option>All Departments</option>
+                        <option>Engineering</option>
+                        <option>Product Management</option>
+                        <option>Human Resources</option>
+                        <option>Marketing</option>
+                    </select>
+                </div>
+                <hr class="border-border-subtle" />
+                <!-- Content Sentiment/Type Filter -->
+                <div class="space-y-3">
+                    <label
+                        class="font-label-md text-label-md text-slate-gray uppercase tracking-wider">Verification</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 text-body-md text-on-surface cursor-pointer">
+                            <input checked=""
+                                class="rounded w-4 h-4 text-electric-blue focus:ring-electric-blue border-border-subtle"
+                                type="checkbox" />
+                            Verified Knowledge Only
+                        </label>
+                        <label class="flex items-center gap-3 text-body-md text-on-surface cursor-pointer">
+                            <input
+                                class="rounded w-4 h-4 text-electric-blue focus:ring-electric-blue border-border-subtle"
+                                type="checkbox" />
+                            High Interaction
+                        </label>
+                    </div>
+                </div>
+                <button
+                    class="w-full py-2 bg-surface-container-highest text-primary font-label-md rounded-lg hover:bg-opacity-80 transition-all mt-4">
+                    Clear All Filters
+                </button>
+            </div>
+            <!-- Ad-like Promotion / Community Suggestion -->
+            <div class="bg-primary-container p-stack-lg rounded-xl text-white relative overflow-hidden group">
+
+                <div class="relative z-10">
+                    <h4 class="font-headline-sm text-headline-sm mb-2">Need Expert Help?</h4>
+                    <p class="text-body-md opacity-90 mb-4">Connect with our Cloud Architecture Mentors directly for
+                        deep dives into scalability problems.</p>
+                    <button
+                        class="bg-white text-primary-container px-4 py-2 rounded-lg font-bold text-label-md hover:bg-opacity-90 transition-all">View
+                        Mentors</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <!-- Footer -->
+    <footer
+        class="bg-surface-container-lowest dark:bg-surface-container-low border-t border-border-subtle dark:border-outline-variant py-stack-lg">
+        <div
+            class="flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto px-margin-page gap-stack-md">
+            <span class="font-headline-sm text-headline-sm font-bold text-primary">Knome</span>
+            <div class="flex gap-6">
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue underline transition-all"
+                    href="#">User Agreement</a>
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue underline transition-all"
+                    href="#">Knowledge Base</a>
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue underline transition-all"
+                    href="#">Support</a>
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue underline transition-all"
+                    href="#">Feedback</a>
+            </div>
+            <p class="text-slate-gray font-label-md text-label-md opacity-80">© 2024 Knome Internal Platform</p>
+        </div>
+    </footer>
+    <!-- Micro-interactions Script -->
+    <script>
+        // Simple dark mode toggle simulation (can be expanded)
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        // Add a shortcut listener for the search bar (focus on '/')
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+                e.preventDefault();
+                document.querySelector('input[type="text"]').focus();
+            }
+        });
+
+        // Search Bar Glow Effect on Input
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.01]');
+            searchInput.parentElement.classList.add('transition-transform');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.01]');
+        });
+    </script>
+
+    <script>
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

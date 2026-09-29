@@ -1,0 +1,27 @@
+- [x] Create task.md and configure project
+- [x] Configure connection string in appsettings.json and appsettings.Development.json
+- [x] Create Constants/ApiConstants.cs
+- [x] Create Configuration/CorsSettings.cs
+- [x] Create Exceptions (NotFoundException.cs, BadRequestException.cs, ConflictException.cs)
+- [x] Create Responses/ApiResponse.cs
+- [x] Create Middleware/ExceptionHandlingMiddleware.cs
+- [x] Create Interfaces/IRepository.cs
+- [x] Create Repositories/Repository.cs
+- [x] Create Extensions/ServiceCollectionExtensions.cs
+- [x] Create Extensions/ApplicationBuilderExtensions.cs
+- [x] Update Program.cs
+- [x] Restore packages and build the project
+- [x] Verify build is successful with zero errors and warnings
+- [x] Create Development Journal: Documentation/Development Journal/01_Infrastructure.md
+
+# Phase 2: Authentication Foundation
+- [x] Install BCrypt.Net-Next and JwtBearer NuGet packages
+- [x] Create Configuration/JwtSettings.cs & Constants/Roles.cs
+- [x] Create Auth DTOs (LoginRequestDto, LoginResponseDto, CurrentUserDto)
+- [x] Create Validators/Auth/LoginRequestValidator.cs
+- [x] Create Interfaces/IAuthService.cs & Services/AuthService.cs
+- [x] Create Controllers/AuthController.cs
+- [x] Update DI configuration & middleware pipeline for JWT Authentication and Authorization
+- [x] Verify project builds with zero errors and zero warnings
+- [x] Seed test user credentials and verify login + current user retrieval flows end-to-end against live DB
+- [x] Create Development Journal: Documentation/Development Journal/02_Authentication_Foundation.md

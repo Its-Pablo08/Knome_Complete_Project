@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knome — RBAC & Community Governance Architecture Specification</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --accent-cyan: #0891b2;
+            --accent-purple: #7c3aed;
+            --accent-amber: #d97706;
+            --accent-emerald: #059669;
+            --accent-rose: #e11d48;
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --bg-light: #f8fafc;
+            --card-border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .paper-container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 56px 64px;
+        }
+
+        /* Top Action Bar for PDF Export */
+        .no-print-bar {
+            max-width: 960px;
+            margin: 0 auto 24px auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #0f172a;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.4);
+            transition: all 0.2s ease;
+        }
+
+        .btn-print:hover {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            transform: translateY(-1px);
+        }
+
+        /* Document Header */
+        .doc-header {
+            border-bottom: 2px solid #0f172a;
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .doc-title {
+            font-size: 28px;
+            font-weight: 900;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .doc-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        .badge-enterprise {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid #bae6fd;
+            text-align: right;
+        }
+
+        /* Section Headings */
+        h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 36px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 20px 0 10px 0;
+        }
+
+        p, li {
+            font-size: 14px;
+            color: #334155;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px 0;
+            font-size: 13px;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: #0f172a;
+            text-align: left;
+            padding: 12px 14px;
+            font-weight: 800;
+            border-bottom: 2px solid #cbd5e1;
+            border-top: 1px solid var(--card-border);
+        }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+
+        /* Role & Status Pills */
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .pill-blue { background: #dbeafe; color: #1e40af; }
+        .pill-purple { background: #ede9fe; color: #6b21a8; }
+        .pill-amber { background: #fef3c7; color: #92400e; }
+        .pill-emerald { background: #d1fae5; color: #065f46; }
+        .pill-rose { background: #ffe4e6; color: #9f1239; }
+
+        /* Card Callouts */
+        .callout {
+            border-left: 4px solid var(--primary-light);
+            background: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 20px 0;
+        }
+
+        .callout-title {
+            font-weight: 800;
+            font-size: 14px;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 18px;
+            background: #ffffff;
+        }
+
+        .feature-card-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        .code-block {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 16px 20px;
+            border-radius: 10px;
+            font-size: 12px;
+            line-height: 1.6;
+            margin: 16px 0;
+            overflow-x: auto;
+        }
+
+        /* Page Break Rules for Print */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .no-print-bar {
+                display: none !important;
+            }
+            .paper-container {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            h2 {
+                page-break-after: avoid;
+            }
+            table, .feature-card, .callout {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Print Control Bar (Hidden during Print to PDF) -->
+    <div class="no-print-bar">
+        <div>
+            <strong style="font-size: 15px; letter-spacing: -0.3px;">Knome Architecture Specification Document</strong>
+            <p style="font-size: 12px; color: #94a3b8; margin-top: 2px;">Role-Based Access Control (RBAC) & Community Classification</p>
+        </div>
+        <button class="btn-print" onclick="window.print()">
+            <span class="material-symbols-outlined" style="font-size: 18px;">print</span>
+            Save / Print as PDF
+        </button>
+    </div>
+
+    <!-- Printable Paper Sheet -->
+    <div class="paper-container">
+
+        <!-- Document Header -->
+        <header class="doc-header">
+            <div>
+                <h1 class="doc-title">Role-Based Access Control (RBAC) &amp; Community Classification Specification</h1>
+                <p class="doc-subtitle">Enterprise Technical Architecture &bull; MPOnline Limited &bull; Version 1.0</p>
+            </div>
+            <div class="badge-enterprise">
+                MPONLINE LIMITED<br>
+                <span>CONFIDENTIAL</span>
+            </div>
+        </header>
+
+        <!-- 1. Executive Summary -->
+        <section>
+            <h2>1. Executive Overview &amp; Governance Objectives</h2>
+            <p>
+                The <strong>Knome Enterprise Platform</strong> enforces strict multi-tenant Role-Based Access Control (RBAC) and granular space segmentation to ensure secure corporate communication, intellectual property protection, and authorized content governance across all departments of <strong>MPOnline Limited</strong>.
+            </p>
+            <p style="margin-top: 10px;">
+                This document defines the technical policies, API authorization filters, and operational lifecycles for:
+            </p>
+            <ul>
+                <li>The <strong>4 Core Enterprise Roles</strong> (Employee, Community Admin, HR Administrator, System Administrator).</li>
+                <li>The <strong>3 Community Space Classifications</strong> (Public, Private, and Organization Default Communities).</li>
+                <li>The complete <strong>Community Creation &amp; Administrative Approval Workflow</strong>.</li>
+            </ul>
+        </section>
+
+        <!-- 2. RBAC Roles & Capabilities -->
+        <section>
+            <h2>2. Four-Tier RBAC Architecture</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Role Name</th>
+                        <th>Role Code</th>
+                        <th>Target User Scope</th>
+                        <th>Core Responsibilities &amp; Capabilities</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Employee</strong></td>
+                        <td><span class="pill pill-blue">EMP</span></td>
+                        <td>All standard active personnel</td>
+                        <td>
+                            • Self-service content creation (Posts, Knowledge Articles, Videos, Podcasts).<br>
+                            • Discover and join Public communities; submit join requests for Private communities.<br>
+                            • Peer-to-peer discussions, reactions, comments, and file attachments.<br>
+                            • Autonomous Karma earning, tier progression, and leaderboard visibility.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Community Admin</strong></td>
+                        <td><span class="pill pill-purple">CADM</span></td>
+                        <td>Departmental leads &amp; group creators</td>
+                        <td>
+                            • Full governance within designated community spaces.<br>
+                            • Review, approve, or reject pending community membership requests.<br>
+                            • Moderate discussions, pin important announcements, and edit community rules/FAQs.<br>
+                            • Remove disruptive members and assign co-moderators.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>HR Administrator</strong></td>
+                        <td><span class="pill pill-amber">HRADM</span></td>
+                        <td>HR department &amp; corporate operations</td>
+                        <td>
+                            • Review, approve, or reject employee community creation requests.<br>
+                            • Publish organization-wide broadcasts and mandatory policy announcements.<br>
+                            • Full access to <strong>HR Workforce Analytics (RPT-01 to RPT-05)</strong>.<br>
+                            • Export engagement and community health reports to CSV and Excel (.xls).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>System Administrator</strong></td>
+                        <td><span class="pill pill-rose">SYSADM</span></td>
+                        <td>IT Security &amp; Infrastructure Leads</td>
+                        <td>
+                            • Sovereign platform administration and global security governance.<br>
+                            • Access immutable <strong>Security Audit Logs</strong> with IP &amp; event tracking.<br>
+                            • Activate, deactivate, or suspend employee accounts.<br>
+                            • Assign and revoke RBAC roles; manage YARP gateway and server health.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout">
+                <div class="callout-title">Backend Security Enforcement</div>
+                <p>
+                    All API controllers enforce RBAC via ASP.NET Core <code>[Authorize(Roles = "...")]</code> filters. Claims are verified directly from cryptographic HMAC-SHA256 JWT tokens issued either by Knome API or EmployeeHub Identity Server (Dual-Issuer Trust).
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. Community Classifications -->
+        <section class="page-break">
+            <h2>3. Community Classifications: Public, Private &amp; Default</h2>
+            <p>
+                Communities in Knome provide structured collaboration environments tailored for open discussion, specialized projects, or mandatory corporate synchronization.
+            </p>
+
+            <div class="card-grid">
+                <!-- Public Community Card -->
+                <div class="feature-card" style="border-top: 4px solid var(--accent-emerald);">
+                    <div class="feature-card-title" style="color: var(--accent-emerald);">
+                        <span class="material-symbols-outlined">public</span> Public Community
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+                        Open corporate knowledge exchanges accessible to the entire MPOnline organization.
+                    </p>
+                    <ul style="font-size: 12px; margin-left: 16px; margin-bottom: 0;">
+                        <li><strong>Join Process:</strong> Instant 1-click self-enrollment.</li>
+                        <li><strong>Approval Barrier:</strong> None required.</li>
+                        <li><strong>Visibility:</strong> Feeds, articles, and member rosters are 100% discoverable.</li>
+                        <li><strong>Use Case:</strong> Tech forums, photography clubs, innovation circles.</li>
+                    </ul>
+                </div>
+
+                <!-- Private Community Card -->
+                <div class="feature-card" style="border-top: 4px solid var(--accent-purple);">
+                    <div class="feature-card-title" style="color: var(--accent-purple);">
+                        <span class="material-symbols-outlined">lock</span> Private Community
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+                        Confidential workgroups, leadership committees, and project-specific pods.
+                    </p>
+                    <ul style="font-size: 12px; margin-left: 16px; margin-bottom: 0;">
+                        <li><strong>Join Process:</strong> Submit Request to Join.</li>
+                        <li><strong>Approval Barrier:</strong> Community Admin / HR Admin must approve.</li>
+                        <li><strong>Visibility:</strong> Internal feeds &amp; files hidden until membership approval.</li>
+                        <li><strong>Use Case:</strong> Project Phoenix, Executive Board, Legal/Finance teams.</li>
+                    </ul>
+                </div>
+
+                <!-- Default Community Card -->
+                <div class="feature-card" style="border-top: 4px solid var(--primary-light);">
+                    <div class="feature-card-title" style="color: var(--primary);">
+                        <span class="material-symbols-outlined">corporate_fare</span> Organization Default
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+                        Mandatory organization-wide spaces managed exclusively by HR Administration.
+                    </p>
+                    <ul style="font-size: 12px; margin-left: 16px; margin-bottom: 0;">
+                        <li><strong>Join Process:</strong> Automated enrollment upon account creation.</li>
+                        <li><strong>Approval Barrier:</strong> N/A (Pre-assigned).</li>
+                        <li><strong>Visibility:</strong> Mandatory for all designated employees.</li>
+                        <li><strong>Use Case:</strong> All MPOnline Official, Townhalls, Compliance Updates.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Comparison Matrix -->
+            <h3>Comparative Matrix Across Community Types</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature / Attribute</th>
+                        <th>Public Community</th>
+                        <th>Private Community</th>
+                        <th>Organization Default Community</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Access Method</strong></td>
+                        <td>Instant Self-Join</td>
+                        <td>Join Request &bull; Admin Approval</td>
+                        <td>Auto-Enrolled / Pre-Allocated</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Who Can Create?</strong></td>
+                        <td>Employees (with HR approval) or Admins</td>
+                        <td>Employees (with HR approval) or Admins</td>
+                        <td>HR Administrators &amp; System Admins Only</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Content Visibility</strong></td>
+                        <td>All MPOnline Employees</td>
+                        <td>Approved Members Only</td>
+                        <td>All Designated Employees</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Posting Permissions</strong></td>
+                        <td>All Active Members</td>
+                        <td>Approved Members</td>
+                        <td>All Members or Admin-Only Broadcast</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Karma Points Award</strong></td>
+                        <td>+10 Pts (Creator on Live Approval)</td>
+                        <td>+10 Pts (Creator on Live Approval)</td>
+                        <td>Institutional Community</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 4. Document Security & Sharing Restrictions -->
+        <section>
+            <h2>4. Document Security &amp; Sharing Governance</h2>
+            <p>
+                To maintain confidentiality and prevent data leakage across community channels:
+            </p>
+            <ul>
+                <li><strong>Protected Sandboxed Viewer:</strong> All attached technical PDFs, briefs, and manuals open strictly within Knome's in-app <code>DocumentViewerModal</code>. External download links and browser save ribbons are suppressed.</li>
+                <li><strong>Standardized 2-Option Share Modal:</strong> Content can only be shared to:
+                    <ol>
+                        <li><code>Share to Community</code> (Broadcast into an approved community feed).</li>
+                        <li><code>Share with Users</code> (Targeted peer notification to specific colleagues).</li>
+                    </ol>
+                </li>
+                <li><strong>Audit Trail Tracking:</strong> All moderator actions, community approvals, and role updates are permanently logged into <code>dbo.AuditLogs</code> for institutional compliance.</li>
+            </ul>
+        </section>
+
+        <!-- Document Sign-off Footer -->
+        <footer style="margin-top: 48px; padding-top: 24px; border-top: 2px solid #0f172a; display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); font-weight: 700;">
+            <div>MPOnline Limited &bull; Knome Knowledge Platform</div>
+            <div>Approved for Enterprise Release &bull; Version 1.0</div>
+        </footer>
+
+    </div>
+
+</body>
+</html>

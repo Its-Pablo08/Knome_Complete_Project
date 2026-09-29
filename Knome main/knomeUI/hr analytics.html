@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Knome | HR Analytics Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-secondary": "#ffffff",
+                        "slate-gray": "#64748B",
+                        "primary-fixed": "#dae2fd",
+                        "surface-container-low": "#f2f4f6",
+                        "primary-container": "#131b2e",
+                        "on-tertiary-container": "#0c9488",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "inverse-surface": "#2d3133",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#fefcff",
+                        "on-error-container": "#93000a",
+                        "secondary": "#0058be",
+                        "outline": "#76777d",
+                        "border-subtle": "#E2E8F0",
+                        "tertiary": "#000000",
+                        "teal-accent": "#14B8A6",
+                        "surface-tint": "#565e74",
+                        "on-background": "#191c1e",
+                        "surface-container": "#eceef0",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-fixed": "#131b2e",
+                        "surface": "#f7f9fb",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-fixed": "#d8e2ff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#004395",
+                        "charcoal-dark": "#1E293B",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface-container-highest": "#e0e3e5",
+                        "electric-blue": "#2563EB",
+                        "inverse-primary": "#bec6e0",
+                        "on-primary-container": "#7c839b",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-secondary-fixed": "#001a42",
+                        "tertiary-container": "#00201d",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "on-tertiary-fixed": "#00201d",
+                        "tertiary-fixed": "#89f5e7",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "primary": "#000000",
+                        "secondary-container": "#2170e4",
+                        "surface-container-high": "#e6e8ea",
+                        "outline-variant": "#c6c6cd",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "rail-width": "300px",
+                        "container-max": "1280px",
+                        "stack-lg": "24px",
+                        "gutter": "24px",
+                        "margin-page": "32px",
+                        "stack-sm": "8px",
+                        "sidebar-width": "260px"
+                    },
+                    "fontFamily": {
+                        "meta-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "meta-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(71, 85, 105, 0.4);
+        }
+
+        .card-shadow {
+            box-shadow: 0px 1px 3px rgba(15, 23, 42, 0.08), 0px 4px 6px rgba(15, 23, 42, 0.05);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E2E8F0;
+            border-radius: 10px;
+        }
+    </style>
+
+    <script>
+        // Apply theme immediately to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        }
+    </script>
+
+    <style id="dark-mode-overrides">
+        .dark body {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        .dark nav, .dark aside, .dark .bg-white, .dark .bg-surface-container-lowest, 
+        .dark .bg-surface-container-low, .dark .bg-surface-container, .dark .bg-surface,
+        .dark article, .dark .glass-card {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, 
+        .dark .text-primary, .dark .text-on-surface, .dark .text-on-secondary-container {
+            color: #f8fafc !important;
+        }
+        .dark p, .dark span, .dark .text-slate-gray, .dark .text-on-surface-variant {
+            color: #cbd5e1 !important;
+        }
+        .dark input, .dark textarea, .dark select {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+        .dark .border-border-subtle, .dark .border-outline-variant, .dark .border {
+            border-color: #334155 !important;
+        }
+        .dark .bg-secondary-container {
+            background-color: #3b82f6 !important; /* electric blue / active state */
+            color: white !important;
+        }
+        .dark .text-electric-blue {
+            color: #60a5fa !important;
+        }
+        .dark .hover\:bg-surface-container:hover {
+            background-color: #334155 !important;
+        }
+    </style>
+
+</head>
+
+<body
+    class="bg-background dark:bg-surface text-on-surface selection:bg-electric-blue selection:text-white transition-colors duration-300">
+    <!-- TopNavBar Shell -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-surface-container-lowest dark:bg-surface-container-low border-b border-border-subtle dark:border-outline-variant shadow-sm">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page h-16">
+            <div class="flex items-center gap-stack-lg">
+                <span
+                    class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Knome</span>
+                <div class="hidden md:flex gap-6">
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Dashboard</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Communities</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Videos</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Podcasts</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Jobs</a>
+                    <a class="text-electric-blue font-bold border-b-2 border-electric-blue pb-1" href="#">Admin</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                
+                <button onclick="toggleTheme()" class="p-2 text-slate-gray hover:bg-surface-container hover:text-electric-blue rounded-full transition-all flex items-center justify-center">
+                    <span class="material-symbols-outlined dark:hidden">dark_mode</span>
+                    <span class="material-symbols-outlined hidden dark:block">light_mode</span>
+                </button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-all active:opacity-80">
+                    <span class="material-symbols-outlined text-slate-gray">notifications</span>
+                </button>
+                <button class="p-2 rounded-full hover:bg-surface-container transition-all active:opacity-80">
+                    <span class="material-symbols-outlined text-slate-gray">military_tech</span>
+                </button>
+                <button class="p-2 rounded-full hover:bg-surface-container transition-all" id="theme-toggle">
+                    <span class="material-symbols-outlined text-slate-gray" id="theme-icon">dark_mode</span>
+                </button>
+                <div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high border border-border-subtle">
+                    <img class="w-full h-full object-cover"
+                        data-alt="Close-up professional portrait of a tech executive with friendly features, wearing a modern charcoal suit against a clean, out-of-focus office background with soft blue lighting. The style is crisp, high-resolution corporate photography with a neutral, high-key atmosphere."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYcz3XtWvYIUOEAi9qbzwePynuKe9Wx_u0Tzv_o-AH2jbarigK3jC_PcQPPfaB0M_niIgbwSdVAZqLa60XYTfecBzEtOn6YwHg4Zop__wg1xJCvsAmr09HKEaUEOYxwO4fbqCTHYVxg6OPHvKlFmjWVIvLPge_f-y3TmgcvmyeO4zgGQHVn_86a8lh7MBCNo77gft3b__qftFoaGMY69O18VWPmfWrBXTCA5zbeKmXYbsrELmToA4aJXK1F7c-xlSbVfENCCqLCzc_" />
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="flex max-w-container-max mx-auto pt-16 min-h-screen">
+        <!-- SideNavBar Shell -->
+        <aside
+            class="hidden lg:flex flex-col gap-stack-md p-stack-lg w-sidebar-width h-[calc(100vh-64px)] sticky top-16 border-r border-border-subtle dark:border-outline-variant bg-surface-container-lowest dark:bg-surface-container-low">
+            <div class="flex items-center gap-3 mb-4">
+                <div
+                    class="w-10 h-10 rounded-full bg-electric-blue flex items-center justify-center text-white shadow-lg">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-sm text-headline-sm text-on-surface">Welcome back</h3>
+                    <p class="font-body-md text-body-md text-slate-gray">Karma: 1,250</p>
+                </div>
+            </div>
+            <nav class="flex-1 space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all group"
+                    href="#">
+                    <span class="material-symbols-outlined group-hover:translate-x-1 duration-150">home</span>
+                    <span class="font-body-md text-body-md">Home</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container font-semibold rounded-lg translate-x-1 transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+                    <span class="font-body-md text-body-md">My Communities</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all group"
+                    href="#">
+                    <span class="material-symbols-outlined group-hover:translate-x-1 duration-150">person_add</span>
+                    <span class="font-body-md text-body-md">Suggested People</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all group"
+                    href="#">
+                    <span class="material-symbols-outlined group-hover:translate-x-1 duration-150">bookmark</span>
+                    <span class="font-body-md text-body-md">Saved Content</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all group"
+                    href="#">
+                    <span class="material-symbols-outlined group-hover:translate-x-1 duration-150">settings</span>
+                    <span class="font-body-md text-body-md">Settings</span>
+                </a>
+            </nav>
+            <button
+                class="w-full bg-electric-blue text-white py-3 rounded-lg font-bold hover:brightness-110 active:scale-95 transition-all shadow-md">
+                Create Post
+            </button>
+            <div class="pt-4 border-t border-border-subtle dark:border-outline-variant space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container rounded-lg"
+                    href="#">
+                    <span class="material-symbols-outlined">help</span>
+                    <span class="font-label-md text-label-md">Help</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container rounded-lg"
+                    href="#">
+                    <span class="material-symbols-outlined">shield</span>
+                    <span class="font-label-md text-label-md">Privacy</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content Canvas -->
+        <main class="flex-1 bg-background dark:bg-surface p-margin-page overflow-x-hidden">
+            <!-- Header Section -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                <div>
+                    <h1 class="font-headline-lg text-headline-lg text-on-surface dark:text-white">HR Analytics Portal
+                    </h1>
+                    <p class="font-body-lg text-body-lg text-slate-gray">Tracking organizational health and community
+                        engagement metrics.</p>
+                </div>
+                <div class="flex gap-stack-sm">
+                    <button
+                        class="flex items-center gap-2 px-4 py-2 border border-border-subtle bg-white dark:bg-charcoal-dark dark:text-white rounded-lg hover:bg-surface-container-low transition-all">
+                        <span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                        <span class="font-label-md text-label-md">Last 30 Days</span>
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-4 py-2 bg-electric-blue text-white rounded-lg hover:brightness-110 transition-all">
+                        <span class="material-symbols-outlined text-[18px]">file_download</span>
+                        <span class="font-label-md text-label-md">Export Report</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Tabbed Navigation -->
+            <div
+                class="flex border-b border-border-subtle dark:border-outline-variant mb-stack-lg overflow-x-auto no-scrollbar">
+                <button
+                    class="px-6 py-3 border-b-2 border-electric-blue text-electric-blue font-bold whitespace-nowrap">User
+                    Engagement</button>
+                <button
+                    class="px-6 py-3 border-b-2 border-transparent text-slate-gray font-body-md hover:text-electric-blue transition-all whitespace-nowrap">Community
+                    Health</button>
+                <button
+                    class="px-6 py-3 border-b-2 border-transparent text-slate-gray font-body-md hover:text-electric-blue transition-all whitespace-nowrap">Content
+                    Performance</button>
+                <button
+                    class="px-6 py-3 border-b-2 border-transparent text-slate-gray font-body-md hover:text-electric-blue transition-all whitespace-nowrap">Trending</button>
+            </div>
+            <!-- Key Metric Grid (Bento Style) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter mb-stack-lg">
+                <div
+                    class="glass-card p-stack-md rounded-xl card-shadow group hover:border-electric-blue transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                            <span class="material-symbols-outlined text-electric-blue">group</span>
+                        </div>
+                        <span class="text-teal-accent font-label-md text-label-md flex items-center">
+                            +12% <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                        </span>
+                    </div>
+                    <p class="text-slate-gray font-label-md text-label-md mb-1">DAU</p>
+                    <h2 class="font-headline-md text-headline-md text-on-surface dark:text-white">4,821</h2>
+                    <p class="text-slate-gray text-[11px] mt-2 italic">Daily Active Users</p>
+                </div>
+                <div
+                    class="glass-card p-stack-md rounded-xl card-shadow group hover:border-electric-blue transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
+                            <span class="material-symbols-outlined text-purple-600">visibility</span>
+                        </div>
+                        <span class="text-teal-accent font-label-md text-label-md flex items-center">
+                            +5% <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                        </span>
+                    </div>
+                    <p class="text-slate-gray font-label-md text-label-md mb-1">MAU</p>
+                    <h2 class="font-headline-md text-headline-md text-on-surface dark:text-white">12,490</h2>
+                    <p class="text-slate-gray text-[11px] mt-2 italic">Monthly Active Users</p>
+                </div>
+                <div
+                    class="glass-card p-stack-md rounded-xl card-shadow group hover:border-electric-blue transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="p-2 bg-teal-50 dark:bg-teal-900/30 rounded-lg">
+                            <span class="material-symbols-outlined text-teal-accent">bolt</span>
+                        </div>
+                        <span class="text-error font-label-md text-label-md flex items-center">
+                            -2% <span class="material-symbols-outlined text-[14px]">trending_down</span>
+                        </span>
+                    </div>
+                    <p class="text-slate-gray font-label-md text-label-md mb-1">Active %</p>
+                    <h2 class="font-headline-md text-headline-md text-on-surface dark:text-white">84.2%</h2>
+                    <p class="text-slate-gray text-[11px] mt-2 italic">Engagement rate per head</p>
+                </div>
+                <div
+                    class="glass-card p-stack-md rounded-xl card-shadow group hover:border-electric-blue transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="p-2 bg-orange-50 dark:bg-orange-900/30 rounded-lg">
+                            <span class="material-symbols-outlined text-orange-600">post_add</span>
+                        </div>
+                        <span class="text-teal-accent font-label-md text-label-md flex items-center">
+                            +28% <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                        </span>
+                    </div>
+                    <p class="text-slate-gray font-label-md text-label-md mb-1">Content Count</p>
+                    <h2 class="font-headline-md text-headline-md text-on-surface dark:text-white">1,532</h2>
+                    <p class="text-slate-gray text-[11px] mt-2 italic">Posts created this month</p>
+                </div>
+            </div>
+            <!-- Visualization Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mb-stack-lg">
+                <!-- Karma Distribution -->
+                <div class="lg:col-span-1 glass-card p-stack-lg rounded-xl card-shadow">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-headline-sm text-headline-sm">Karma Distribution</h3>
+                        <button class="material-symbols-outlined text-slate-gray">more_vert</button>
+                    </div>
+                    <div class="relative h-48 flex items-end justify-between gap-2">
+                        <!-- Simulated Chart -->
+                        <div class="w-full bg-surface-container h-[20%] rounded-t-sm relative group">
+                            <div
+                                class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-charcoal-dark text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                0-100 Karma</div>
+                        </div>
+                        <div class="w-full bg-electric-blue/40 h-[45%] rounded-t-sm relative group"></div>
+                        <div class="w-full bg-electric-blue/60 h-[75%] rounded-t-sm relative group"></div>
+                        <div class="w-full bg-electric-blue h-[95%] rounded-t-sm relative group"></div>
+                        <div class="w-full bg-electric-blue/70 h-[60%] rounded-t-sm relative group"></div>
+                        <div class="w-full bg-electric-blue/30 h-[30%] rounded-t-sm relative group"></div>
+                    </div>
+                    <div
+                        class="flex justify-between text-[10px] text-slate-gray mt-4 uppercase font-bold tracking-wider">
+                        <span>Newbie</span>
+                        <span>Expert</span>
+                        <span>Legend</span>
+                    </div>
+                </div>
+                <!-- New Joins Trend -->
+                <div class="lg:col-span-2 glass-card p-stack-lg rounded-xl card-shadow relative overflow-hidden">
+                    <div class="flex justify-between items-center mb-6 relative z-10">
+                        <h3 class="font-headline-sm text-headline-sm">New Joins Trend</h3>
+                        <div class="flex gap-2">
+                            <div class="flex items-center gap-1 text-[12px] text-slate-gray">
+                                <span class="w-2 h-2 rounded-full bg-electric-blue"></span> This Year
+                            </div>
+                            <div class="flex items-center gap-1 text-[12px] text-slate-gray">
+                                <span class="w-2 h-2 rounded-full bg-slate-300"></span> Last Year
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fake Line Chart Background -->
+                    <div class="h-48 w-full relative">
+                        <svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 400 100">
+                            <path d="M0,80 Q50,70 100,50 T200,30 T300,45 T400,10" fill="none" stroke="#2563EB"
+                                stroke-width="2" vector-effect="non-scaling-stroke"></path>
+                            <path d="M0,80 Q50,70 100,50 T200,30 T300,45 T400,10 L400,100 L0,100 Z"
+                                fill="url(#blueGradient)" opacity="0.1"></path>
+                            <path d="M0,90 Q50,85 100,70 T200,60 T300,75 T400,40" fill="none" stroke="#CBD5E1"
+                                stroke-dasharray="4" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+                            <defs>
+                                <lineargradient id="blueGradient" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#2563EB"></stop>
+                                    <stop offset="100%" stop-color="white" stop-opacity="0"></stop>
+                                </lineargradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="flex justify-between text-[11px] text-slate-gray mt-2">
+                        <span>Jan</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Top Contributors Table -->
+            <div class="glass-card rounded-xl card-shadow overflow-hidden">
+                <div
+                    class="p-stack-lg border-b border-border-subtle dark:border-outline-variant flex justify-between items-center">
+                    <h3 class="font-headline-sm text-headline-sm">Top Contributors Leaderboard</h3>
+                    <div class="relative group w-64">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-gray text-[18px]">search</span>
+                        <input
+                            class="w-full pl-10 pr-4 py-2 text-body-md border border-border-subtle rounded-lg focus:ring-2 focus:ring-electric-blue/20 focus:border-electric-blue outline-none transition-all dark:bg-charcoal-dark"
+                            placeholder="Search employee..." type="text" />
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-surface-container-low dark:bg-surface-container/10">
+                            <tr>
+                                <th class="px-stack-lg py-4 font-label-md text-label-md text-slate-gray">Rank</th>
+                                <th class="px-stack-lg py-4 font-label-md text-label-md text-slate-gray">Employee</th>
+                                <th class="px-stack-lg py-4 font-label-md text-label-md text-slate-gray">Department</th>
+                                <th class="px-stack-lg py-4 font-label-md text-label-md text-slate-gray">Karma</th>
+                                <th class="px-stack-lg py-4 font-label-md text-label-md text-slate-gray text-right">
+                                    Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border-subtle dark:divide-outline-variant">
+                            <tr
+                                class="hover:bg-surface-container-lowest dark:hover:bg-charcoal-dark/20 transition-colors">
+                                <td class="px-stack-lg py-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-yellow-400/20 text-yellow-600 font-bold flex items-center justify-center text-[12px]">
+                                        1</div>
+                                </td>
+                                <td class="px-stack-lg py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full border-2 border-yellow-400 overflow-hidden">
+                                            <img class="w-full h-full object-cover"
+                                                data-alt="Corporate headshot of a smiling female software engineer with glasses, professional lighting, modern minimalist background, 8k resolution, cinematic quality, vibrant yet natural colors."
+                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmyCpjI_awQ7UMNdswWbLIDLwXI8m71lP17TijTKWBe6D0bT7BYH-KBYXlwLZdx88DKGItX6NObr-1MpXye0lrH10Vj5zZW7eKx4L48Dvxxyscy_jFwJ4tOfGXxB-_s2Ma2cqQGWWPhdivZeWiYzI8w7yNRjq47NRWPydwHIR662JTLMJToMZ3BWhbd4Sg5TOmOZhaK-3qDbKo24OmKbv1DIVaYnWadNzSAs8XzsaFj54dz0FlKHDl_Ux9_wkCN2aKzmIuFVSAcKzZ" />
+                                        </div>
+                                        <div>
+                                            <p class="font-body-md font-semibold">Sarah Jenkins</p>
+                                            <p class="text-[11px] text-slate-gray">Senior Architect</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-stack-lg py-4"><span
+                                        class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-electric-blue text-[11px] rounded-full font-bold">Engineering</span>
+                                </td>
+                                <td class="px-stack-lg py-4 font-bold text-on-surface">18,240</td>
+                                <td class="px-stack-lg py-4 text-right">
+                                    <button class="text-electric-blue hover:underline text-[12px] font-bold">View
+                                        Profile</button>
+                                </td>
+                            </tr>
+                            <tr
+                                class="hover:bg-surface-container-lowest dark:hover:bg-charcoal-dark/20 transition-colors">
+                                <td class="px-stack-lg py-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-slate-200/50 text-slate-600 font-bold flex items-center justify-center text-[12px]">
+                                        2</div>
+                                </td>
+                                <td class="px-stack-lg py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full border-2 border-slate-300 overflow-hidden">
+                                            <img class="w-full h-full object-cover"
+                                                data-alt="Portrait of a male creative director with beard, wearing a beige linen shirt, bright studio lighting with soft shadows, minimalist aesthetic, warm tones, high-end professional photography."
+                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ8LvRwdK9Ebz6mJ4sMIvJbb471EVROssA0x_6QvXyQ94S62-CrkODlyWA5qy6KRIE4FirFt709W_hP4qkBZXXhAzAoIUNqZk-8iIIyyJQO1u6ALMY3z9tP8d9tRUq3IHHHYxtTT59tZOp_SnCUZlgl50uxaEzzKUIk29WGbC7VdMTk1sSCFrluW9nIbJIeMEe_bmgK4LXyxw0xTkk02a-MtTjfrDnT_2hciy6IMd8z3vp2nvmMm6JVs0jSAiUuiUlVBap9lfs6XeC" />
+                                        </div>
+                                        <div>
+                                            <p class="font-body-md font-semibold">Marcus Thorne</p>
+                                            <p class="text-[11px] text-slate-gray">Creative Director</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-stack-lg py-4"><span
+                                        class="px-2 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-600 text-[11px] rounded-full font-bold">Design</span>
+                                </td>
+                                <td class="px-stack-lg py-4 font-bold text-on-surface">15,902</td>
+                                <td class="px-stack-lg py-4 text-right">
+                                    <button class="text-electric-blue hover:underline text-[12px] font-bold">View
+                                        Profile</button>
+                                </td>
+                            </tr>
+                            <tr
+                                class="hover:bg-surface-container-lowest dark:hover:bg-charcoal-dark/20 transition-colors">
+                                <td class="px-stack-lg py-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-orange-400/20 text-orange-600 font-bold flex items-center justify-center text-[12px]">
+                                        3</div>
+                                </td>
+                                <td class="px-stack-lg py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full border-2 border-orange-300 overflow-hidden">
+                                            <img class="w-full h-full object-cover"
+                                                data-alt="Medium shot of a diverse professional woman in her 30s, dressed in business casual, holding a tablet, office environment with glass walls and plants in the background, sharp focus, vibrant morning light."
+                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6otmBvLnC2sO0RwhRc5aFov_H5EzNsqsAk-jg2tUWsTKcnOufbsiyEn9GAI4D85fsKW_BkxlaqbRhpqe-M4qTCLCBQjqz0Y9ILJ0lLHHWPlVSPyHiKyw8vK49vIlIdZGIvg5jGbjReofndI8TZGLpgtbMwrICghpKkLGtFdWth6J190G2c12JlLAcbJOd9Y9CqDN8e5tv2yO-cl0ndokwSDDHA7ApQoXKkdcL8BaCsfVayzy_s-Q8i8EZZLV24JaMq9vpATJfC0Mc" />
+                                        </div>
+                                        <div>
+                                            <p class="font-body-md font-semibold">Elena Rodriguez</p>
+                                            <p class="text-[11px] text-slate-gray">HR Manager</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-stack-lg py-4"><span
+                                        class="px-2 py-1 bg-orange-50 dark:bg-orange-900/30 text-orange-600 text-[11px] rounded-full font-bold">Human
+                                        Resources</span></td>
+                                <td class="px-stack-lg py-4 font-bold text-on-surface">14,210</td>
+                                <td class="px-stack-lg py-4 text-right">
+                                    <button class="text-electric-blue hover:underline text-[12px] font-bold">View
+                                        Profile</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div
+                    class="p-stack-md bg-surface-container-lowest dark:bg-charcoal-dark flex items-center justify-between">
+                    <p class="text-meta-sm font-meta-sm text-slate-gray">Showing 3 of 1,240 employees</p>
+                    <div class="flex gap-2">
+                        <button class="p-1 rounded hover:bg-surface-container disabled:opacity-30" disabled="">
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </button>
+                        <button class="p-1 rounded hover:bg-surface-container">
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Footer Shell -->
+    <footer
+        class="w-full py-stack-lg bg-surface-container-lowest dark:bg-surface-container-low border-t border-border-subtle dark:border-outline-variant mt-auto">
+        <div
+            class="flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto px-margin-page gap-4">
+            <div class="flex items-center gap-stack-lg">
+                <span class="font-headline-sm text-headline-sm font-bold text-primary">Knome</span>
+                <span class="font-label-md text-label-md text-slate-gray">© 2024 Knome Internal Platform</span>
+            </div>
+            <div class="flex gap-stack-lg">
+                <a class="font-label-md text-label-md text-slate-gray hover:text-electric-blue underline transition-all opacity-80"
+                    href="#">User Agreement</a>
+                <a class="font-label-md text-label-md text-slate-gray hover:text-electric-blue underline transition-all opacity-80"
+                    href="#">Knowledge Base</a>
+                <a class="font-label-md text-label-md text-slate-gray hover:text-electric-blue underline transition-all opacity-80"
+                    href="#">Support</a>
+                <a class="font-label-md text-label-md text-slate-gray hover:text-electric-blue underline transition-all opacity-80"
+                    href="#">Feedback</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const html = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            themeIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
+        });
+
+        // Simple animation for table rows on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach((row, index) => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateY(10px)';
+                setTimeout(() => {
+                    row.style.transition = 'all 0.4s ease-out';
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+
+    <script>
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

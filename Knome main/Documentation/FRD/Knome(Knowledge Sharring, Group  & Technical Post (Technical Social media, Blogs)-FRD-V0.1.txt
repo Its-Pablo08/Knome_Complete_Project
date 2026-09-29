@@ -1,0 +1,207 @@
+Knome FRD v1.0-MPOnline Limited
+10. Requirements Traceability Matrix (RTM)
+
+CONFIDENTIAL
+
+The following table maps each key functional requirement to its source module, associated Use Case, and test scenario for traceability through development and QA.
+
+Req ID FR-DB-01
+
+Requirement Personalized feed display
+
+Module Dashboard
+
+FR-DB-05
+
+Org-wide announcements on dashboard
+
+Dashboard
+
+Use Case UC-01
+--
+
+Test Scenario
+Verify feed shows content from joined communities and followed users
+HR Admin posts announcement; verify visible to all employees on dashboard
+
+FR-UP-01
+
+HRMS auto-population of profile User Profile
+
+--
+
+FR-PC-01
+
+Create text post (400 char max) Post
+
+FR-AB-01
+
+Article creation and publishing Articles
+
+-- UC-01
+
+New employee login shows correct Name, Dept, Designation from HRMS
+Post > 400 chars blocked; Post  400 chars published; Karma awarded
+Article with all fields publishes; appears in author profile and search
+
+FR-VC-01
+
+Video upload with metadata
+
+Video
+
+--
+
+MP4  500MB uploads successfully; appears in Video Channel with metadata
+
+FR-CM-03
+
+Private community join approval flow
+
+Community
+
+UC-02
+
+FR-KP-01
+
+Karma Points auto-award
+
+Karma
+
+UC-03
+
+FR-KP-02
+
+Karma Leaderboard
+
+Karma
+
+UC-03
+
+FR-SD-01
+
+Unified search across content types
+
+Search
+
+--
+
+Module: Knome | Enterprise Excellence Portal | MPonline Limited
+
+Join request sent; Admin notified; Approve/Reject updates membership
+Publish article  10 pts credited; Karma balance reflects update
+Top 10 contributors displayed; updates within 15 minutes of activity
+Search 'digital' returns Posts, Articles, Videos, People matching keyword
+Page 20
+
+Knome FRD v1.0-MPOnline Limited
+
+FR-SM-01
+
+URL validation before publish
+
+Moderation
+
+--
+
+FR-SM-05
+
+Moderation audit trail
+
+Moderation
+
+--
+
+NFR-SEC-01 TLS 1.2+ for all traffic
+
+NFR-AVAIL01
+
+99.5% monthly uptime
+
+Security
+
+--
+
+Infrastructure
+
+--
+
+CONFIDENTIAL
+Post with known malicious URL blocked; valid URL post published
+Content removal action logged with timestamp, moderator ID, reason
+SSL Labs scan scores A; HTTP requests redirect to HTTPS
+Uptime monitoring dashboard shows SLA compliance report monthly
+
+Module: Knome | Enterprise Excellence Portal | MPonline Limited
+
+Page 21
+
+Knome FRD v1.0-MPOnline Limited
+11. Future Enhancements (Phase 2)
+
+CONFIDENTIAL
+
+Enh. ID ENH-01 ENH-02 ENH-03 ENH-04 ENH-05 ENH-06 ENH-07 ENH-08
+
+Feature AI Content Recommendation Engine AI Knowledge Discovery Gamification Rewards (non-Karma) Employee Recognition Programs Learning Management Integration Event Management Module Mentorship Network Live Streaming
+
+Business Value
+Personalized content surfacing using ML models trained on user interaction history
+Surface relevant historical knowledge at the point of need; reduce knowledge re-creation
+Tangible incentives (gift cards, leave credits) linked to Karma milestones
+Peer-to-peer recognition with public acknowledgement mechanism
+Link Knome content to LMS courses; Karma Points for course completions
+Create and manage internal webinars, hackathons, and town halls within the platform
+Structured mentor-mentee matching and session tracking within the platform
+Real-time broadcast of events, announcements, and Q&A sessions to all employees
+
+Module: Knome | Enterprise Excellence Portal | MPonline Limited
+
+Page 22
+
+Knome FRD v1.0-MPOnline Limited
+
+CONFIDENTIAL
+
+12. Assumptions, Constraints, and Dependencies
+
+12.1 Assumptions
+· All employees have active AD accounts provisioned prior to Knome onboarding. · HRMS contains accurate and current employee master data (Name, Dept, Designation, Location). · An SMTP mail server is available and configured for outbound email notifications. · Microsoft Stream and OneDrive are available within the organizational M365 tenant for video integration. · A push notification service (WebSocket-capable server) will be provisioned for real-time alerts. · Organization has defined and communicated platform etiquette guidelines to employees prior to launch.
+12.2 Constraints
+· Platform must run on MPonline's existing on-premises or approved government cloud infrastructure. · Solution must comply with the Digital Personal Data Protection (DPDP) Act, 2023 for any personal data
+processed. · All media content stored within the platform must reside on government-approved data centre
+infrastructure. · Phase 1 excludes AI-driven features; all recommendation logic must be rule-based. · External social media sharing (LinkedIn, Twitter) is not permitted for government compliance reasons.
+12.3 Dependencies
+· HRMS API availability and stability for employee master data synchronization (INT-01). · Active Directory / SSO availability for authentication (INT-02). · Microsoft 365 tenant access for Stream and OneDrive integration (INT-04, INT-05). · Network infrastructure team to enable WebSocket ports for real-time notification service.
+
+Module: Knome | Enterprise Excellence Portal | MPonline Limited
+
+Page 23
+
+Knome FRD v1.0-MPOnline Limited
+13. Glossary
+
+CONFIDENTIAL
+
+Term / Acronym FRD
+Knome
+EEP HRMS SSO RBAC MoSCoW
+RTM
+NFR
+Karma Points Hot Posts Community
+Podcast DPDP Act 2023 DAU / MAU TLS
+
+Definition Functional Requirements Document -- baseline specification for system functionality
+Knowledge + Nome (Organization): MPonline's enterprise social knowledge platform Enterprise Excellence Portal -- parent portal housing all inhouse modules including Knome Human Resource Management System -- source of employee master data Single Sign-On -- unified authentication via Active Directory Role-Based Access Control -- access governed by user role assignment Must Have / Should Have / Could Have / Won't Have -- prioritization framework
+Requirements Traceability Matrix -- mapping requirements to use cases and tests
+Non-Functional Requirement -- quality attribute (performance, security, availability)
+Engagement scoring system rewarding platform contributions and knowledge sharing Trending content ranked by engagement score algorithm A grouped discussion and collaboration space around a shared topic or department
+Audio-format content uploaded or recorded and published on the Knome platform Digital Personal Data Protection Act 2023 -- Indian data privacy legislation Daily Active Users / Monthly Active Users -- platform engagement metrics Transport Layer Security -- encryption protocol for data in transit
+
+-- End of Document -- MPOnline Limited | Bhopal, Madhya Pradesh | Confidential
+
+Module: Knome | Enterprise Excellence Portal | MPonline Limited
+
+Page 24
+
+

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knome Enterprise Platform - Backend Architecture & API Specification Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap');
+
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --secondary: #0ea5e9;
+            --accent: #f43f5e;
+            --dark-bg: #0f172a;
+            --light-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        @page {
+            size: A4;
+            margin: 15mm 15mm 15mm 15mm;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-main);
+            background-color: #ffffff;
+            line-height: 1.6;
+            font-size: 13px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Cover Page Header */
+        .header-cover {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            color: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-cover::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(79, 70, 229, 0.2);
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+
+        .badge-tag {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.25);
+            border: 1px solid rgba(129, 140, 248, 0.4);
+            color: #c7d2fe;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #94a3b8;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .meta-item label {
+            display: block;
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #64748b;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-item span {
+            font-size: 12px;
+            font-weight: 700;
+            color: #f1f5f9;
+        }
+
+        /* Headings */
+        h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            display: flex;
+            items-center;
+            gap: 10px;
+            page-break-after: avoid;
+        }
+
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            page-break-after: avoid;
+        }
+
+        h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: #334155;
+            text-align: justify;
+        }
+
+        /* Callouts */
+        .callout {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary);
+            padding: 14px 18px;
+            border-radius: 0 12px 12px 0;
+            margin: 15px 0;
+            font-size: 12.5px;
+        }
+
+        .callout-warning {
+            border-left-color: #f59e0b;
+            background-color: #fffbeb;
+        }
+
+        .callout-success {
+            border-left-color: #10b981;
+            background-color: #ecfdf5;
+        }
+
+        .callout-danger {
+            border-left-color: #ef4444;
+            background-color: #fef2f2;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0 25px 0;
+            font-size: 12px;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            page-break-inside: avoid;
+        }
+
+        th {
+            background-color: #0f172a;
+            color: #ffffff;
+            font-weight: 700;
+            text-align: left;
+            padding: 10px 14px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        /* Code Blocks */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+            overflow-x: auto;
+            font-size: 11px;
+            line-height: 1.5;
+            margin: 15px 0;
+            page-break-inside: avoid;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        /* Badges */
+        .pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .pill-get { background: #e0e7ff; color: #3730a3; }
+        .pill-post { background: #dcfce7; color: #166534; }
+        .pill-put { background: #fef3c7; color: #92400e; }
+        .pill-delete { background: #fee2e2; color: #991b1b; }
+
+        /* Grid Cards */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .card h4 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- COVER SECTION -->
+    <div class="header-cover">
+        <div class="badge-tag">MPOnline Limited Enterprise Infrastructure</div>
+        <h1>Knome Platform API</h1>
+        <div class="subtitle">Complete Backend Architecture, Technical Specification & API Documentation</div>
+        
+        <div class="meta-grid">
+            <div class="meta-item">
+                <label>Target Framework</label>
+                <span>.NET 10.0 (net10.0)</span>
+            </div>
+            <div class="meta-item">
+                <label>Architecture Pattern</label>
+                <span>Clean N-Tier Monolith</span>
+            </div>
+            <div class="meta-item">
+                <label>Database Engine</label>
+                <span>SQL Server (EF Core 10)</span>
+            </div>
+            <div class="meta-item">
+                <label>Authentication</label>
+                <span>JWT HS256 + BCrypt</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 1: EXECUTIVE OVERVIEW -->
+    <h2>1. Executive Architectural Overview</h2>
+    <p>
+        <strong>Knome</strong> is an enterprise-grade Knowledge Management & Hybrid Social Collaboration Platform engineered for <strong>MPOnline Limited</strong>. The backend application <code>Backend/Knome.API</code> is built on Microsoft <strong>ASP.NET Core 10.0</strong>, delivering ultra-fast response times, scalable RESTful APIs, real-time SignalR push notifications, and strict enterprise security controls.
+    </p>
+
+    <div class="grid-2">
+        <div class="card">
+            <h4>Core Architecture Layers</h4>
+            <ul>
+                <li><strong>Presentation Layer:</strong> Thin REST Controllers (<code>Controllers/</code>) returning standard <code>ApiResponse&lt;T&gt;</code> envelopes.</li>
+                <li><strong>Service Layer:</strong> Encapsulated Business Logic (<code>Services/</code>) enforcing validation, permissions, and moderation workflows.</li>
+                <li><strong>Data Access Layer:</strong> Generic Repository Pattern (<code>Repositories/</code>) over EF Core 10 <code>KnomeDbContext</code>.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h4>Key Non-Functional Requirements</h4>
+            <ul>
+                <li><strong>Security:</strong> JWT HS256 authentication, BCrypt work factor 11 password hashing, role-based authorization (RBAC), and Suspension Guard middleware.</li>
+                <li><strong>Performance:</strong> Compiled EF Core queries, async/await I/O, SignalR Websockets, and background worker expiration.</li>
+                <li><strong>Data Integrity:</strong> Centralized transaction management and FluentValidation pipeline filters.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SECTION 2: TECHNOLOGY STACK & DEPENDENCIES -->
+    <h2>2. Technology Stack & Component Specs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Layer / Concern</th>
+                <th>Technology Choice</th>
+                <th>Version / Implementation Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Framework</strong></td>
+                <td>ASP.NET Core Web API</td>
+                <td><code>net10.0</code> (.NET 10.0 SDK)</td>
+            </tr>
+            <tr>
+                <td><strong>Database & ORM</strong></td>
+                <td>SQL Server + Entity Framework Core</td>
+                <td><code>Microsoft.EntityFrameworkCore.SqlServer 10.0</code></td>
+            </tr>
+            <tr>
+                <td><strong>Authentication</strong></td>
+                <td>JWT Bearer + BCrypt.Net</td>
+                <td><code>System.IdentityModel.Tokens.Jwt</code> + <code>BCrypt.Net-Next 4.0.3</code></td>
+            </tr>
+            <tr>
+                <td><strong>Real-Time Messaging</strong></td>
+                <td>ASP.NET Core SignalR</td>
+                <td><code>/hubs/notifications</code> Hub Endpoint</td>
+            </tr>
+            <tr>
+                <td><strong>Object Mapping</strong></td>
+                <td>AutoMapper</td>
+                <td>AutoMapper Profiles across 12 Modules</td>
+            </tr>
+            <tr>
+                <td><strong>Input Validation</strong></td>
+                <td>FluentValidation</td>
+                <td>Automatic pipeline validation in <code>Validators/</code></td>
+            </tr>
+            <tr>
+                <td><strong>Background Processing</strong></td>
+                <td>IHostedService Worker</td>
+                <td><code>Background/JobExpiryHostedService</code></td>
+            </tr>
+            <tr>
+                <td><strong>File Storage</strong></td>
+                <td>Local File System Storage</td>
+                <td><code>Services/LocalFileStorageService</code> under <code>wwwroot/uploads</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- SECTION 3: ENTRY POINT & PIPELINE SETUP -->
+    <h2>3. Application Startup & Pipeline Architecture</h2>
+    <p>
+        The backend initialization workflow resides in <code>Program.cs</code>, <code>Extensions/ServiceCollectionExtensions.cs</code>, and <code>Extensions/ApplicationBuilderExtensions.cs</code>.
+    </p>
+
+    <h3>3.1 Dependency Injection Assembly (<code>AddInfrastructure</code>)</h3>
+    <p>
+        All framework services, authentication schemes, Swagger OpenAPI documentation, and application components are registered via <code>AddInfrastructure(IServiceCollection, IConfiguration)</code>:
+    </p>
+    <pre><code>public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+{
+    // 1. Database Wiring (EF Core SQL Server)
+    services.AddDbContext&lt;KnomeDbContext&gt;(options =&gt;
+        options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+    // 2. Authentication & Authorization (JWT HS256)
+    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =&gt; { ... });
+
+    // 3. Application Services & Repositories Registration
+    services.AddScoped(typeof(IRepository&lt;&gt;), typeof(Repository&lt;&gt;));
+    services.AddScoped&lt;IUserRepository, UserRepository&gt;();
+    services.AddScoped&lt;IUserService, UserService&gt;();
+    // ... registers all 16 Services & 14 Repositories
+
+    // 4. SignalR & Background Hosted Worker
+    services.AddSignalR();
+    services.AddHostedService&lt;JobExpiryHostedService&gt;();
+
+    return services;
+}</code></pre>
+
+    <h3>3.2 Middleware Execution Pipeline (<code>UseInfrastructure</code>)</h3>
+    <p>
+        The request pipeline sequence is strictly ordered in <code>ApplicationBuilderExtensions.cs</code> to guarantee security and exception safety:
+    </p>
+    <ol>
+        <li><code>ExceptionHandlingMiddleware</code>: Catches all unhandled exceptions globally and formats a unified JSON response envelope.</li>
+        <li><code>SecurityHeadersMiddleware</code>: Injects HTTP security headers (CSP, X-Frame-Options, X-Content-Type-Options, HSTS).</li>
+        <li><code>UseCors("AllowFrontend")</code>: Permits cross-origin requests from the React frontend server.</li>
+        <li><code>UseAuthentication()</code> & <code>UseAuthorization()</code>: Evaluates JWT claims and user identity.</li>
+        <li><code>SuspensionGuard</code>: Verifies if the authenticated user account has been suspended by System Admin.</li>
+        <li><code>MapControllers()</code> & <code>MapHub&lt;NotificationHub&gt;("/hubs/notifications")</code>: Endpoints execution.</li>
+    </ol>
+
+    <!-- SECTION 4: COMPLETE CONTROLLER & ENDPOINT SPECIFICATION -->
+    <h2>4. Controllers & REST API Endpoints Reference</h2>
+    <p>
+        The backend exposes <strong>16 REST API Controllers</strong> inheriting from <code>KnomeControllerBase.cs</code>. Below is the complete listing of all API endpoints, HTTP verbs, and access controls.
+    </p>
+
+    <h3>4.1 Auth & User Management Controllers</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Endpoint Route</th>
+                <th>Controller & Handler</th>
+                <th>Roles Required</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="pill pill-post">POST</span></td>
+                <td><code>/api/Auth/login</code></td>
+                <td><code>AuthController.Login</code></td>
+                <td>Anonymous</td>
+                <td>Authenticates credentials with BCrypt, generates JWT HS256 token.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-get">GET</span></td>
+                <td><code>/api/User/me</code></td>
+                <td><code>UserController.GetCurrentUser</code></td>
+                <td>Authenticated</td>
+                <td>Fetches detailed profile, designation, skills, and permissions of logged-in user.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-put">PUT</span></td>
+                <td><code>/api/User/profile</code></td>
+                <td><code>UserController.UpdateProfile</code></td>
+                <td>Self</td>
+                <td>Updates user bio, location, phone number, profile photo, and skills.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-get">GET</span></td>
+                <td><code>/api/User</code></td>
+                <td><code>UserController.GetAllUsers</code></td>
+                <td>Authenticated</td>
+                <td>Lists organization directory with search, department filtering, and pagination.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-put">PUT</span></td>
+                <td><code>/api/User/{id}/role</code></td>
+                <td><code>UserController.UpdateRole</code></td>
+                <td>System Administrator</td>
+                <td>Changes user role assignment (Employee, Community Admin, HR Admin, System Admin).</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-post">POST</span></td>
+                <td><code>/api/User/{id}/suspend</code></td>
+                <td><code>UserController.SuspendUser</code></td>
+                <td>System Administrator</td>
+                <td>Suspends an employee account for specified duration with reason log.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h3>4.2 Content & Media Publishing Controllers</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Endpoint Route</th>
+                <th>Controller & Handler</th>
+                <th>Description & Workflow</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="pill pill-get">GET</span></td>
+                <td><code>/api/Posts</code></td>
+                <td><code>PostController.GetPosts</code></td>
+                <td>Fetches micro-posts feed with author details, media attachments, and reaction counts.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-post">POST</span></td>
+                <td><code>/api/Posts</code></td>
+                <td><code>PostController.CreatePost</code></td>
+                <td>Creates a text/media post with image/video attachments and community tagging.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-get">GET</span></td>
+                <td><code>/api/Articles</code></td>
+                <td><code>ArticleController.GetArticles</code></td>
+                <td>Returns long-form articles with HTML content, cover image, and calculated reading time.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-post">POST</span></td>
+                <td><code>/api/Articles</code></td>
+                <td><code>ArticleController.CreateArticle</code></td>
+                <td>Publishes an article draft with tags, attachments, and version tracking.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-get">GET</span></td>
+                <td><code>/api/Videos</code></td>
+                <td><code>VideoController.GetVideos</code></td>
+                <td>Aggregates platform videos (direct uploads, MS Stream/OneDrive embeds).</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-post">POST</span></td>
+                <td><code>/api/Videos</code></td>
+                <td><code>VideoController.UploadVideo</code></td>
+                <td>Uploads video file. <em>Non-admin uploads trigger Pending Admin Approval workflow.</em></td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-get">GET</span></td>
+                <td><code>/api/Podcasts</code></td>
+                <td><code>PodcastController.GetPodcasts</code></td>
+                <td>Lists audio podcast episodes, standalone audio files, and series groupings.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-post">POST</span></td>
+                <td><code>/api/Podcasts</code></td>
+                <td><code>PodcastController.CreatePodcast</code></td>
+                <td>Publishes audio file or browser recording. <em>Requires Admin approval if non-admin.</em></td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-post">POST</span></td>
+                <td><code>/api/Media/upload</code></td>
+                <td><code>MediaController.UploadFile</code></td>
+                <td>Stores raw multipart files to disk storage and returns resolved URL.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>4.3 Communities, Feed & Interaction Controllers</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Endpoint Route</th>
+                <th>Controller & Handler</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="pill pill-get">GET</span></td>
+                <td><code>/api/Community</code></td>
+                <td><code>CommunityController.GetCommunities</code></td>
+                <td>Lists enterprise communities with member counts, category, and privacy level.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-post">POST</span></td>
+                <td><code>/api/Community</code></td>
+                <td><code>CommunityController.CreateCommunity</code></td>
+                <td>Creates a new community hub (Public/Private/Invite-Only).</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-post">POST</span></td>
+                <td><code>/api/Community/{id}/join</code></td>
+                <td><code>CommunityController.JoinCommunity</code></td>
+                <td>Joins public community or submits join request for private community.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-post">POST</span></td>
+                <td><code>/api/Interaction/react</code></td>
+                <td><code>InteractionController.AddReaction</code></td>
+                <td>Adds or toggles reaction (Like, Celebrate, Insightful, Support) on posts/articles.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-post">POST</span></td>
+                <td><code>/api/Interaction/comment</code></td>
+                <td><code>InteractionController.AddComment</code></td>
+                <td>Posts a comment or nested reply on posts, articles, or videos.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-get">GET</span></td>
+                <td><code>/api/Feed/hot</code></td>
+                <td><code>FeedController.GetHotPosts</code></td>
+                <td>Calculates top trending posts using engagement score & time-decay algorithm.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-get">GET</span></td>
+                <td><code>/api/Karma/balance</code></td>
+                <td><code>KarmaController.GetBalance</code></td>
+                <td>Retrieves user total karma points, earned badge tier, and transaction history.</td>
+            </tr>
+            <tr>
+                <td><span class="pill pill-get">GET</span></td>
+                <td><code>/api/Notifications</code></td>
+                <td><code>NotificationsController.GetNotifications</code></td>
+                <td>Fetches current user notifications with unread counts and SignalR sync.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- SECTION 5: DETAILED MODULE WORKFLOWS -->
+    <h2>5. Core Business Modules & Logic Architecture</h2>
+
+    <div class="callout callout-success">
+        <strong>Source-of-Truth Architecture:</strong> All business logic is encapsulated inside single-responsibility Service classes located in <code>Services/</code>. Repositories in <code>Repositories/</code> deal exclusively with EF Core query generation and SQL execution.
+    </div>
+
+    <h3>5.1 Media Approval & Admin Moderation Workflow</h3>
+    <p>
+        To ensure enterprise compliance and content safety, a multi-tier moderation workflow is enforced across media uploads (Videos and Podcasts):
+    </p>
+    <ol>
+        <li><strong>Role Check:</strong> When a user calls <code>/api/Videos</code> or <code>/api/Podcasts</code>, <code>VideoService</code> / <code>PodcastService</code> evaluates user role.</li>
+        <li><strong>Admin Direct Upload:</strong> If the uploader possesses an Admin role (<code>System Administrator</code>, <code>HR Administrator</code>, <code>Community Administrator</code>), the content is immediately saved as <code>Approved</code> and published.</li>
+        <li><strong>Employee Queueing:</strong> If uploaded by a standard <code>Employee</code>, the media is saved with status <code>PendingApproval</code>. An automated notification alert is generated for System Administrators.</li>
+        <li><strong>Admin Review:</strong> Admins access the <strong>Media Approvals Queue</strong> in <code>AdminConsole</code> to preview audio/video metadata and click <strong>Approve</strong> or <strong>Reject</strong>.</li>
+        <li><strong>Publication & Notification:</strong> Approving the item publishes it to public feeds and sends a real-time SignalR notification to the author.</li>
+    </ol>
+
+    <h3>5.2 Hot Posts Ranking & Time-Decay Engine (<code>FeedService.cs</code>)</h3>
+    <p>
+        The platform computes trending content dynamically using an engagement gravity formula:
+    </p>
+    <pre><code>HotScore = (Reactions * 1.0 + Comments * 2.0 + Shares * 3.0 + Bookmarks * 2.5) / Math.Pow(AgeHours + 2, 1.5)</code></pre>
+    <p>
+        This ensures recent high-engagement posts rank highest on the Dashboard while older posts naturally decay over time.
+    </p>
+
+    <h3>5.3 Gamification & Karma Points Engine (<code>KarmaService.cs</code>)</h3>
+    <p>
+        Employee engagement is incentivized via automated Karma point allocations:
+    </p>
+    <ul>
+        <li><strong>Post Creation:</strong> +2 Karma Points (Max 10 pts/day)</li>
+        <li><strong>Article Publication:</strong> +10 Karma Points (Max 30 pts/day)</li>
+        <li><strong>Video Upload:</strong> +8 Karma Points</li>
+        <li><strong>Comment Added:</strong> +2 Karma Points</li>
+        <li><strong>Reaction Received:</strong> +1 Karma Point</li>
+    </ul>
+
+    <!-- SECTION 6: DATABASE SCHEMA & ENTITIES -->
+    <h2>6. Database Schema & Scaffolded Entity Models</h2>
+    <p>
+        The backend communicates with SQL Server database <code>Knome</code> through 38 scaffolded Entity Framework Core entity classes in <code>Models/</code>:
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th>Entity Model</th>
+                <th>Table Name</th>
+                <th>Primary Key</th>
+                <th>Key Foreign Relationships</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>User.cs</code></td>
+                <td><code>Users</code></td>
+                <td><code>UserId</code> (int)</td>
+                <td>RoleId (Role), DepartmentId (Department)</td>
+            </tr>
+            <tr>
+                <td><code>Post.cs</code></td>
+                <td><code>Posts</code></td>
+                <td><code>PostId</code> (int)</td>
+                <td>AuthorUserId (User), CommunityId (Community)</td>
+            </tr>
+            <tr>
+                <td><code>Article.cs</code></td>
+                <td><code>Articles</code></td>
+                <td><code>ArticleId</code> (int)</td>
+                <td>AuthorUserId (User), CategoryId (Category)</td>
+            </tr>
+            <tr>
+                <td><code>Video.cs</code></td>
+                <td><code>Videos</code></td>
+                <td><code>VideoId</code> (int)</td>
+                <td>UploaderUserId (User), CategoryId (Category)</td>
+            </tr>
+            <tr>
+                <td><code>Podcast.cs</code></td>
+                <td><code>Podcasts</code></td>
+                <td><code>PodcastId</code> (int)</td>
+                <td>UploaderUserId (User), SeriesId (PodcastSeries)</td>
+            </tr>
+            <tr>
+                <td><code>Community.cs</code></td>
+                <td><code>Communities</code></td>
+                <td><code>CommunityId</code> (int)</td>
+                <td>CreatorUserId (User), CategoryId (Category)</td>
+            </tr>
+            <tr>
+                <td><code>KarmaBalance.cs</code></td>
+                <td><code>KarmaBalances</code></td>
+                <td><code>UserId</code> (int)</td>
+                <td>UserId (User)</td>
+            </tr>
+            <tr>
+                <td><code>AuditLog.cs</code></td>
+                <td><code>AuditLogs</code></td>
+                <td><code>AuditId</code> (long)</td>
+                <td>UserId (User)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- SECTION 7: SUMMARY & BUILD VERIFICATION -->
+    <h2>7. Build Verification & Development Commands</h2>
+    <p>
+        The backend project builds with <strong>0 Errors and 0 Warnings</strong> targeting .NET 10.0:
+    </p>
+    <pre><code># Run API Server locally on http://localhost:5095/swagger
+cd Backend/Knome.API
+dotnet build -nologo
+dotnet run
+
+# Run Full DI Resolution Check across all 14 controllers & 12 modules
+dotnet run --project "Tools/VerifyDiResolvers/VerifyDiResolvers.csproj"</code></pre>
+
+    <div class="footer">
+        Knome Knowledge Platform • MPOnline Limited Enterprise Backend Specification Document • Compiled & Verified for .NET 10.0
+    </div>
+
+</div>
+
+</body>
+</html>

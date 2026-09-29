@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knome & EmployeeHub — Enterprise 6-Layer Solution Architecture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F172A;
+            --layer1-color: #0284C7;
+            --layer1-bg: #F0F9FF;
+            --layer1-border: #BAE6FD;
+            --layer2-color: #0D9488;
+            --layer2-bg: #F0FDFA;
+            --layer2-border: #99F6E4;
+            --layer3-color: #16A34A;
+            --layer3-bg: #F0FDF4;
+            --layer3-border: #BBF7D0;
+            --layer4-color: #EA580C;
+            --layer4-bg: #FFF7ED;
+            --layer4-border: #FED7AA;
+            --layer5-color: #7C3AED;
+            --layer5-bg: #FAF5FF;
+            --layer5-border: #DDD6FE;
+            --layer6-color: #475569;
+            --layer6-bg: #F8FAFC;
+            --layer6-border: #CBD5E1;
+            --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+            --border-radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0B0F19;
+            color: #1E293B;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .canvas {
+            width: 100%;
+            max-width: 1440px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+            border: 1px solid #E2E8F0;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            color: #FFFFFF;
+            padding: 28px 40px;
+            text-align: center;
+            position: relative;
+            border-bottom: 4px solid #38BDF8;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #F8FAFC;
+            margin-bottom: 6px;
+        }
+
+        .header h1 span {
+            color: #38BDF8;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #94A3B8;
+            font-weight: 500;
+        }
+
+        .header .badges-top {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .header .badge {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #38BDF8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        /* MAIN ARCHITECTURE CONTAINER */
+        .arch-container {
+            padding: 24px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* LAYER ROW */
+        .layer-row {
+            display: grid;
+            grid-template-columns: 180px 1fr 260px;
+            gap: 14px;
+            align-items: stretch;
+        }
+
+        /* LAYER BADGE (LEFT) */
+        .layer-badge {
+            border-radius: var(--border-radius);
+            padding: 16px 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .layer-badge .num {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .layer-badge .title {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .layer-badge .subtitle {
+            font-size: 11px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* LAYER CONTENT (MIDDLE) */
+        .layer-main {
+            border-radius: var(--border-radius);
+            padding: 14px 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1.5px solid;
+            background: #FFFFFF;
+            box-shadow: var(--card-shadow);
+        }
+
+        .layer-title-bar {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+            padding-bottom: 6px;
+        }
+
+        .chip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+            gap: 8px;
+        }
+
+        .chip-box {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 8px 6px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chip-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            border-color: #94A3B8;
+        }
+
+        .chip-box .icon {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .chip-box .label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #1E293B;
+            line-height: 1.2;
+        }
+
+        .chip-box .sublabel {
+            font-size: 9.5px;
+            color: #64748B;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        /* LAYER SIDEBAR (RIGHT) */
+        .layer-sidebar {
+            border-radius: var(--border-radius);
+            padding: 12px 14px;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .layer-sidebar h4 {
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #0F172A;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .layer-sidebar ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .layer-sidebar li {
+            font-size: 11px;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .layer-sidebar li::before {
+            content: "•";
+            color: #0284C7;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* COLOR THEMES FOR LAYERS */
+        .l1-badge { background: linear-gradient(135deg, #0284C7, #0369A1); }
+        .l1-main { background: var(--layer1-bg); border-color: var(--layer1-border); }
+        .l1-main .layer-title-bar { color: var(--layer1-color); }
+
+        .l2-badge { background: linear-gradient(135deg, #0D9488, #0F766E); }
+        .l2-main { background: var(--layer2-bg); border-color: var(--layer2-border); }
+        .l2-main .layer-title-bar { color: var(--layer2-color); }
+
+        .l3-badge { background: linear-gradient(135deg, #16A34A, #15803D); }
+        .l3-main { background: var(--layer3-bg); border-color: var(--layer3-border); }
+        .l3-main .layer-title-bar { color: var(--layer3-color); }
+
+        .l4-badge { background: linear-gradient(135deg, #EA580C, #C2410C); }
+        .l4-main { background: var(--layer4-bg); border-color: var(--layer4-border); }
+        .l4-main .layer-title-bar { color: var(--layer4-color); }
+
+        .l5-badge { background: linear-gradient(135deg, #7C3AED, #6D28D9); }
+        .l5-main { background: var(--layer5-bg); border-color: var(--layer5-border); }
+        .l5-main .layer-title-bar { color: var(--layer5-color); }
+
+        .l6-badge { background: linear-gradient(135deg, #475569, #334155); }
+        .l6-main { background: var(--layer6-bg); border-color: var(--layer6-border); }
+        .l6-main .layer-title-bar { color: var(--layer6-color); }
+
+        /* FOOTER / FLOW SECTION */
+        .footer-flow {
+            margin-top: 10px;
+            background: #F8FAFC;
+            border-radius: var(--border-radius);
+            border: 1px solid #E2E8F0;
+            padding: 16px 20px;
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .flow-badge {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 10px 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .flow-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow-x: auto;
+            gap: 8px;
+        }
+
+        .step-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-width: 90px;
+        }
+
+        .step-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #E2E8F0;
+            color: #0F172A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 4px;
+            border: 2px solid #CBD5E1;
+        }
+
+        .step-title {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .step-sub {
+            font-size: 9px;
+            color: #64748B;
+        }
+
+        .flow-arrow {
+            color: #94A3B8;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* BOTTOM METRICS & KEY CAPABILITIES */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .info-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: var(--border-radius);
+            padding: 16px 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .info-card h3 {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #0F172A;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 16px;
+        }
+
+        .feature-check {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        .feature-check::before {
+            content: "✔";
+            color: #16A34A;
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        .quality-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .quality-list li {
+            font-size: 11.5px;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .quality-list li::before {
+            content: "⚡";
+            font-size: 12px;
+        }
+
+        /* SYSTEM SYNERGY CALLOUT */
+        .synergy-callout {
+            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+            color: #FFFFFF;
+            border-radius: var(--border-radius);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #334155;
+            margin-top: 10px;
+        }
+
+        .synergy-callout h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #38BDF8;
+            margin-bottom: 4px;
+        }
+
+        .synergy-callout p {
+            font-size: 11.5px;
+            color: #CBD5E1;
+            line-height: 1.4;
+        }
+
+        .synergy-tag {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid #38BDF8;
+            color: #38BDF8;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 1024px) {
+            .layer-row {
+                grid-template-columns: 1fr;
+            }
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+            .flow-steps {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="canvas">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>KNOME & EMPLOYEEHUB — <span>ENTERPRISE EXCELLENCE SOLUTION ARCHITECTURE</span></h1>
+        <p>Complete 6-Tier Distributed Solution Architecture & Cross-System Integration Specification | MPOnline Limited</p>
+        <div class="badges-top">
+            <span class="badge">.NET 10.0 Web API</span>
+            <span class="badge">React 18 / Vite</span>
+            <span class="badge">Next.js App Router BFF</span>
+            <span class="badge">YARP Gateway</span>
+            <span class="badge">SQL Server 2022</span>
+            <span class="badge">DPDP Act 2023 Compliant</span>
+        </div>
+    </div>
+
+    <div class="arch-container">
+
+        <!-- LAYER 1: PRESENTATION LAYER -->
+        <div class="layer-row">
+            <div class="layer-badge l1-badge">
+                <div class="num">1</div>
+                <div class="title">Presentation Layer</div>
+                <div class="subtitle">User Interface & Client Experience</div>
+            </div>
+            <div class="layer-main l1-main">
+                <div class="layer-title-bar">
+                    <span>Client Application Modules (React 18 / Vite UI)</span>
+                    <span style="font-size: 11px; font-weight: 600;">Ports: 5173 (Knome) | 5001 (EmployeeHub)</span>
+                </div>
+                <div class="chip-grid">
+                    <div class="chip-box">
+                        <div class="icon">📊</div>
+                        <div class="label">Dashboard & Feed</div>
+                        <div class="sublabel">Hot / Trending Posts</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">👤</div>
+                        <div class="label">Profile & Network</div>
+                        <div class="sublabel">Skills & Connections</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">👥</div>
+                        <div class="label">Communities</div>
+                        <div class="sublabel">Public / Private Hubs</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">📝</div>
+                        <div class="label">Content Engine</div>
+                        <div class="sublabel">Articles / Videos / Podcasts</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">💼</div>
+                        <div class="label">Job Portal</div>
+                        <div class="sublabel">Internal Openings & IJP</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">⭐</div>
+                        <div class="label">Karma Points</div>
+                        <div class="sublabel">Badges & Leaderboard</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🔍</div>
+                        <div class="label">Global Search</div>
+                        <div class="sublabel">Users, Content, Tags</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🔔</div>
+                        <div class="label">Realtime Alerts</div>
+                        <div class="sublabel">SignalR Notifications</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layer-sidebar">
+                <h4>👥 Users & RBAC Roles</h4>
+                <ul>
+                    <li><strong>Employee (EMP)</strong>: Self-service, content</li>
+                    <li><strong>Community Admin (CADM)</strong>: Moderation</li>
+                    <li><strong>HR Admin (HRADM)</strong>: Jobs, Broadcasts</li>
+                    <li><strong>System Admin (SYSADM)</strong>: Governance</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LAYER 2: BFF LAYER -->
+        <div class="layer-row">
+            <div class="layer-badge l2-badge">
+                <div class="num">2</div>
+                <div class="title">BFF Layer</div>
+                <div class="subtitle">API Aggregation & UI Orchestration</div>
+            </div>
+            <div class="layer-main l2-main">
+                <div class="layer-title-bar">
+                    <span>BFF Services (Next.js 14+ App Router Proxy & Route Handlers)</span>
+                    <span style="font-size: 11px; font-weight: 600;">Port: 3000 (HTTP-Only Secure Cookie Broker)</span>
+                </div>
+                <div class="chip-grid">
+                    <div class="chip-box">
+                        <div class="icon">🔐</div>
+                        <div class="label">Auth & SSO API</div>
+                        <div class="sublabel">Cookie / Token Injection</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">📇</div>
+                        <div class="label">Profile API</div>
+                        <div class="sublabel">DPDP Act 2023 Masking</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">📑</div>
+                        <div class="label">Content BFF</div>
+                        <div class="sublabel">Posts & Media Uploads</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🤝</div>
+                        <div class="label">Community BFF</div>
+                        <div class="sublabel">Membership Requests</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🏆</div>
+                        <div class="label">Engagement API</div>
+                        <div class="sublabel">Karma Balance Aggregator</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🔎</div>
+                        <div class="label">Search Proxy</div>
+                        <div class="sublabel">Filtered Multi-Search</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">📈</div>
+                        <div class="label">Analytics BFF</div>
+                        <div class="sublabel">HR Metrics Dashboard</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🛡️</div>
+                        <div class="label">Admin Proxy</div>
+                        <div class="sublabel">Audit & Role Changes</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layer-sidebar">
+                <h4>⚙️ Cross-Cutting Concerns</h4>
+                <ul>
+                    <li>HTTP-Only Cookie Session Guard</li>
+                    <li>JWT Bearer Token Injection</li>
+                    <li>Request Validation & Sanitization</li>
+                    <li>Global Exception Interceptor</li>
+                    <li>Audit Logging & IP Tracking</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LAYER 3: GATEWAY & YARP LAYER -->
+        <div class="layer-row">
+            <div class="layer-badge l3-badge">
+                <div class="num">3</div>
+                <div class="title">Gateway & YARP</div>
+                <div class="subtitle">Reverse Proxy, Security & Routing</div>
+            </div>
+            <div class="layer-main l3-main">
+                <div class="layer-title-bar">
+                    <span>API Gateway & YARP Reverse Proxy (.NET 10 Kestrel)</span>
+                    <span style="font-size: 11px; font-weight: 600;">Port: 5000 (Central Traffic Management)</span>
+                </div>
+                <div class="chip-grid">
+                    <div class="chip-box">
+                        <div class="icon">🔀</div>
+                        <div class="label">Dynamic Routing</div>
+                        <div class="sublabel">Route Path Matching</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">⚖️</div>
+                        <div class="label">Load Balancing</div>
+                        <div class="sublabel">Round-Robin / Cluster</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🔒</div>
+                        <div class="label">SSL Termination</div>
+                        <div class="sublabel">HTTPS Edge Offload</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">⏱️</div>
+                        <div class="label">Rate Limiting</div>
+                        <div class="sublabel">100 req/min Throttling</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🔄</div>
+                        <div class="label">Transformations</div>
+                        <div class="sublabel">Path / Header Rewrites</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🛡️</div>
+                        <div class="label">Security Headers</div>
+                        <div class="sublabel">CORS, HSTS, CSP, XFO</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">💓</div>
+                        <div class="label">Health Checks</div>
+                        <div class="sublabel">/health Probes & Alerts</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🔌</div>
+                        <div class="label">Cluster Mapping</div>
+                        <div class="sublabel">Knome & EmployeeHub</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layer-sidebar">
+                <h4>🌐 Enterprise Channels</h4>
+                <ul>
+                    <li>Intranet / Corporate Portal</li>
+                    <li>Internal Communications App</li>
+                    <li>Mobile App REST Endpoints</li>
+                    <li>HRMS SSO Integrations</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LAYER 4: SERVICE / APPLICATION LAYER -->
+        <div class="layer-row">
+            <div class="layer-badge l4-badge">
+                <div class="num">4</div>
+                <div class="title">Service Layer</div>
+                <div class="subtitle">Core Business Logic (.NET 10)</div>
+            </div>
+            <div class="layer-main l4-main">
+                <div class="layer-title-bar">
+                    <span>Application Services & Domain Engines (.NET 10 Controllers & Services)</span>
+                    <span style="font-size: 11px; font-weight: 600;">Ports: 5095 (Knome.API) | 5100 (EmployeeHub.API)</span>
+                </div>
+                <div class="chip-grid">
+                    <div class="chip-box">
+                        <div class="icon">🔥</div>
+                        <div class="label">Feed Engine</div>
+                        <div class="sublabel">Time-Decay Ranking</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🏅</div>
+                        <div class="label">Karma Engine</div>
+                        <div class="sublabel">Points, Tiers & Badges</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🎥</div>
+                        <div class="label">Media Moderation</div>
+                        <div class="sublabel">Approval Workflow</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">📡</div>
+                        <div class="label">SignalR Hub</div>
+                        <div class="sublabel">Real-time Push Alerts</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🤝</div>
+                        <div class="label">SSO Broker</div>
+                        <div class="sublabel">AuthCode & Token Mint</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">💼</div>
+                        <div class="label">Job Matching</div>
+                        <div class="sublabel">Application Lifecycle</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">📊</div>
+                        <div class="label">Analytics Service</div>
+                        <div class="sublabel">Participation Metrics</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">⏰</div>
+                        <div class="label">Background Jobs</div>
+                        <div class="sublabel">Job Expiry Worker</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layer-sidebar">
+                <h4>🎯 Key Capabilities</h4>
+                <ul>
+                    <li>Personalized Feed Algorithm</li>
+                    <li>Role-Based Content Guard</li>
+                    <li>Rich HTML Article Publishing</li>
+                    <li>Moderation Approval Pipeline</li>
+                    <li>Automated Badge Assignment</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LAYER 5: DATABASE LAYER -->
+        <div class="layer-row">
+            <div class="layer-badge l5-badge">
+                <div class="num">5</div>
+                <div class="title">Database Layer</div>
+                <div class="subtitle">Relational Persistence (SQL Server)</div>
+            </div>
+            <div class="layer-main l5-main">
+                <div class="layer-title-bar">
+                    <span>MS SQL Server 2022 Schema (Port: 1433 | EF Core 10 Scaffolding)</span>
+                    <span style="font-size: 11px; font-weight: 600;">Databases: [Knome] & [EmployeeHubDb]</span>
+                </div>
+                <div class="chip-grid">
+                    <div class="chip-box">
+                        <div class="icon">👤</div>
+                        <div class="label">Users & Roles</div>
+                        <div class="sublabel">Credentials, Passwords</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">📄</div>
+                        <div class="label">Content Tables</div>
+                        <div class="sublabel">Posts, Articles, Videos</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🌐</div>
+                        <div class="label">Communities</div>
+                        <div class="sublabel">Members & Roles</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">💼</div>
+                        <div class="label">Jobs & IJP</div>
+                        <div class="sublabel">Postings & Applications</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">⭐</div>
+                        <div class="label">Karma Points</div>
+                        <div class="sublabel">Balances & Transactions</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">💬</div>
+                        <div class="label">Interactions</div>
+                        <div class="sublabel">Reactions, Comments</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🔒</div>
+                        <div class="label">SSO Entities</div>
+                        <div class="sublabel">AuthCodes & Tokens</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">📜</div>
+                        <div class="label">Audit & Logs</div>
+                        <div class="sublabel">Compliance Tracking</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layer-sidebar">
+                <h4>🗄️ Relational Integrity</h4>
+                <ul>
+                    <li>38 Scaffolded Entity Models</li>
+                    <li>Foreign Keys & Cascade Rules</li>
+                    <li>Non-Clustered Indexes</li>
+                    <li>DPDP Act 2023 Masking Views</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LAYER 6: STORED PROCEDURE & ETL SYNC LAYER -->
+        <div class="layer-row">
+            <div class="layer-badge l6-badge">
+                <div class="num">6</div>
+                <div class="title">Stored Proc Layer</div>
+                <div class="subtitle">Data Access, Rules & Live Sync</div>
+            </div>
+            <div class="layer-main l6-main">
+                <div class="layer-title-bar">
+                    <span>Stored Procedures & Cross-Database Synchronization Procedures</span>
+                    <span style="font-size: 11px; font-weight: 600;">Atomic T-SQL Transactions & ETL Engine</span>
+                </div>
+                <div class="chip-grid">
+                    <div class="chip-box">
+                        <div class="icon">🔄</div>
+                        <div class="label">Live Sync MERGE</div>
+                        <div class="sublabel">EmployeeHub ➔ Knome</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">⚙️</div>
+                        <div class="label">User Procedures</div>
+                        <div class="sublabel">Profile & Credentials</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">📑</div>
+                        <div class="label">Content Procs</div>
+                        <div class="sublabel">Post & Article Indexing</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🏆</div>
+                        <div class="label">Karma Settlement</div>
+                        <div class="sublabel">Daily Transaction Caps</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🔥</div>
+                        <div class="label">Feed Calculation</div>
+                        <div class="sublabel">Trending Score Query</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🛡️</div>
+                        <div class="label">Audit Procedures</div>
+                        <div class="sublabel">Immutable Audit Trail</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🗂️</div>
+                        <div class="label">JSON Unpacking</div>
+                        <div class="sublabel">OPENJSON Skills/Interests</div>
+                    </div>
+                    <div class="chip-box">
+                        <div class="icon">🧹</div>
+                        <div class="label">Cleanup Procs</div>
+                        <div class="sublabel">Expired Tokens & Jobs</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layer-sidebar">
+                <h4>⚡ Transactional Rules</h4>
+                <ul>
+                    <li>Atomic MERGE Operations</li>
+                    <li>Zero Data Drift Sync</li>
+                    <li>BCrypt Hash Replication</li>
+                    <li>High-Throughput Batching</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SYSTEM SYNERGY CALLOUT -->
+    <div style="padding: 0 30px;">
+        <div class="synergy-callout">
+            <div>
+                <h4>🔗 EmployeeHub & Knome Platform Integration Synergy</h4>
+                <p><strong>EmployeeHub</strong> serves as the central HRMS Identity Provider (SSO, Org Hierarchy, DPDP 2023 Visibility). <strong>Knome</strong> acts as the enterprise social collaboration & knowledge engine, consuming authenticated sessions and receiving automated T-SQL synchronization for departments, users, roles, skills, and interests.</p>
+            </div>
+            <div class="synergy-tag">Unified SSO & ETL Sync</div>
+        </div>
+    </div>
+
+    <!-- END TO END EXECUTION FLOW -->
+    <div style="padding: 16px 30px 24px;">
+        <div class="footer-flow">
+            <div class="flow-badge">
+                END TO END<br>REQUEST FLOW
+            </div>
+            <div class="flow-steps">
+                <div class="step-item">
+                    <div class="step-icon">👤</div>
+                    <div class="step-title">User Request</div>
+                    <div class="step-sub">Browser / Mobile</div>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item">
+                    <div class="step-icon">🖥️</div>
+                    <div class="step-title">Presentation</div>
+                    <div class="step-sub">React 18 (Vite)</div>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item">
+                    <div class="step-icon">📦</div>
+                    <div class="step-title">BFF Layer</div>
+                    <div class="step-sub">Next.js Cookie Guard</div>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item">
+                    <div class="step-icon">🛡️</div>
+                    <div class="step-title">YARP Gateway</div>
+                    <div class="step-sub">Reverse Proxy (5000)</div>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item">
+                    <div class="step-icon">⚙️</div>
+                    <div class="step-title">Service Layer</div>
+                    <div class="step-sub">.NET 10 Core Services</div>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item">
+                    <div class="step-icon">🗄️</div>
+                    <div class="step-title">SQL Database</div>
+                    <div class="step-sub">EF Core 10 / Tables</div>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item">
+                    <div class="step-icon">⚡</div>
+                    <div class="step-title">Stored Procs</div>
+                    <div class="step-sub">Execution & MERGE</div>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="step-item">
+                    <div class="step-icon">✅</div>
+                    <div class="step-title">JSON Envelope</div>
+                    <div class="step-sub">ApiResponse&lt;T&gt;</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KEY FEATURES & QUALITY ATTRIBUTES -->
+        <div class="bottom-grid">
+            <div class="info-card">
+                <h3>✨ Key Features Covered</h3>
+                <div class="features-grid">
+                    <div class="feature-check">Dashboard & Personalized Feed</div>
+                    <div class="feature-check">Internal Job Posting (IJP)</div>
+                    <div class="feature-check">User Profile & Peer Networking</div>
+                    <div class="feature-check">Karma Points & Badge Leaderboard</div>
+                    <div class="feature-check">Content Hub (Posts, Articles, Videos, Podcasts)</div>
+                    <div class="feature-check">Global Fast Search & Discovery</div>
+                    <div class="feature-check">Public, Private & Default Communities</div>
+                    <div class="feature-check">Executive HR Analytics & Reports</div>
+                </div>
+            </div>
+            <div class="info-card">
+                <h3>🎯 Quality Attributes</h3>
+                <ul class="quality-list">
+                    <li><strong>High Performance</strong>: Dashboard load &lt; 500ms</li>
+                    <li><strong>Enterprise Security</strong>: BCrypt (Work Factor 11) + JWT</li>
+                    <li><strong>Resilience</strong>: Rate Limiting & Throttling at YARP</li>
+                    <li><strong>Compliance</strong>: DPDP Act 2023 Visibility Masking</li>
+                    <li><strong>Real-Time Sync</strong>: SignalR Push + Automated SQL MERGE</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

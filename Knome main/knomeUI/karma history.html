@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Karma History | Knome</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#131b2e",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#00201d",
+                        "on-secondary-fixed-variant": "#004395",
+                        "on-error": "#ffffff",
+                        "background": "#f7f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-container": "#fefcff",
+                        "border-subtle": "#E2E8F0",
+                        "on-background": "#191c1e",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#2170e4",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "primary-fixed": "#dae2fd",
+                        "on-primary-fixed": "#131b2e",
+                        "on-surface-variant": "#45464d",
+                        "on-tertiary": "#ffffff",
+                        "charcoal-dark": "#1E293B",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed": "#001a42",
+                        "inverse-primary": "#bec6e0",
+                        "secondary": "#0058be",
+                        "electric-blue": "#2563EB",
+                        "surface-tint": "#565e74",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2d3133",
+                        "primary": "#000000",
+                        "surface-container": "#eceef0",
+                        "outline-variant": "#c6c6cd",
+                        "on-tertiary-container": "#0c9488",
+                        "secondary-fixed": "#d8e2ff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "tertiary": "#000000",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-container-highest": "#e0e3e5",
+                        "slate-gray": "#64748B",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#89f5e7",
+                        "surface-dim": "#d8dadc",
+                        "teal-accent": "#14B8A6",
+                        "on-primary-container": "#7c839b",
+                        "surface-container-high": "#e6e8ea",
+                        "on-surface": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "outline": "#76777d",
+                        "tertiary-container": "#00201d",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "margin-page": "32px",
+                        "stack-md": "16px",
+                        "stack-lg": "24px",
+                        "rail-width": "300px",
+                        "sidebar-width": "260px",
+                        "container-max": "1280px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "meta-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "meta-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .karma-card-shadow {
+            box-shadow: 0px 1px 3px rgba(15, 23, 42, 0.08), 0px 4px 6px rgba(15, 23, 42, 0.05);
+        }
+
+        .chart-gradient {
+            background: linear-gradient(180deg, rgba(37, 99, 235, 0.1) 0%, rgba(37, 99, 235, 0) 100%);
+        }
+    </style>
+
+    <script>
+        // Apply theme immediately to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        }
+    </script>
+
+    <style id="dark-mode-overrides">
+        .dark body {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        .dark nav, .dark aside, .dark .bg-white, .dark .bg-surface-container-lowest, 
+        .dark .bg-surface-container-low, .dark .bg-surface-container, .dark .bg-surface,
+        .dark article, .dark .glass-card {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, 
+        .dark .text-primary, .dark .text-on-surface, .dark .text-on-secondary-container {
+            color: #f8fafc !important;
+        }
+        .dark p, .dark span, .dark .text-slate-gray, .dark .text-on-surface-variant {
+            color: #cbd5e1 !important;
+        }
+        .dark input, .dark textarea, .dark select {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+        .dark .border-border-subtle, .dark .border-outline-variant, .dark .border {
+            border-color: #334155 !important;
+        }
+        .dark .bg-secondary-container {
+            background-color: #3b82f6 !important; /* electric blue / active state */
+            color: white !important;
+        }
+        .dark .text-electric-blue {
+            color: #60a5fa !important;
+        }
+        .dark .hover\:bg-surface-container:hover {
+            background-color: #334155 !important;
+        }
+    </style>
+
+</head>
+
+<body class="bg-background text-on-surface">
+    <!-- TopNavBar -->
+    <header
+        class="fixed top-0 w-full z-50 bg-surface-container-lowest dark:bg-surface-container-low shadow-sm border-b border-border-subtle dark:border-outline-variant h-16">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page h-full">
+            <div class="flex items-center gap-stack-lg">
+                <span
+                    class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Knome</span>
+                <nav class="hidden md:flex gap-stack-md items-center h-full pt-1">
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Dashboard</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Communities</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Videos</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Podcasts</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Jobs</a>
+                    <a class="text-slate-gray font-body-md text-body-md hover:text-electric-blue transition-colors duration-200"
+                        href="#">Admin</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-stack-md">
+                <div class="relative hidden sm:block">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-gray">search</span>
+                    <input
+                        class="pl-10 pr-4 py-1.5 bg-surface-container border border-border-subtle rounded-lg text-body-md focus:outline-none focus:border-electric-blue transition-all w-64"
+                        placeholder="Search platform..." type="text" />
+                </div>
+                <button
+                    class="material-symbols-outlined text-slate-gray hover:text-electric-blue transition-colors">notifications</button>
+                <button
+                    class="material-symbols-outlined text-slate-gray hover:text-electric-blue transition-colors">military_tech</button>
+                <img class="w-8 h-8 rounded-full object-cover border border-border-subtle"
+                    data-alt="A professional headshot of a young business executive, softly lit against a neutral studio background, wearing a modern charcoal blazer. High-end corporate photography style with shallow depth of field and sharp focus on the eyes, fitting a premium enterprise UI."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf2-BzuQSMv2yvnpW0-pO9DP97OqJawN5HmhozJ-B7RmHzb95mq1LFdyhAZqGBfq9r4nd6duiX33nI63QgGqO9ZvacVoXpfQp5pDcZPnL2XkNNbYaVp5_E39L0ayDsx-6Z3sHybINdQO8rFvKuFkWWq4Md-bSFztFJc4rzioqkjvMWtoGGWh_rBxcJI-yAUbfpf7SP6HtcoV3d5sQBnv3Puk6RkCRo0Gf87HKRZQILdj8EnwpaUVmH_dI7SRnAx3RrBIr4k8bDC3TK" />
+            </div>
+        </div>
+    </header>
+    <div class="max-w-container-max mx-auto px-margin-page pt-24 pb-stack-lg flex gap-gutter">
+        <!-- SideNavBar -->
+        <aside
+            class="w-sidebar-width h-[calc(100vh-64px)] sticky top-16 hidden lg:flex flex-col gap-stack-md p-stack-lg bg-surface-container-lowest dark:bg-surface-container-low border-r border-border-subtle dark:border-outline-variant">
+            <div class="flex items-center gap-stack-md mb-stack-md">
+                <img class="w-12 h-12 rounded-full object-cover"
+                    data-alt="A professional business headshot for an internal corporate profile, featuring a friendly smile and clean office lighting. The aesthetic is modern and professional, using a neutral color palette with soft gray and blue undertones."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEdQhqPsf-a_6aNA6eisdVsu4NMVY7QXo71Zsj3RhHjg9d0tj5ppJmu0VowgK5aro4Knvq8RtCDIY4k36fXHgH_BSZ6AJMM_yCDScyGTxFyXAQHHMwfRcozhU6ecHEvfsIxy4MftoXwikTX4fnhiZ1lhxyxpa1d4OAlrvVJN2Pg4ASRaFZfTqEYgIG2eZy8HR7lrN-HAZaBCZ6iqZfjbPis29YHGya3UXSPj9gSSnfcemswErW1SqgeFU7dqWxUPQnsSmx6rQTAy7V" />
+                <div>
+                    <h3 class="font-headline-sm text-headline-sm text-on-surface">Welcome back</h3>
+                    <p class="font-body-md text-body-md text-slate-gray">Karma: 1,250</p>
+                </div>
+            </div>
+            <nav class="flex flex-col gap-1">
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="font-body-md text-body-md">Home</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">group</span>
+                    <span class="font-body-md text-body-md">My Communities</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <span class="font-body-md text-body-md">Suggested People</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:bg-surface-container hover:text-on-surface-variant rounded-lg transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">bookmark</span>
+                    <span class="font-body-md text-body-md">Saved Content</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container font-semibold rounded-lg translate-x-1 duration-150"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="font-body-md text-body-md">Settings</span>
+                </a>
+            </nav>
+            <button
+                class="mt-stack-md bg-electric-blue text-white py-2 rounded-lg font-label-md text-label-md hover:bg-secondary transition-colors active:opacity-80 active:scale-95">
+                Create Post
+            </button>
+            <div class="mt-auto pt-stack-md border-t border-border-subtle flex flex-col gap-1">
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:text-on-surface transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">help</span>
+                    <span class="font-body-md text-body-md">Help</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-gray hover:text-on-surface transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">shield</span>
+                    <span class="font-body-md text-body-md">Privacy</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col gap-stack-lg">
+            <!-- Hero Karma Summary Section -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+                <div
+                    class="md:col-span-2 p-stack-lg bg-surface-container-lowest rounded-xl karma-card-shadow border border-border-subtle relative overflow-hidden">
+                    <!-- Subtle pattern overlay -->
+                    <div class="absolute top-0 right-0 p-stack-md opacity-10">
+                        <span class="material-symbols-outlined text-[120px]"
+                            style="font-variation-settings: 'FILL' 1;">military_tech</span>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 text-electric-blue mb-2">
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">stars</span>
+                            <span class="font-label-md text-label-md tracking-wider uppercase">Karma Overview</span>
+                        </div>
+                        <div class="flex items-baseline gap-4">
+                            <h1 class="font-headline-lg text-headline-lg text-primary">1,250</h1>
+                            <span
+                                class="bg-teal-accent/10 text-teal-accent px-2 py-0.5 rounded-full text-label-md font-bold">
+                                +12% this month
+                            </span>
+                        </div>
+                        <p class="text-slate-gray font-body-md text-body-md mt-1 mb-stack-lg">Lifetime contribution
+                            points accumulated across the Knome network.</p>
+                        <div class="grid grid-cols-3 gap-stack-md">
+                            <div class="flex flex-col">
+                                <span class="text-slate-gray font-meta-sm text-meta-sm">Global Rank</span>
+                                <span class="font-headline-sm text-headline-sm text-on-surface">#422</span>
+                            </div>
+                            <div class="flex flex-col border-l border-border-subtle pl-stack-md">
+                                <span class="text-slate-gray font-meta-sm text-meta-sm">Top Category</span>
+                                <span class="font-headline-sm text-headline-sm text-on-surface">Knowledge Sharing</span>
+                            </div>
+                            <div class="flex flex-col border-l border-border-subtle pl-stack-md">
+                                <span class="text-slate-gray font-meta-sm text-meta-sm">Next Level</span>
+                                <span class="font-headline-sm text-headline-sm text-on-surface">1,500</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="p-stack-lg bg-primary-container text-white rounded-xl karma-card-shadow border border-primary-container flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-stack-md">
+                            <span class="font-label-md text-label-md text-on-primary-container">CURRENT RANK</span>
+                            <span class="material-symbols-outlined text-teal-accent">workspace_premium</span>
+                        </div>
+                        <h2 class="font-headline-md text-headline-md font-bold">Elite Contributor</h2>
+                        <p class="text-on-primary-container text-body-md font-body-md mt-2">You are in the top 5% of
+                            knowledge creators this quarter.</p>
+                    </div>
+                    <div class="mt-stack-lg">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-meta-sm font-meta-sm text-on-primary-container">Progress to Master</span>
+                            <span class="text-meta-sm font-meta-sm text-white">83%</span>
+                        </div>
+                        <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                            <div
+                                class="bg-teal-accent h-full rounded-full w-[83%] shadow-[0_0_8px_rgba(20,184,166,0.5)]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Growth Chart Section -->
+            <section
+                class="p-stack-lg bg-surface-container-lowest rounded-xl karma-card-shadow border border-border-subtle">
+                <div class="flex justify-between items-center mb-stack-lg">
+                    <h3 class="font-headline-sm text-headline-sm text-on-surface">Karma Growth Trends</h3>
+                    <div class="flex gap-2">
+                        <button
+                            class="px-3 py-1 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">6M</button>
+                        <button
+                            class="px-3 py-1 rounded-lg bg-electric-blue text-white font-label-md text-label-md">1Y</button>
+                        <button
+                            class="px-3 py-1 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md">All
+                            Time</button>
+                    </div>
+                </div>
+                <div class="h-64 w-full relative">
+                    <!-- Fake Chart using CSS/HTML -->
+                    <svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 200">
+                        <defs>
+                            <lineargradient id="lineGrad" x1="0" x2="0" y1="0" y2="1">
+                                <stop offset="0%" stop-color="#2563EB" stop-opacity="0.3"></stop>
+                                <stop offset="100%" stop-color="#2563EB" stop-opacity="0"></stop>
+                            </lineargradient>
+                        </defs>
+                        <path d="M0,180 Q100,160 200,150 T400,120 T600,100 T800,40 L1000,20 L1000,200 L0,200 Z"
+                            fill="url(#lineGrad)"></path>
+                        <path d="M0,180 Q100,160 200,150 T400,120 T600,100 T800,40 L1000,20" fill="none"
+                            stroke="#2563EB" stroke-linecap="round" stroke-width="3"></path>
+                        <!-- Data Points -->
+                        <circle cx="200" cy="150" fill="#2563EB" r="4"></circle>
+                        <circle cx="400" cy="120" fill="#2563EB" r="4"></circle>
+                        <circle cx="600" cy="100" fill="#2563EB" r="4"></circle>
+                        <circle cx="800" cy="40" fill="#2563EB" r="4"></circle>
+                        <circle cx="1000" cy="20" fill="#2563EB" r="6" stroke="white" stroke-width="2"></circle>
+                    </svg>
+                    <!-- X-Axis Labels -->
+                    <div class="flex justify-between mt-4 text-slate-gray font-meta-sm text-meta-sm">
+                        <span>Jan</span>
+                        <span>Mar</span>
+                        <span>May</span>
+                        <span>Jul</span>
+                        <span>Sep</span>
+                        <span>Nov</span>
+                    </div>
+                </div>
+            </section>
+            <!-- Activity List Table -->
+            <section
+                class="bg-surface-container-lowest rounded-xl karma-card-shadow border border-border-subtle overflow-hidden">
+                <div class="px-stack-lg py-stack-md border-b border-border-subtle flex justify-between items-center">
+                    <h3 class="font-headline-sm text-headline-sm text-on-surface">Recent Activity</h3>
+                    <div class="flex items-center gap-4">
+                        <select
+                            class="bg-transparent border-none text-slate-gray font-label-md text-label-md focus:ring-0">
+                            <option>All Activities</option>
+                            <option>Contributions</option>
+                            <option>Social Engagement</option>
+                        </select>
+                        <button
+                            class="material-symbols-outlined text-slate-gray hover:text-electric-blue">filter_list</button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-surface-container-low text-slate-gray font-label-md text-label-md">
+                                <th class="px-stack-lg py-3">Event Date</th>
+                                <th class="px-stack-lg py-3">Activity Description</th>
+                                <th class="px-stack-lg py-3">Source Community</th>
+                                <th class="px-stack-lg py-3 text-right">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border-subtle">
+                            <tr class="hover:bg-surface-container transition-colors group">
+                                <td class="px-stack-lg py-stack-md text-slate-gray font-meta-sm text-meta-sm">Oct 24,
+                                    2023</td>
+                                <td class="px-stack-lg py-stack-md">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded bg-teal-accent/10 flex items-center justify-center">
+                                            <span
+                                                class="material-symbols-outlined text-teal-accent text-sm">article</span>
+                                        </div>
+                                        <span class="font-body-md text-body-md text-on-surface">Received karma for
+                                            article publish: "Modern UI Design Systems"</span>
+                                    </div>
+                                </td>
+                                <td class="px-stack-lg py-stack-md font-body-md text-body-md text-slate-gray">Design
+                                    Excellence</td>
+                                <td class="px-stack-lg py-stack-md text-right font-bold text-electric-blue">+50</td>
+                            </tr>
+                            <tr class="hover:bg-surface-container transition-colors">
+                                <td class="px-stack-lg py-stack-md text-slate-gray font-meta-sm text-meta-sm">Oct 22,
+                                    2023</td>
+                                <td class="px-stack-lg py-stack-md">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded bg-electric-blue/10 flex items-center justify-center">
+                                            <span
+                                                class="material-symbols-outlined text-electric-blue text-sm">handshake</span>
+                                        </div>
+                                        <span class="font-body-md text-body-md text-on-surface">Received karma for
+                                            community contribution</span>
+                                    </div>
+                                </td>
+                                <td class="px-stack-lg py-stack-md font-body-md text-body-md text-slate-gray">
+                                    Engineering Hub</td>
+                                <td class="px-stack-lg py-stack-md text-right font-bold text-electric-blue">+25</td>
+                            </tr>
+                            <tr class="hover:bg-surface-container transition-colors">
+                                <td class="px-stack-lg py-stack-md text-slate-gray font-meta-sm text-meta-sm">Oct 20,
+                                    2023</td>
+                                <td class="px-stack-lg py-stack-md">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded bg-pink-500/10 flex items-center justify-center">
+                                            <span
+                                                class="material-symbols-outlined text-pink-500 text-sm">favorite</span>
+                                        </div>
+                                        <span class="font-body-md text-body-md text-on-surface">Received karma for post
+                                            like engagement</span>
+                                    </div>
+                                </td>
+                                <td class="px-stack-lg py-stack-md font-body-md text-body-md text-slate-gray">General
+                                    Discussion</td>
+                                <td class="px-stack-lg py-stack-md text-right font-bold text-electric-blue">+10</td>
+                            </tr>
+                            <tr class="hover:bg-surface-container transition-colors">
+                                <td class="px-stack-lg py-stack-md text-slate-gray font-meta-sm text-meta-sm">Oct 18,
+                                    2023</td>
+                                <td class="px-stack-lg py-stack-md">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded bg-teal-accent/10 flex items-center justify-center">
+                                            <span
+                                                class="material-symbols-outlined text-teal-accent text-sm">forum</span>
+                                        </div>
+                                        <span class="font-body-md text-body-md text-on-surface">Solved community
+                                            question: "Tailwind Grid Best Practices"</span>
+                                    </div>
+                                </td>
+                                <td class="px-stack-lg py-stack-md font-body-md text-body-md text-slate-gray">Frontend
+                                    Masters</td>
+                                <td class="px-stack-lg py-stack-md text-right font-bold text-electric-blue">+35</td>
+                            </tr>
+                            <tr class="hover:bg-surface-container transition-colors">
+                                <td class="px-stack-lg py-stack-md text-slate-gray font-meta-sm text-meta-sm">Oct 15,
+                                    2023</td>
+                                <td class="px-stack-lg py-stack-md">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded bg-yellow-500/10 flex items-center justify-center">
+                                            <span class="material-symbols-outlined text-yellow-600 text-sm">stars</span>
+                                        </div>
+                                        <span class="font-body-md text-body-md text-on-surface">Awarded "Weekly Top
+                                            Contributor" badge</span>
+                                    </div>
+                                </td>
+                                <td class="px-stack-lg py-stack-md font-body-md text-body-md text-slate-gray">Knome
+                                    Global</td>
+                                <td class="px-stack-lg py-stack-md text-right font-bold text-electric-blue">+100</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="p-stack-md bg-surface-container-low flex justify-center">
+                    <button class="text-electric-blue font-label-md text-label-md hover:underline">Load More
+                        Transactions</button>
+                </div>
+            </section>
+        </main>
+        <!-- Right Rail -->
+        <aside class="w-rail-width hidden xl:flex flex-col gap-stack-lg">
+            <!-- Karma Multipliers -->
+            <div
+                class="p-stack-lg bg-surface-container-lowest rounded-xl karma-card-shadow border border-border-subtle">
+                <h4 class="font-label-md text-label-md text-slate-gray mb-stack-md uppercase tracking-wider">Active
+                    Multipliers</h4>
+                <div class="flex flex-col gap-3">
+                    <div
+                        class="flex items-center justify-between p-3 bg-teal-accent/5 border border-teal-accent/20 rounded-lg">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-teal-accent">bolt</span>
+                            <span class="text-body-md font-semibold text-on-surface">Early Adopter</span>
+                        </div>
+                        <span class="text-teal-accent font-bold">1.2x</span>
+                    </div>
+                    <div
+                        class="flex items-center justify-between p-3 bg-electric-blue/5 border border-electric-blue/20 rounded-lg">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-electric-blue">history</span>
+                            <span class="text-body-md font-semibold text-on-surface">Daily Streak (12)</span>
+                        </div>
+                        <span class="text-electric-blue font-bold">1.5x</span>
+                    </div>
+                </div>
+                <p class="text-meta-sm text-slate-gray mt-stack-md">Multipliers apply to all knowledge-sharing
+                    activities.</p>
+            </div>
+            <!-- Leaderboard Mini -->
+            <div
+                class="p-stack-lg bg-surface-container-lowest rounded-xl karma-card-shadow border border-border-subtle">
+                <div class="flex justify-between items-center mb-stack-md">
+                    <h4 class="font-label-md text-label-md text-slate-gray uppercase tracking-wider">Top Contributors
+                    </h4>
+                    <a class="text-electric-blue text-meta-sm hover:underline" href="#">Full View</a>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-slate-200">
+                                <img class="w-8 h-8 rounded-full object-cover"
+                                    data-alt="Corporate headshot of a software architect, male, mid-40s, with grey-streaked hair and glasses, wearing a white button-down shirt. Minimalist office background with cool tones."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtC_yvruPLpJ-tsH45IdZlXDNdh4SgLMfADV2_EVQSat938jGHzzS_fhdCc9jdD0z50zOOkeWE2Nc_uj38KDbX-DEzjsw0dr7aIgspR79qfu8XwY1TxA2qvEF5A7LYutOK8o74W5RhEk740R4OZGwWvLdGCHBAMd6obDOS_eN502XvTLeJL9CfkQbhATRZfoELwJvnFWNnPkuSb4y-VtlwN7LDM3Nopw4U122oIMD42ySyj-FP3cho-6sqA3iizJ_rBwmAFfb8yL2W" />
+                            </div>
+                            <div>
+                                <p class="text-body-md font-semibold text-on-surface">Sarah Connor</p>
+                                <p class="text-meta-sm text-slate-gray">Architect</p>
+                            </div>
+                        </div>
+                        <span class="text-body-md font-bold text-on-surface">2,480</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-slate-200">
+                                <img class="w-8 h-8 rounded-full object-cover"
+                                    data-alt="Professional portrait of a female UI/UX lead, late 20s, with dark hair in a ponytail and a bright navy blazer. High-key lighting, modern and clean style."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxh3hCN3hbzbavLmy6fJWdWdOxvKhEGZ3SMKZRTjoZU3vepFOZmF5fUQsr67pER6M1BomEuwHKMU5Yg3hB_MY5IieLHigzGxil5_7L3L_tnD1z9Mh8YWW0LNmLSMxcVYWJZ7GgINGaOsuhgJsv0r_GljY30FZTT9Aq-30YI4cR98eVMEZeNlmTArGW9HmqHFuWONqSJDTyoVZ0HPmD1jirI33ZF1tps6gabFCxSyA7SXd_btUK4QpCpOdxZo9Ju5WK3FAb0EYWmjHc" />
+                            </div>
+                            <div>
+                                <p class="text-body-md font-semibold text-on-surface">Marcus Aurelius</p>
+                                <p class="text-meta-sm text-slate-gray">Principle Engineer</p>
+                            </div>
+                        </div>
+                        <span class="text-body-md font-bold text-on-surface">1,920</span>
+                    </div>
+                    <div
+                        class="flex items-center justify-between p-2 bg-surface-container rounded-lg border border-border-subtle">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full border-2 border-electric-blue">
+                                <img class="w-8 h-8 rounded-full object-cover"
+                                    data-alt="Close up of a professional male employee, wearing a sleek modern headset, smiling warmly. Studio lighting with electric blue highlights reflecting subtly."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxyCGVX8wvMyWhrf_EpjPMf2UMGBjYhjqdwdluH5lHGq3JMC8O5wiJZrJ9_0X7rQ6W4qr4lJEKR_khIfY3CqLRjj-5RRkZ_K-KMz1-YFnBSkudNSGKak3AmJcOA6eEBUH7CUWA7IYFskPXesyIVIQRfCf1YKiBgbsdPzcjkd8lqfIn1wu4y8JdkCTIH6bJrDfbz1mGlVdAFIBM9VXp9cbXzL0QhtTPnVXzEjiaahR5ByBTJ8KPohsGSBcCSrwjnx4pUnX0knp2JE4r" />
+                            </div>
+                            <div>
+                                <p class="text-body-md font-semibold text-on-surface">You</p>
+                                <p class="text-meta-sm text-slate-gray">#422 Overall</p>
+                            </div>
+                        </div>
+                        <span class="text-body-md font-bold text-electric-blue">1,250</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Achievement Card -->
+            <div
+                class="p-stack-lg bg-surface-container-lowest rounded-xl karma-card-shadow border border-border-subtle text-center">
+                <div
+                    class="w-16 h-16 bg-gradient-to-br from-teal-accent to-electric-blue rounded-full mx-auto flex items-center justify-center mb-stack-md text-white shadow-lg">
+                    <span class="material-symbols-outlined text-3xl"
+                        style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                </div>
+                <h5 class="font-headline-sm text-headline-sm mb-1">Knowledge Master</h5>
+                <p class="text-body-md text-slate-gray mb-stack-md px-4">Awarded for reaching 1,000 karma points this
+                    year.</p>
+                <button
+                    class="w-full py-2 border border-border-subtle rounded-lg text-label-md font-label-md hover:bg-surface-container transition-colors">Share
+                    to Profile</button>
+            </div>
+        </aside>
+    </div>
+    <!-- Footer -->
+    <footer
+        class="w-full py-stack-lg bg-surface-container-lowest dark:bg-surface-container-low border-t border-border-subtle dark:border-outline-variant mt-stack-lg">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-page">
+            <div class="flex items-center gap-stack-lg">
+                <span class="font-headline-sm text-headline-sm font-bold text-primary">Knome</span>
+                <span class="text-slate-gray font-label-md text-label-md">© 2024 Knome Internal Platform</span>
+            </div>
+            <nav class="flex gap-stack-md">
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue underline transition-all"
+                    href="#">User Agreement</a>
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue underline transition-all"
+                    href="#">Knowledge Base</a>
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue underline transition-all"
+                    href="#">Support</a>
+                <a class="text-slate-gray font-label-md text-label-md hover:text-electric-blue underline transition-all"
+                    href="#">Feedback</a>
+            </nav>
+        </div>
+    </footer>
+    <script>
+        // Simple interaction for tab switching simulation
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (!link.classList.contains('bg-secondary-container')) {
+                    // Logic for real navigation would go here
+                }
+            });
+        });
+
+        // Add ripple-like effect on buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.98)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'scale(1)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+
+    <script>
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
